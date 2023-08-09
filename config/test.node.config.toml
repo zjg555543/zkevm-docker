@@ -53,7 +53,7 @@ EnableL2SuggestedGasPricePolling = true
 SyncInterval = "1s"
 SyncChunkSize = 100
 TrustedSequencerURL = "" # If it is empty or not specified, then the value is read from the smc.
-GenBlockNumber = 9475684 
+GenBlockNumber = 325 
 
 [Sequencer]
 WaitPeriodPoolIsEmpty = "1s"
@@ -102,7 +102,7 @@ MaxTxLifetime = "3h"
 WaitPeriodSendSequence = "15s"
 LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
 MaxTxSizeForL1 = 131072
-SenderAddress = "0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1"
+SenderAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 PrivateKeys = [{Path = "/pk/sequencer.keystore", Password = "testonly"}]
 
 [Aggregator]
@@ -114,7 +114,7 @@ VerifyProofInterval = "10s"
 TxProfitabilityCheckerType = "acceptall"
 TxProfitabilityMinReward = "1.1"
 ProofStatePollingInterval = "5s"
-SenderAddress = "0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E"
+SenderAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 
@@ -132,10 +132,10 @@ Factor = 0.5
 DefaultGasPriceWei = 1000000000
 
 [MTClient]
-URI  = "zkevm-prover:50061"
+URI  = "8.217.7.143:50061"
 
 [Executor]
-URI = "zkevm-prover:50071"
+URI = "8.217.7.143:50071"
 
 [Metrics]
 Host = "0.0.0.0"
