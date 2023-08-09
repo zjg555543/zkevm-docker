@@ -294,8 +294,8 @@ async function main() {
     });
 
     // if (argv.test) {
-        // Add tester account with ether
-        genesis[genesis.length - 1].balance = '100000000000000000000000';
+    // Add tester account with ether
+    genesis[genesis.length - 1].balance = '100000000000000000000000';
     // }
 
     // calculate root

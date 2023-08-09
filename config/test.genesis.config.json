@@ -5,7 +5,7 @@
     "maticTokenAddress": "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b",
     "polygonZkEVMGlobalExitRootAddress": "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
   },
-  "genesisBlockNumber": 325,
+  "genesisBlockNumber": 418,
   "root": "0x3db52eceea8f4d246fce0fbdbd48edff2f3dc4168c5077c205513954dfb39053",
   "genesis": [
     {

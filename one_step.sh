@@ -39,7 +39,7 @@ sleep 3
 
 exit
 
-echo "转账，转账，转账 0x2ecf31ece36ccac2d3222a303b1409233ecbb225"
+# echo "转账，转账，转账 0x2ecf31ece36ccac2d3222a303b1409233ecbb225"
 
 cd ../zkevm-contracts
 npm i
@@ -53,16 +53,27 @@ docker-compose up -d zkevm-sync
 sleep 3
 
 docker-compose up -d zkevm-eth-tx-manager
+sleep 3
 docker-compose up -d zkevm-sequencer
+sleep 3
 docker-compose up -d zkevm-sequence-sender
+sleep 3
 docker-compose up -d zkevm-l2gaspricer
+sleep 3
 docker-compose up -d zkevm-aggregator
+sleep 3
 docker-compose up -d zkevm-json-rpc
 
 docker-compose up -d zkevm-explorer-json-rpc
+sleep 3
 docker-compose up -d zkevm-explorer-l1
+sleep 3
 docker-compose up -d zkevm-explorer-l2
+sleep 3
 docker-compose up -d zkevm-bridge-service
+sleep 3
 docker-compose up -d zkevm-bridge-ui
 
 docker ps -a
+
+docker-compose logs --tail 10 -f

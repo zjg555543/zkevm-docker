@@ -45,7 +45,7 @@ BridgeVersion = "v1"
     MaxConns = 20
 
 [NetworkConfig]
-GenBlockNumber = 325
+GenBlockNumber = 418
 PolygonZkEVMAddress = "0xa44006fb08EA248cEd6355d596372Ba05e93463a"
 PolygonBridgeAddress = "0x1E058fdB111A66fE6284D4316A312DFE196Aae81"
 PolygonZkEVMGlobalExitRootAddress = "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
