@@ -60,6 +60,9 @@ cat deployment/genesis.json
 ### TODO respace GenBlockNumber, genesisBlockNumber by block chain
 
 cd -
+
+#need start after 
+docker-compose up -d zkevm-approve 
 docker-compose up -d zkevm-prover
 sleep 3
 docker-compose up -d zkevm-sync
