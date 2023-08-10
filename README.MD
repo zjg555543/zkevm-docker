@@ -85,6 +85,25 @@ docker ps -a
 
 docker-compose logs --tail 10 -f
 
+# 安装 cast call
+https://book.getfoundry.sh/getting-started/installation
+
+# 查看是否支持branch
+cast call --rpc-url http://127.0.0.1:8545 0xa44006fb08EA248cEd6355d596372Ba05e93463a 'function isForcedBatchDisallowed() view returns(bool)'
+
+# 设置为false
+cast send --legacy --from 0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225 --private-key 0xde3ca643a52f5543e84ba984c4419ff40dbabd0e483c31c1d09fee8168d68e38  --rpc-url http://127.0.0.1:8545 0xa44006fb08EA248cEd6355d596372Ba05e93463a 'function activateForceBatches() returns()'
+
+# 启动approve设置金额
+Provide L1 ETH to the Bridge
+
+# 质押初始化
+https://zkevm.polygon.technology/docs/setup-zkevm/#provide-l1-eth-to-the-bridge
+
+# clamim 质押
+https://zkevm.polygon.technology/docs/setup-zkevm/#claim-your-l2-zketh
+
+
 ```
 
 ## Deployer Account
