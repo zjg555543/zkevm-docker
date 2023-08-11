@@ -48,7 +48,7 @@ docker-compose up -d zkevm-mock-l1-network
 sleep 3
 
 
-## TODO trans eth on L1, 0x2ecf31ece36ccac2d3222a303b1409233ecbb225, 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+## TODO trans eth on L1, 0x2ecf31ece36ccac2d3222a303b1409233ecbb225
 
 cd ../zkevm-contracts
 npm i
@@ -110,19 +110,24 @@ https://zkevm.polygon.technology/docs/setup-zkevm/#claim-your-l2-zketh
 
 | Address | Private Key |
 |---|---|
+| 0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225 | 0xde3ca643a52f5543e84ba984c4419ff40dbabd0e483c31c1d09fee8168d68e38 |
+
+## Sequencer Account
+
+| Address | Private Key |
+|---|---|
 | 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 | 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80 |
 
 ## Sequencer Account
 
 | Address | Private Key |
 |---|---|
-| 0x617b3a3528F9cDd6630fd3301B9c8911F7Bf063D | 0x28b2b0318721be8c8339199172cd7cc8f5e273800a35616ec893083a4b32c02e |
+| 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 | 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d |
 
 ## Accounts
 
 | Address | Private Key |
 |---|---|
-| 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 | 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d |
 | 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC | 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a |
 | 0x90F79bf6EB2c4f870365E785982E1f101E93b906 | 0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6 |
 | 0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65 | 0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a |
@@ -142,15 +147,6 @@ https://zkevm.polygon.technology/docs/setup-zkevm/#claim-your-l2-zketh
 | 0xdD2FD4581271e230360230F9337D5c0430Bf44C0 | 0xde9be858da4a475276426320d5e9262ecfc3ba460bfac56360bfa6c4c28b4ee0 |
 | 0x8626f6940E2eb28930eFb4CeF49B2d1F2C9C1199 | 0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e |
 
-## L1 Addresses
-
-| Address | Description |
-|---|---|
-| 0x5FbDB2315678afecb367f032d93F642f64180aa3 | Matic token |
-| 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6 | Proof of Efficiency |
-| 0x0165878A594ca255338adfa4d48449f69242Eb8F | Bridge |
-| 0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9 | GlobalExitRootManager |
-| 0x9D98DeAbC42dd696Deb9e40b4f1CAB7dDBF55988 | Bridge L2|
 
 ## Metamask
 
