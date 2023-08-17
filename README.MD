@@ -28,6 +28,11 @@ cd -
 cd ./zkevm-bridge-service
 make build-docker
 
+cd-
+cd zkevm-bridge-ui
+cp ../zkevm-docker/ui/tokens.context.tsx src/contexts/tokens.context.tsx
+docker build . -t zkevm-bridge-ui
+
 cd -
 cd ./zkevm-contracts
 rm deployment/deploy_output.json 

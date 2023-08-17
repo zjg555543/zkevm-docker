@@ -196,8 +196,23 @@ const TokensProvider: FC<PropsWithChildren> = (props) => {
           chainId: 1337,
           decimals: 18,
           logoURI: "http://localhost:5173/activity",
-          name: "MyToken",
-          symbol: "MTK",
+          name: "OKB Token",
+          symbol: "OKB",
+          wrappedToken: {
+            address,
+            chainId: chain.chainId,
+          },
+        };
+      }
+
+      if (address == "0x06A0aAE22323E17a1499402935e605472b98526F") {
+        return {
+          address: "0x06A0aAE22323E17a1499402935e605472b98526F",
+          chainId: 1001,
+          decimals: 18,
+          logoURI: "http://localhost:5173/activity",
+          name: "WETH Token",
+          symbol: "WETH",
           wrappedToken: {
             address,
             chainId: chain.chainId,

@@ -273,7 +273,7 @@ services:
 
   zkevm-bridge-ui:
     container_name: zkevm-bridge-ui
-    image: hermeznetwork/zkevm-bridge-ui:mainnet
+    image: zkevm-bridge-ui
     ports:
       - 8090:80
     environment:
