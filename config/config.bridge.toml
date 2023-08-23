@@ -15,10 +15,12 @@ MaxConns = 20
 Enabled = true
 FrequencyToMonitorTxs = "1s"
 PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
+RetryInterval = "1s"
+RetryNumber = 10
 
 [Etherman]
-L1URL = "http://zkevm-mock-l1-network:8545"
-L2URLs = ["http://zkevm-json-rpc:8123"]
+L1URL = "http://supernets2-mock-l1-network:8545"
+L2URLs = ["http://supernets2-json-rpc:8123"]
 
 [Synchronizer]
 SyncInterval = "1s"
@@ -45,10 +47,7 @@ BridgeVersion = "v1"
     MaxConns = 20
 
 [NetworkConfig]
-GenBlockNumber = 206 
-PolygonZkEVMAddress = "0xa44006fb08EA248cEd6355d596372Ba05e93463a"
-PolygonBridgeAddress = "0x1E058fdB111A66fE6284D4316A312DFE196Aae81"
-PolygonZkEVMGlobalExitRootAddress = "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
-MaticTokenAddress = "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b"
-L2PolygonBridgeAddresses = ["0x1E058fdB111A66fE6284D4316A312DFE196Aae81"]
-L1ChainID =  1337
+GenBlockNumber = 282
+PolygonBridgeAddress = "0x88BB44236eC08D7Dc097C40Bd753DF6BF199c457"
+PolygonZkEVMGlobalExitRootAddress = "0xF5336Cb12989c0673071dF0c8a930900D7DF8D3e"
+L2PolygonBridgeAddresses = ["0x88BB44236eC08D7Dc097C40Bd753DF6BF199c457"]

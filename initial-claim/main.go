@@ -20,8 +20,8 @@ import (
 )
 
 const (
-	l2BridgeAddr = "0x1E058fdB111A66fE6284D4316A312DFE196Aae81"
-	zkevmAddr    = "0xa44006fb08EA248cEd6355d596372Ba05e93463a"
+	l2BridgeAddr = "0x88BB44236eC08D7Dc097C40Bd753DF6BF199c457"
+	zkevmAddr    = "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59"
 
 	accHexAddress    = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 	accHexPrivateKey = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"

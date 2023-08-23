@@ -3,8 +3,8 @@
     "runExecutorClient": false,
     "runExecutorClientMultithread": false,
 
-    "runStateDBServer": true,
-    "runStateDBTest": false,
+    "runHashDBServer": true,
+    "runHashDBTest": false,
 
     "runAggregatorServer": false,
     "runAggregatorClient": false,
@@ -51,12 +51,12 @@
     "executorClientPort": 50071,
     "executorClientHost": "127.0.0.1",
 
-    "stateDBServerPort": 50061,
-    "stateDBURL": "local",
+    "hashDBServerPort": 50061,
+    "hashDBURL": "local",
 
     "aggregatorServerPort": 50081,
     "aggregatorClientPort": 50081,
-    "aggregatorClientHost": "zkevm-aggregator",
+    "aggregatorClientHost": "supernets2-aggregator",
 
     "mapConstPolsFile": false,
     "mapConstantsTreeFile": false,
@@ -69,18 +69,22 @@
 
     "outputPath": "output",
 
-    "databaseURL": "postgresql://prover_user:prover_pass@zkevm-state-db:5432/prover_db",
+    "databaseURL": "postgresql://prover_user:prover_pass@supernets2-state-db:5432/prover_db",
     "dbNodesTableName": "state.nodes",
     "dbProgramTableName": "state.program",
     "dbMultiWrite": true,
     "dbFlushInParallel": false,
     "dbMTCacheSize": 1024,
-    "dbProgramCacheSize": 1024,
+    "dbProgramCacheSize": 512,
     "dbNumberOfPoolConnections": 30,
+    "dbGetTree": true,
     "cleanerPollingPeriod": 600,
     "requestsPersistence": 3600,
     "maxExecutorThreads": 20,
     "maxProverThreads": 8,
-    "maxStateDBThreads": 8
-}
+    "maxHashDBThreads": 8,
 
+    "ECRecoverPrecalc": true,
+    "ECRecoverPrecalcNThreads": 16,
+    "dbMultiWriteSinglePosition": false
+}
