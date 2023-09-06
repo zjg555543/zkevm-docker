@@ -359,3 +359,36 @@ services:
       - POSTGRES_PASSWORD=test_password
       - POSTGRES_DB=test_db
     command: [ "postgres", "-N", "500" ]
+
+  data-availability:
+    container_name: data-availability
+    image: supernets2-data-availability
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    ports:
+      - 8444:8444
+    volumes:
+      - ./config/test.da.toml:/app/config.toml
+      - ./config/test-member.keystore:/pk/test-member.keystore
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/supernets2-data-availability run --cfg /app/config.toml"
+
+  data-availability-db:
+    container_name: data-availability-db
+    image: postgres
+    ports:
+      - 5437:5432
+    environment:
+      - POSTGRES_USER=committee_user
+      - POSTGRES_PASSWORD=committee_password
+      - POSTGRES_DB=committee_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
