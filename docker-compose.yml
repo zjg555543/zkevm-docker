@@ -362,7 +362,7 @@ services:
 
   data-availability:
     container_name: data-availability
-    image: supernets2-data-availability
+    image: cdk-data-availability 
     deploy:
       resources:
         limits:
@@ -377,7 +377,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-data-availability run --cfg /app/config.toml"
+      - "/app/cdk-data-availability run --cfg /app/config.toml"
 
   data-availability-db:
     container_name: data-availability-db
