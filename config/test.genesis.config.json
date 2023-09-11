@@ -1,9 +1,9 @@
 {
   "l1Config": {
     "chainId": 1337,
-    "polygonZkEVMAddress": "0xa44006fb08EA248cEd6355d596372Ba05e93463a",
+    "polygonZkEVMAddress": "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59",
     "maticTokenAddress": "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b",
-    "polygonZkEVMGlobalExitRootAddress": "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
+    "polygonZkEVMGlobalExitRootAddress": "0xF5336Cb12989c0673071dF0c8a930900D7DF8D3e"
   },
   "genesisBlockNumber": 1594,
   "root": "0xa07870b96bce61d27dc6f130cc807a882f4e608a3036c980f466199f588e7f97",
