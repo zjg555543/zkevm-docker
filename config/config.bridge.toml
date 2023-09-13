@@ -15,6 +15,8 @@ MaxConns = 20
 Enabled = true
 FrequencyToMonitorTxs = "1s"
 PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
+RetryInterval = "1s"
+RetryNumber = 10
 
 [Etherman]
 L1URL = "http://zkevm-mock-l1-network:8545"
@@ -45,10 +47,7 @@ BridgeVersion = "v1"
     MaxConns = 20
 
 [NetworkConfig]
-GenBlockNumber =1594 
-PolygonZkEVMAddress = "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59"
-PolygonBridgeAddress = "0x1E058fdB111A66fE6284D4316A312DFE196Aae81"
-PolygonZkEVMGlobalExitRootAddress = "0xF5336Cb12989c0673071dF0c8a930900D7DF8D3e"
-MaticTokenAddress = "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b"
-L2PolygonBridgeAddresses = ["0x1E058fdB111A66fE6284D4316A312DFE196Aae81"]
-L1ChainID =  1337
+GenBlockNumber = 1
+PolygonBridgeAddress = "0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"
+PolygonZkEVMGlobalExitRootAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6"
+L2PolygonBridgeAddresses = ["0xff0EE8ea08cEf5cb4322777F5CC3E8A584B8A4A0"]

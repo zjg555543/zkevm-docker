@@ -17,6 +17,7 @@ MaxConns = 200
 [Pool]
 FreeClaimGasLimit = 1500000
 IntervalToRefreshBlockedAddresses = "5m"
+IntervalToRefreshGasPrices = "5s"
 MaxTxBytesSize=100132
 MaxTxDataBytesSize=100000
 DefaultMinGasPriceAllowed = 1000000000
@@ -33,6 +34,7 @@ PollMinAllowedGasPriceInterval = "15s"
 
 [Etherman]
 URL = "http://zkevm-mock-l1-network:8545"
+ForkIDChunkSize = 20000
 MultiGasProvider = false
 	[Etherscan]
 		ApiKey = ""
@@ -53,32 +55,22 @@ EnableL2SuggestedGasPricePolling = true
 SyncInterval = "1s"
 SyncChunkSize = 100
 TrustedSequencerURL = "" # If it is empty or not specified, then the value is read from the smc.
-GenBlockNumber = 443 
 
 [Sequencer]
 WaitPeriodPoolIsEmpty = "1s"
 LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
 BlocksAmountForTxsToBeDeleted = 100
 FrequencyToCheckTxsForDelete = "12h"
-MaxTxsPerBatch = 150
-MaxBatchBytesSize = 129848
+MaxTxsPerBatch = 300
+MaxBatchBytesSize = 120000
 MaxCumulativeGasUsed = 30000000
-MaxKeccakHashes = 468
-MaxPoseidonHashes = 279620
-MaxPoseidonPaddings = 149796
-MaxMemAligns = 262144
-MaxArithmetics = 262144
-MaxBinaries = 262144
-MaxSteps = 8388608
-WeightBatchBytesSize = 1
-WeightCumulativeGasUsed = 1
-WeightKeccakHashes = 1
-WeightPoseidonHashes = 1
-WeightPoseidonPaddings = 1
-WeightMemAligns = 1
-WeightArithmetics = 1
-WeightBinaries = 1
-WeightSteps = 1
+MaxKeccakHashes = 2145
+MaxPoseidonHashes = 252357
+MaxPoseidonPaddings = 135191
+MaxMemAligns = 236585
+MaxArithmetics = 236585
+MaxBinaries = 473170
+MaxSteps = 7570538
 TxLifetimeCheckTimeout = "10m"
 MaxTxLifetime = "3h"
 	[Sequencer.Finalizer]
@@ -92,29 +84,33 @@ MaxTxLifetime = "3h"
 		ClosingSignalsManagerWaitForCheckingForcedBatches = "10s"
 		ForcedBatchesFinalityNumberOfBlocks = 0
 		TimestampResolution = "10s"
+		StopSequencerOnBatchNum = 0
 	[Sequencer.DBManager]
 		PoolRetrievalInterval = "500ms"
 		L2ReorgRetrievalInterval = "5s"
-	[Sequencer.Worker]
-		ResourceCostMultiplier = 1000
+	[Sequencer.EffectiveGasPrice]
+		MaxBreakEvenGasPriceDeviationPercentage = 10
+		L1GasPriceFactor = 0.25
+		ByteGasCost = 16
+		MarginFactor = 1
+		Enabled = false
 
 [SequenceSender]
 WaitPeriodSendSequence = "15s"
 LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
 MaxTxSizeForL1 = 131072
-SenderAddress = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-PrivateKeys = [{Path = "/pk/sequencer.keystore", Password = "testonly"}]
+L2Coinbase = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
+PrivateKey = {Path = "/pk/sequencer.keystore", Password = "testonly"}
 
 [Aggregator]
 Host = "0.0.0.0"
 Port = 50081
-ForkId = 2
 RetryTime = "5s"
 VerifyProofInterval = "10s"
 TxProfitabilityCheckerType = "acceptall"
 TxProfitabilityMinReward = "1.1"
 ProofStatePollingInterval = "5s"
-SenderAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8"
+SenderAddress = "0x70997970c51812dc3a010c7d01b50e0d17dc79c8"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 
@@ -126,16 +122,18 @@ PrivateKeys = [
 ]
 
 [L2GasPriceSuggester]
-Type = "follower"
+Type = "default"
 UpdatePeriod = "10s"
 Factor = 0.5
 DefaultGasPriceWei = 1000000000
+MaxGasPriceWei = 0
 
 [MTClient]
 URI  = "zkevm-prover:50061"
 
 [Executor]
 URI = "zkevm-prover:50071"
+MaxGRPCMessageSize = 100000000
 
 [Metrics]
 Host = "0.0.0.0"
@@ -154,3 +152,12 @@ ProfilingEnabled = true
 	Port = "5432"
 	EnableLog = false
 	MaxConns = 200
+
+[HashDB]
+User = "prover_user"
+Password = "prover_pass"
+Name = "prover_db"
+Host = "zkevm-state-db"
+Port = "5432"
+EnableLog = false
+MaxConns = 200
