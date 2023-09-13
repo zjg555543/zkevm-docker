@@ -226,7 +226,7 @@ services:
 
   zkevm-prover:
     container_name: zkevm-prover
-    image: hermeznetwork/zkevm-prover:v1.1.4-fork.4
+    image: hermeznetwork/zkevm-prover:v2.2.0
     ports:
       # - 50051:50051 # Prover
       - 50052:50052 # Mock prover
@@ -362,7 +362,7 @@ services:
 
   data-availability:
     container_name: data-availability
-    image: cdk-data-availability 
+    image: cdk-data-availability
     deploy:
       resources:
         limits:
