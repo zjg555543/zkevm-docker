@@ -73,12 +73,6 @@ services:
   zkevm-state-db:
     container_name: zkevm-state-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5432:5432
     volumes:
@@ -95,12 +89,6 @@ services:
   zkevm-pool-db:
     container_name: zkevm-pool-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5433:5432
     environment:
@@ -115,12 +103,6 @@ services:
   zkevm-event-db:
     container_name: zkevm-event-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5435:5432
     volumes:
@@ -344,12 +326,6 @@ services:
   zkevm-bridge-db:
     container_name: zkevm-bridge-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     expose:
       - 5436
     ports:
@@ -363,12 +339,6 @@ services:
   data-availability:
     container_name: data-availability
     image: cdk-data-availability
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 512M
     ports:
       - 8444:8444
     volumes:
