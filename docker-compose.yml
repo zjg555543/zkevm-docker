@@ -362,3 +362,30 @@ services:
       - "postgres"
       - "-N"
       - "500"
+
+  data-availability-1:
+    container_name: data-availability-1
+    image: cdk-data-availability
+    ports:
+      - 8445:8445
+    volumes:
+      - ./config/test.da-1.toml:/app/config.toml
+      - ./config/test-member-1.keystore:/pk/test-member-1.keystore
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/cdk-data-availability run --cfg /app/config.toml"
+
+  data-availability-db-1:
+    container_name: data-availability-db-1
+    image: postgres
+    ports:
+      - 5438:5432
+    environment:
+      - POSTGRES_USER=committee_user
+      - POSTGRES_PASSWORD=committee_password
+      - POSTGRES_DB=committee_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"

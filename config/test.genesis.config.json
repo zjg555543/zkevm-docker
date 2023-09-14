@@ -5,7 +5,7 @@
     "maticTokenAddress": "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b",
     "polygonZkEVMGlobalExitRootAddress": "0xF5336Cb12989c0673071dF0c8a930900D7DF8D3e",
     "dataCommitteeContract": "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a",
-    "useValidium": true 
+    "useValidium": true
   },
   "genesisBlockNumber": 107,
   "root": "0x6eb5670a9fe7bf88b29f7647f9ce7cc6092faf2364b30f3749ff49164e12e41f",
