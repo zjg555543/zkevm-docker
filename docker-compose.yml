@@ -72,12 +72,6 @@ services:
   cdk-validium-state-db:
     container_name: cdk-validium-state-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5432:5432
     volumes:
@@ -94,12 +88,6 @@ services:
   cdk-validium-pool-db:
     container_name: cdk-validium-pool-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5433:5432
     environment:
@@ -114,12 +102,6 @@ services:
   cdk-validium-event-db:
     container_name: cdk-validium-event-db
     image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
     ports:
       - 5435:5432
     volumes:
@@ -299,15 +281,9 @@ services:
       - "-c"
       - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  cdk-validium-data-availability:
-    container_name: cdk-validium-data-availability
-    image: cdk-validium-data-availability
-    deploy:
-      resources:
-        limits:
-          memory: 1G
-        reservations:
-          memory: 512M
+  cdk-data-availability:
+    container_name: cdk-data-availability
+    image: cdk-data-availability
     ports:
       - 8444:8444
     volumes:
@@ -316,10 +292,10 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/cdk-validium-data-availability run --cfg /app/config.toml"
+      - "/app/cdk-data-availability run --cfg /app/config.toml"
 
-  cdk-validium-data-availability-db:
-    container_name: cdk-validium-data-availability-db
+  cdk-data-availability-db:
+    container_name: cdk-data-availability-db
     image: postgres
     ports:
       - 5437:5432
