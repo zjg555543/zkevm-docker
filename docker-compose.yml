@@ -199,7 +199,7 @@ services:
 
   cdk-validium-mock-l1-network:
     container_name: cdk-validium-mock-l1-network
-    image: hermeznetwork/geth-zkevm-contracts:v1.1.0-fork.4
+    image: hermeznetwork/geth-cdk-validium-contracts:v0.0.1
     ports:
       - 8545:8545
       - 8546:8546
