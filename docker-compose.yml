@@ -181,7 +181,8 @@ services:
 
   cdk-validium-mock-l1-network:
     container_name: cdk-validium-mock-l1-network
-    image: hermeznetwork/geth-cdk-validium-contracts:v0.0.1
+    #image: hermeznetwork/geth-cdk-validium-contracts:v0.0.1
+    image: hermeznetwork/geth-zkevm-contracts:v2.0.0-fork.5-geth1.13.1 
     ports:
       - 8545:8545
       - 8546:8546
@@ -296,7 +297,13 @@ services:
 
   cdk-data-availability-db:
     container_name: cdk-data-availability-db
+    restart: unless-stopped
     image: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     ports:
       - 5437:5432
     environment:
