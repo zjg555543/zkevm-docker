@@ -1,76 +1,76 @@
 version: "3.5"
 networks:
   default:
-    name: supernets2 
+    name: cdk-validium 
 services:
-  supernets2-sequencer:
-    container_name: supernets2-sequencer 
-    image: supernets2-node
+  cdk-validium-sequencer:
+    container_name: cdk-validium-sequencer 
+    image: cdk-validium-node
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db 
-      - SUPERNETS2_NODE_POOL_DB_HOST=supernets2-pool-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db 
+      - CDK_VALIDIUM_NODE_POOL_DB_HOST=cdk-validium-pool-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  supernets2-json-rpc:
-    container_name: supernets2-json-rpc
-    image: supernets2-node
+  cdk-validium-json-rpc:
+    container_name: cdk-validium-json-rpc
+    image: cdk-validium-node
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
       - 9091:9091 # needed if metrics enabled
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
-      - SUPERNETS2_NODE_POOL_DB_HOST=supernets2-pool-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
+      - CDK_VALIDIUM_NODE_POOL_DB_HOST=cdk-validium-pool-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  supernets2-aggregator:
-    container_name: supernets2-aggregator
-    image: supernets2-node
+  cdk-validium-aggregator:
+    container_name: cdk-validium-aggregator
+    image: cdk-validium-node
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  supernets2-sync:
-    container_name: supernets2-sync
-    image: supernets2-node
+  cdk-validium-sync:
+    container_name: cdk-validium-sync
+    image: cdk-validium-node
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  supernets2-state-db:
-    container_name: supernets2-state-db
+  cdk-validium-state-db:
+    container_name: cdk-validium-state-db
     image: postgres
     deploy:
       resources:
@@ -91,8 +91,8 @@ services:
       - "-N"
       - "500"
 
-  supernets2-pool-db:
-    container_name: supernets2-pool-db
+  cdk-validium-pool-db:
+    container_name: cdk-validium-pool-db
     image: postgres
     deploy:
       resources:
@@ -111,8 +111,8 @@ services:
       - "-N"
       - "500"
 
-  supernets2-event-db:
-    container_name: supernets2-event-db
+  cdk-validium-event-db:
+    container_name: cdk-validium-event-db
     image: postgres
     deploy:
       resources:
@@ -133,8 +133,8 @@ services:
       - "-N"
       - "500"
 
-  supernets2-explorer-l1:
-    container_name: supernets2-explorer-l1
+  cdk-validium-explorer-l1:
+    container_name: cdk-validium-explorer-l1
     image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4000:4000
@@ -154,8 +154,8 @@ services:
         "mix do ecto.create, ecto.migrate; mix phx.server"
       ]
 
-  supernets2-explorer-l2:
-    container_name: supernets2-explorer-l2
+  cdk-validium-explorer-l2:
+    container_name: cdk-validium-explorer-l2
     image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4001:4000
@@ -178,27 +178,27 @@ services:
         "mix do ecto.create, ecto.migrate; mix phx.server"
       ]
 
-  supernets2-explorer-json-rpc:
-    container_name: supernets2-explorer-json-rpc
-    image: supernets2-node
+  cdk-validium-explorer-json-rpc:
+    container_name: cdk-validium-explorer-json-rpc
+    image: cdk-validium-node
     ports:
       - 8124:8124
       - 8134:8134 # needed if WebSockets enabled
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
-      - SUPERNETS2_NODE_POOL_DB_HOST=supernets2-pool-db
-      - SUPERNETS2_NODE_RPC_PORT=8124
-      - SUPERNETS2_NODE_RPC_WEBSOCKETS_PORT=8134
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
+      - CDK_VALIDIUM_NODE_POOL_DB_HOST=cdk-validium-pool-db
+      - CDK_VALIDIUM_NODE_RPC_PORT=8124
+      - CDK_VALIDIUM_NODE_RPC_WEBSOCKETS_PORT=8134
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc --http.api eth,net,debug,supernets2,txpool,web3"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc --http.api eth,net,debug,cdk-validium,txpool,web3"
 
-  supernets2-mock-l1-network:
-    container_name: supernets2-mock-l1-network
+  cdk-validium-mock-l1-network:
+    container_name: cdk-validium-mock-l1-network
     image: hermeznetwork/geth-zkevm-contracts:v1.1.0-fork.4
     ports:
       - 8545:8545
@@ -225,8 +225,8 @@ services:
       - "full"
       - "--rpc.allow-unprotected-txs"
 
-  supernets2-prover:
-    container_name: supernets2-prover
+  cdk-validium-prover:
+    container_name: cdk-validium-prover
     image: hermeznetwork/zkevm-prover:v2.0.1
     ports:
       # - 50051:50051 # Prover
@@ -238,11 +238,11 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  supernets2-approve:
-    container_name: supernets2-approve
-    image: supernets2-node
+  cdk-validium-approve:
+    container_name: cdk-validium-approve
+    image: cdk-validium-node
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/test.node.config.toml:/app/config.toml
@@ -250,7 +250,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly  --amount 1000000000000000000000000  --yes --cfg /app/config.toml"
+      - "/app/cdk-validium-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly  --amount 1000000000000000000000000  --yes --cfg /app/config.toml"
 
   zkevm-bridge-service:
     container_name: zkevm-bridge-service
@@ -295,13 +295,13 @@ services:
       - USE_FIAT_EXCHANGE_RATES=false
       - SHOW_OUTDATED_NETWORK_MODAL=false
 
-  supernets2-eth-tx-manager:
-    container_name: supernets2-eth-tx-manager
-    image: supernets2-node
+  cdk-validium-eth-tx-manager:
+    container_name: cdk-validium-eth-tx-manager
+    image: cdk-validium-node
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
@@ -310,15 +310,15 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  supernets2-sequence-sender:
-    container_name: supernets2-sequence-sender
-    image: supernets2-node
+  cdk-validium-sequence-sender:
+    container_name: cdk-validium-sequence-sender
+    image: cdk-validium-node
     environment:
-      - SUPERNETS2_NODE_STATEDB_HOST=supernets2-state-db
-      - SUPERNETS2_NODE_POOL_DB_HOST=supernets2-pool-db
-      - SUPERNETS2_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
+      - CDK_VALIDIUM_NODE_STATEDB_HOST=cdk-validium-state-db
+      - CDK_VALIDIUM_NODE_POOL_DB_HOST=cdk-validium-pool-db
+      - CDK_VALIDIUM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/test.node.config.toml:/app/config.toml
@@ -326,13 +326,13 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  supernets2-l2gaspricer:
-    container_name: supernets2-l2gaspricer
-    image: supernets2-node
+  cdk-validium-l2gaspricer:
+    container_name: cdk-validium-l2gaspricer
+    image: cdk-validium-node
     environment:
-      - SUPERNETS2_NODE_POOL_DB_HOST=supernets2-pool-db
+      - CDK_VALIDIUM_NODE_POOL_DB_HOST=cdk-validium-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/test.node.config.toml:/app/config.toml
@@ -340,7 +340,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+      - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
   zkevm-bridge-db:
     container_name: zkevm-bridge-db
@@ -361,9 +361,9 @@ services:
       - POSTGRES_DB=test_db
     command: [ "postgres", "-N", "500" ]
 
-  supernets2-data-availability:
-    container_name: supernets2-data-availability
-    image: supernets2-data-availability
+  cdk-validium-data-availability:
+    container_name: cdk-validium-data-availability
+    image: cdk-validium-data-availability
     deploy:
       resources:
         limits:
@@ -378,10 +378,10 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/supernets2-data-availability run --cfg /app/config.toml"
+      - "/app/cdk-validium-data-availability run --cfg /app/config.toml"
 
-  supernets2-data-availability-db:
-    container_name: supernets2-data-availability-db
+  cdk-validium-data-availability-db:
+    container_name: cdk-validium-data-availability-db
     image: postgres
     ports:
       - 5437:5432

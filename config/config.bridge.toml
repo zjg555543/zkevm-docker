@@ -19,8 +19,8 @@ RetryInterval = "1s"
 RetryNumber = 10
 
 [Etherman]
-L1URL = "http://supernets2-mock-l1-network:8545"
-L2URLs = ["http://supernets2-json-rpc:8123"]
+L1URL = "http://cdk-validium-mock-l1-network:8545"
+L2URLs = ["http://cdk-validium-json-rpc:8123"]
 
 [Synchronizer]
 SyncInterval = "1s"
