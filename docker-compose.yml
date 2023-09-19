@@ -252,49 +252,6 @@ services:
       - "-c"
       - "/app/cdk-validium-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly  --amount 1000000000000000000000000  --yes --cfg /app/config.toml"
 
-  zkevm-bridge-service:
-    container_name: zkevm-bridge-service
-    image: zkevm-bridge-service
-    ports:
-      - 8080:8080
-      - 9090:9090
-    environment:
-      - ZKEVM_BRIDGE_DATABASE_USER=test_user
-      - ZKEVM_BRIDGE_DATABASE_PASSWORD=test_password
-      - ZKEVM_BRIDGE_DATABASE_NAME=test_db
-      - ZKEVM_BRIDGE_DATABASE_HOST=zkevm-bridge-db
-      - ZKEVM_BRIDGE_DATABASE_PORT=5432
-    volumes:
-      - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/config.bridge.toml:/app/config.toml
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/zkevm-bridge run --cfg /app/config.toml"
-
-  zkevm-bridge-ui:
-    container_name: zkevm-bridge-ui
-    image: zkevm-bridge-ui
-    ports:
-      - 8090:80
-    environment:
-      - ETHEREUM_RPC_URL=http://52.41.35.138:8545
-      - ETHEREUM_EXPLORER_URL=http://52.41.35.138:4000
-      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS=0x88BB44236eC08D7Dc097C40Bd753DF6BF199c457
-      - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
-      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS=0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59
-      - POLYGON_ZK_EVM_RPC_URL=http://52.41.35.138:8123
-      - POLYGON_ZK_EVM_EXPLORER_URL=http://52.41.35.138:4001
-      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS=0x88BB44236eC08D7Dc097C40Bd753DF6BF199c457
-      - POLYGON_ZK_EVM_NETWORK_ID=1
-      - BRIDGE_API_URL=http://52.41.35.138:8080
-      - ENABLE_FIAT_EXCHANGE_RATES=false
-      - ENABLE_OUTDATED_NETWORK_MODAL=false
-      - ENABLE_DEPOSIT_WARNING=true
-      - ENABLE_REPORT_FORM=false
-      - USE_FIAT_EXCHANGE_RATES=false
-      - SHOW_OUTDATED_NETWORK_MODAL=false
-
   cdk-validium-eth-tx-manager:
     container_name: cdk-validium-eth-tx-manager
     image: cdk-validium-node
@@ -341,25 +298,6 @@ services:
       - "/bin/sh"
       - "-c"
       - "/app/cdk-validium-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
-
-  zkevm-bridge-db:
-    container_name: zkevm-bridge-db
-    image: postgres
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
-    expose:
-      - 5436
-    ports:
-      - 5436:5432
-    environment:
-      - POSTGRES_USER=test_user
-      - POSTGRES_PASSWORD=test_password
-      - POSTGRES_DB=test_db
-    command: [ "postgres", "-N", "500" ]
 
   cdk-validium-data-availability:
     container_name: cdk-validium-data-availability
