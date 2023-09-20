@@ -202,6 +202,8 @@ services:
       - "--ws.addr"
       - "0.0.0.0"
       - "--dev"
+      - "--dev.period"
+      - "1"
       - "--datadir"
       - "/geth_data"
       - "--syncmode"
