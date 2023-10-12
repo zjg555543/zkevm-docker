@@ -1,8 +1,8 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 
 [L1]
-WsURL = "ws://zkevm-mock-l1-network:8546"
-RpcURL = "http://zkevm-mock-l1-network:8545"
+WsURL = "ws://xagon-mock-l1-network:8546"
+RpcURL = "http://xagon-mock-l1-network:8545"
 CDKValidiumAddress = "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59"
 DataCommitteeAddress = "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
 Timeout = "3m"

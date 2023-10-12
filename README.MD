@@ -15,47 +15,47 @@ docker stop $(docker ps -aq); docker rm $(docker ps -aq);docker ps -a
 
 cd ../
 
-#rm -rf ./zkevm-contracts
+#rm -rf ./xagon-contracts
 
-git clone -b v0.1.2 https://github.com/0xPolygonHermez/zkevm-node.git
-git clone -b v0.1.0 https://github.com/0xPolygonHermez/zkevm-bridge-service.git
-git clone -b v1.1.0-fork.4 https://github.com/0xPolygonHermez/zkevm-contracts
+git clone -b v0.1.2 https://github.com/0xPolygonHermez/xagon-node.git
+git clone -b v0.1.0 https://github.com/0xPolygonHermez/xagon-bridge-service.git
+git clone -b v1.1.0-fork.4 https://github.com/0xPolygonHermez/xagon-contracts
 
-cd ./zkevm-node
+cd ./xagon-node
 make build-docker
 cd -
 
-cd ./zkevm-bridge-service
+cd ./xagon-bridge-service
 make build-docker
 
 cd-
-cd zkevm-bridge-ui
-cp ../zkevm-docker/ui/tokens.context.tsx src/contexts/tokens.context.tsx
-docker build . -t zkevm-bridge-ui
+cd xagon-bridge-ui
+cp ../xagon-docker/ui/tokens.context.tsx src/contexts/tokens.context.tsx
+docker build . -t xagon-bridge-ui
 
 cd -
-cd ./zkevm-contracts
+cd ./xagon-contracts
 rm deployment/deploy_output.json 
 git reset  --hard
 
-cp ../zkevm-docker/config/deploy_parameters.json deployment/deploy_parameters.json
-cp ../zkevm-docker/config/contract_env_example .env
-# cp ../zkevm-docker/config/1_createGenesis.js deployment/1_createGenesis.js 
+cp ../xagon-docker/config/deploy_parameters.json deployment/deploy_parameters.json
+cp ../xagon-docker/config/contract_env_example .env
+# cp ../xagon-docker/config/1_createGenesis.js deployment/1_createGenesis.js 
 
 cd -
-cd zkevm-docker  
+cd xagon-docker  
 
-docker-compose up -d zkevm-state-db
-docker-compose up -d zkevm-pool-db
-docker-compose up -d zkevm-event-db
-docker-compose up -d zkevm-bridge-db
-docker-compose up -d zkevm-mock-l1-network
+docker-compose up -d xagon-state-db
+docker-compose up -d xagon-pool-db
+docker-compose up -d xagon-event-db
+docker-compose up -d xagon-bridge-db
+docker-compose up -d xagon-mock-l1-network
 sleep 3
 
 
 ## TODO trans eth on L1, 0x2ecf31ece36ccac2d3222a303b1409233ecbb225
 
-cd ../zkevm-contracts
+cd ../xagon-contracts
 npm i
 npm run deploy:testnet:ZkEVM:localhost
 
@@ -67,24 +67,24 @@ cat deployment/genesis.json
 cd -
 
 #need start after 
-docker-compose up -d zkevm-approve 
-docker-compose up -d zkevm-prover
+docker-compose up -d xagon-approve 
+docker-compose up -d xagon-prover
 sleep 3
-docker-compose up -d zkevm-sync
+docker-compose up -d xagon-sync
 sleep 3
 
-docker-compose up -d zkevm-eth-tx-manager
-docker-compose up -d zkevm-sequencer
-docker-compose up -d zkevm-sequence-sender
-docker-compose up -d zkevm-l2gaspricer
-docker-compose up -d zkevm-aggregator
-docker-compose up -d zkevm-json-rpc
+docker-compose up -d xagon-eth-tx-manager
+docker-compose up -d xagon-sequencer
+docker-compose up -d xagon-sequence-sender
+docker-compose up -d xagon-l2gaspricer
+docker-compose up -d xagon-aggregator
+docker-compose up -d xagon-json-rpc
 
-docker-compose up -d zkevm-explorer-json-rpc
-docker-compose up -d zkevm-explorer-l1
-docker-compose up -d zkevm-explorer-l2
-docker-compose up -d zkevm-bridge-service
-docker-compose up -d zkevm-bridge-ui
+docker-compose up -d xagon-explorer-json-rpc
+docker-compose up -d xagon-explorer-l1
+docker-compose up -d xagon-explorer-l2
+docker-compose up -d xagon-bridge-service
+docker-compose up -d xagon-bridge-ui
 
 docker ps -a
 
@@ -103,10 +103,10 @@ cast send --legacy --from 0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225 --private-k
 Provide L1 ETH to the Bridge
 
 # 质押初始化
-https://zkevm.polygon.technology/docs/setup-zkevm/#provide-l1-eth-to-the-bridge
+https://xagon.polygon.technology/docs/setup-xagon/#provide-l1-eth-to-the-bridge
 
 # clamim 质押
-https://zkevm.polygon.technology/docs/setup-zkevm/#claim-your-l2-zketh
+https://xagon.polygon.technology/docs/setup-xagon/#claim-your-l2-zketh
 
 
 ```

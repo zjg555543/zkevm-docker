@@ -1,7 +1,7 @@
 {
     "realVerifier": false,
     "trustedSequencerURL": "http://127.0.0.1:8123",
-    "networkName": "zkevm",
+    "networkName": "xagon",
     "version": "0.0.1",
     "trustedSequencer": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
     "chainID": 1001,
