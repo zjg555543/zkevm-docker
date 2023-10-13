@@ -17,6 +17,8 @@
     "initialZkEVMDeployerOwner": "0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225",
     "maticTokenAddress": "",
     "zkEVMDeployerAddress": "",
+    "gasTokenAddress":"0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b",
+    "gasTokenNetwork":0,
     "deployerPvtKey": "",
     "maxFeePerGas": "",
     "maxPriorityFeePerGas": "",

@@ -118,7 +118,7 @@ services:
 
   xagon-explorer-l1:
     container_name: xagon-explorer-l1
-    image: hermeznetwork/xagon-explorer:latest
+    image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4000:4000
     environment:
@@ -139,7 +139,7 @@ services:
 
   xagon-explorer-l2:
     container_name: xagon-explorer-l2
-    image: hermeznetwork/xagon-explorer:latest
+    image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4001:4000
     environment:
@@ -210,7 +210,7 @@ services:
 
   xagon-prover:
     container_name: xagon-prover
-    image: xagon-prover
+    image: hermeznetwork/zkevm-prover:v2.2.0 
     ports:
       # - 50051:50051 # Prover
       - 50052:50052 # Mock prover
