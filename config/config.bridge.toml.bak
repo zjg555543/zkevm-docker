@@ -10,11 +10,9 @@ Name = "test_db"
 Host = "xagon-bridge-db"
 Port = "5432"
 MaxConns = 20
-TableSuffix = ""
 
 [ClaimTxManager]
 Enabled = true
-FreeGas = true
 FrequencyToMonitorTxs = "1s"
 PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
 RetryInterval = "1s"
@@ -23,8 +21,6 @@ RetryNumber = 10
 [Etherman]
 L1URL = "http://xagon-mock-l1-network:8545"
 L2URLs = ["http://xagon-json-rpc:8123"]
-L1ChainId = 1337
-L2ChainIds = [1001]
 
 [Synchronizer]
 SyncInterval = "1s"
@@ -41,7 +37,6 @@ CacheSize = 100000
 DefaultPageLimit = 25
 MaxPageLimit = 100
 BridgeVersion = "v1"
-SentinelConfigFilePath = "/app/sentinel_config.json"
     [BridgeServer.DB]
     Database = "postgres"
     User = "test_user"
@@ -50,25 +45,16 @@ SentinelConfigFilePath = "/app/sentinel_config.json"
     Host = "xagon-bridge-db"
     Port = "5432"
     MaxConns = 20
-    TableSuffix = ""
+
     [BridgeServer.Redis]
-    Addr = "xagon-bridge-redis:6379"
+    Addr = "127.0.0.1:6379"
     Username = ""
     Password = ""
-    DB = 0
+    DB = 1
     MockPrice = true
 
-[CoinKafkaConsumer]
-Brokers = ["47.242.254.164:9093","47.242.234.158:9093","8.210.43.30:9093"]
-Topics = ["explorer_chainAddressPrice_push"]
-ConsumerGroupID = "web3_okbc_explorerchainprice"
-InitialOffset = -1
-Username = "alikafka_pre_public_intl-sg-25u2gbq160y"
-Password = "ON0fCq8vpVnFJKmStqPgRB95sOhDXC0O"
-RootCAPath = "/app/root-ca-cert"
-
 [NetworkConfig]
-GenBlockNumber = 267
+GenBlockNumber = 267 
 PolygonBridgeAddress = "0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"
 PolygonZkEVMGlobalExitRootAddress = "0xEd236da21Ff62bC7B62608AdB818da49E8549fa7"
 L2PolygonBridgeAddresses = ["0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"]

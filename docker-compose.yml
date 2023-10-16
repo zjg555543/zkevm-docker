@@ -338,6 +338,24 @@ services:
       - POSTGRES_DB=test_db
     command: [ "postgres", "-N", "500" ]
 
+  xagon-bridge-redis:
+    container_name: xagon-bridge-redis
+    image: redis
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=my_password
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=8
+
   xagon-data-availability:
     container_name: xagon-data-availability
     image: xagon-data-availability
