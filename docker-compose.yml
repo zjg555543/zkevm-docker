@@ -1,51 +1,51 @@
 version: "3.5"
 networks:
   default:
-    name: xagon
+    name: xgon
 services:
-  xagon-sequencer:
-    container_name: xagon-sequencer
-    image: xagon-node
+  xgon-sequencer:
+    container_name: xgon-sequencer
+    image: xgon-node
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xagon-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=xgon-pool-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  xagon-json-rpc:
-    container_name: xagon-json-rpc
-    image: xagon-node
+  xgon-json-rpc:
+    container_name: xgon-json-rpc
+    image: xgon-node
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
       - 9091:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xagon-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=xgon-pool-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  xagon-aggregator:
-    container_name: xagon-aggregator
-    image: xagon-node
+  xgon-aggregator:
+    container_name: xgon-aggregator
+    image: xgon-node
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
@@ -53,25 +53,25 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  xagon-sync:
-    container_name: xagon-sync
-    image: xagon-node
+  xgon-sync:
+    container_name: xgon-sync
+    image: xgon-node
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
     volumes:
       - ./config/test.node.config.toml:/app/config.toml
       - ./config/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  xagon-state-db:
-    container_name: xagon-state-db
+  xgon-state-db:
+    container_name: xgon-state-db
     image: postgres
     ports:
       - 5432:5432
@@ -86,8 +86,8 @@ services:
       - "-N"
       - "500"
 
-  xagon-pool-db:
-    container_name: xagon-pool-db
+  xgon-pool-db:
+    container_name: xgon-pool-db
     image: postgres
     ports:
       - 5433:5432
@@ -100,8 +100,8 @@ services:
       - "-N"
       - "500"
 
-  xagon-event-db:
-    container_name: xagon-event-db
+  xgon-event-db:
+    container_name: xgon-event-db
     image: postgres
     ports:
       - 5435:5432
@@ -116,8 +116,8 @@ services:
       - "-N"
       - "500"
 
-  xagon-explorer-l1:
-    container_name: xagon-explorer-l1
+  xgon-explorer-l1:
+    container_name: xgon-explorer-l1
     image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4000:4000
@@ -126,8 +126,8 @@ services:
       - SUBNETWORK=Local Ethereum
       - COIN=ETH
       - ETHEREUM_JSONRPC_VARIANT=geth
-      - ETHEREUM_JSONRPC_HTTP_URL=http://xagon-mock-l1-network:8545
-      - DATABASE_URL=postgres://state_user:state_password@xagon-state-db:5432/l1_explorer_db
+      - ETHEREUM_JSONRPC_HTTP_URL=http://xgon-mock-l1-network:8545
+      - DATABASE_URL=postgres://state_user:state_password@xgon-state-db:5432/l1_explorer_db
       - ECTO_USE_SSL=false
       - MIX_ENV=prod
     command:
@@ -137,8 +137,8 @@ services:
         "mix do ecto.create, ecto.migrate; mix phx.server"
       ]
 
-  xagon-explorer-l2:
-    container_name: xagon-explorer-l2
+  xgon-explorer-l2:
+    container_name: xgon-explorer-l2
     image: hermeznetwork/zkevm-explorer:latest
     ports:
       - 4001:4000
@@ -147,8 +147,8 @@ services:
       - SUBNETWORK=Polygon Hermez
       - COIN=ETH
       - ETHEREUM_JSONRPC_VARIANT=geth
-      - ETHEREUM_JSONRPC_HTTP_URL=http://xagon-explorer-json-rpc:8124
-      - DATABASE_URL=postgres://state_user:state_password@xagon-state-db:5432/l2_explorer_db
+      - ETHEREUM_JSONRPC_HTTP_URL=http://xgon-explorer-json-rpc:8124
+      - DATABASE_URL=postgres://state_user:state_password@xgon-state-db:5432/l2_explorer_db
       - ECTO_USE_SSL=false
       - MIX_ENV=prod
       - INDEXER_DISABLE_INTERNAL_TRANSACTIONS_FETCHER=true
@@ -161,14 +161,14 @@ services:
         "mix do ecto.create, ecto.migrate; mix phx.server"
       ]
 
-  xagon-explorer-json-rpc:
-    container_name: xagon-explorer-json-rpc
-    image: xagon-node
+  xgon-explorer-json-rpc:
+    container_name: xgon-explorer-json-rpc
+    image: xgon-node
     ports:
       - 8124:8124
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xagon-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=xgon-pool-db
       - ZKEVM_NODE_RPC_PORT=8124
       - ZKEVM_NODE_RPC_WEBSOCKETS_PORT=8134
     volumes:
@@ -177,9 +177,9 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc --http.api eth,net,debug,xagon,txpool,web3"
-  xagon-mock-l1-network:
-    container_name: xagon-mock-l1-network
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc --http.api eth,net,debug,xgon,txpool,web3"
+  xgon-mock-l1-network:
+    container_name: xgon-mock-l1-network
     image: hermeznetwork/geth-zkevm-contracts:latest
     ports:
       - 8545:8545
@@ -208,8 +208,8 @@ services:
       - "full"
       - "--rpc.allow-unprotected-txs"
 
-  xagon-prover:
-    container_name: xagon-prover
+  xgon-prover:
+    container_name: xgon-prover
     image: hermeznetwork/zkevm-prover:v2.2.0 
     ports:
       # - 50051:50051 # Prover
@@ -221,11 +221,11 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  xagon-approve:
-    container_name: xagon-approve
-    image: xagon-node
+  xgon-approve:
+    container_name: xgon-approve
+    image: xgon-node
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/test.node.config.toml:/app/config.toml
@@ -233,11 +233,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly  --amount 1000000000000000000000000  --yes --cfg /app/config.toml"
+      - "/app/xgon-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly  --amount 1000000000000000000000000  --yes --cfg /app/config.toml"
 
-  xagon-bridge-service:
-    container_name: xagon-bridge-service
-    image: xagon-bridge-service
+  xgon-bridge-service:
+    container_name: xgon-bridge-service
+    image: xgon-bridge-service
     ports:
       - 8080:8080
       - 9090:9090
@@ -245,7 +245,7 @@ services:
       - ZKEVM_BRIDGE_DATABASE_USER=test_user
       - ZKEVM_BRIDGE_DATABASE_PASSWORD=test_password
       - ZKEVM_BRIDGE_DATABASE_NAME=test_db
-      - ZKEVM_BRIDGE_DATABASE_HOST=xagon-bridge-db
+      - ZKEVM_BRIDGE_DATABASE_HOST=xgon-bridge-db
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
@@ -253,11 +253,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-bridge run --cfg /app/config.toml"
+      - "/app/xgon-bridge run --cfg /app/config.toml"
 
-  xagon-bridge-ui:
-    container_name: xagon-bridge-ui
-    image: xagon-bridge-ui
+  xgon-bridge-ui:
+    container_name: xgon-bridge-ui
+    image: xgon-bridge-ui
     ports:
       - 8090:80
     environment:
@@ -278,13 +278,13 @@ services:
       - USE_FIAT_EXCHANGE_RATES=false
       - SHOW_OUTDATED_NETWORK_MODAL=false
 
-  xagon-eth-tx-manager:
-    container_name: xagon-eth-tx-manager
-    image: xagon-node
+  xgon-eth-tx-manager:
+    container_name: xgon-eth-tx-manager
+    image: xgon-node
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
@@ -293,14 +293,14 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  xagon-sequence-sender:
-    container_name: xagon-sequence-sender
-    image: xagon-node
+  xgon-sequence-sender:
+    container_name: xgon-sequence-sender
+    image: xgon-node
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xagon-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xagon-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xgon-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=xgon-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
@@ -309,13 +309,13 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  xagon-l2gaspricer:
-    container_name: xagon-l2gaspricer
-    image: xagon-node
+  xgon-l2gaspricer:
+    container_name: xgon-l2gaspricer
+    image: xgon-node
     environment:
-      - ZKEVM_NODE_POOL_DB_HOST=xagon-pool-db
+      - ZKEVM_NODE_POOL_DB_HOST=xgon-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/test.node.config.toml:/app/config.toml
@@ -323,10 +323,10 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+      - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  xagon-bridge-db:
-    container_name: xagon-bridge-db
+  xgon-bridge-db:
+    container_name: xgon-bridge-db
     image: postgres
     expose:
       - 5436
@@ -338,8 +338,8 @@ services:
       - POSTGRES_DB=test_db
     command: [ "postgres", "-N", "500" ]
 
-  xagon-bridge-redis:
-    container_name: xagon-bridge-redis
+  xgon-bridge-redis:
+    container_name: xgon-bridge-redis
     image: redis
     deploy:
       resources:
@@ -356,9 +356,9 @@ services:
       - REDIS_PORT=6379
       - REDIS_DATABASES=8
 
-  xagon-data-availability:
-    container_name: xagon-data-availability
-    image: xagon-data-availability
+  xgon-data-availability:
+    container_name: xgon-data-availability
+    image: xgon-data-availability
     ports:
       - 8444:8444
     volumes:
@@ -367,10 +367,10 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xagon-data-availability run --cfg /app/config.toml"
+      - "/app/xgon-data-availability run --cfg /app/config.toml"
 
-  xagon-data-availability-db:
-    container_name: xagon-data-availability-db
+  xgon-data-availability-db:
+    container_name: xgon-data-availability-db
     image: postgres
     ports:
       - 5437:5432
