@@ -1,10 +1,10 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 
 [L1]
-WsURL = "ws://zkevm-mock-l1-network:8546"
-RpcURL = "http://zkevm-mock-l1-network:8545"
-CDKValidiumAddress = "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59"
-DataCommitteeAddress = "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a"
+WsURL = "ws://xgon-mock-l1-network:8546"
+RpcURL = "http://xgon-mock-l1-network:8545"
+ZkEVMAddress = "0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C"
+DataCommitteeAddress = "0x6Ae5b0863dBF3477335c0102DBF432aFf04ceb22"
 Timeout = "3m"
 RetryPeriod = "5s"
 
@@ -17,7 +17,7 @@ Outputs = ["stderr"]
 User = "committee_user"
 Password = "committee_password"
 Name = "committee_db"
-Host = "data-availability-db"
+Host = "xgon-data-availability-db"
 Port = "5432"
 EnableLog = false
 MaxConns = 200

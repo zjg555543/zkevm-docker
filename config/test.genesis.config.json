@@ -1,13 +1,13 @@
 {
   "l1Config": {
     "chainId": 1337,
-    "polygonZkEVMAddress": "0x3fBC3dAAF173Ce3185757C5c38622536Ae76fe59",
+    "polygonZkEVMAddress": "0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C",
     "maticTokenAddress": "0xcFE6D77a653b988203BfAc9C6a69eA9D583bdC2b",
-    "polygonZkEVMGlobalExitRootAddress": "0xF5336Cb12989c0673071dF0c8a930900D7DF8D3e",
-    "dataCommitteeContract": "0x4eBfE2aC5eC9E2ac20e81aF97C726b8f1E07485a",
+    "polygonZkEVMGlobalExitRootAddress": "0xEd236da21Ff62bC7B62608AdB818da49E8549fa7",
+    "dataCommitteeContract": "0x6Ae5b0863dBF3477335c0102DBF432aFf04ceb22",
     "useValidium": true
   },
-  "genesisBlockNumber": 196,
+  "genesisBlockNumber": 462,
   "root": "0x2c0484d6543d338de17a35c641b02b4cb97a118b4c5505471ccbfe1ea1fd7595",
  "genesis": [
   {
