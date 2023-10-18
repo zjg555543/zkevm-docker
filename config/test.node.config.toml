@@ -131,10 +131,10 @@ DefaultGasPriceWei = 1000000000
 MaxGasPriceWei = 0
 
 [MTClient]
-URI  = "192.168.64.3:50061"
+URI  = "xgon-prover:50061"
 
 [Executor]
-URI = "192.168.64.3:50071"
+URI = "xgon-prover:50071"
 MaxGRPCMessageSize = 100000000
 
 [Metrics]
