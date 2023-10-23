@@ -400,6 +400,12 @@ async function main() {
         // Add tester account with ether
         genesis[genesis.length - 1].balance = '100000000000000000000000';
     //}
+    genesis.push({
+      accountName: 'deployer',
+       balance: '100000000000000000000000',
+       nonce: '8',
+       address: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    }); 
 
     // calculate root
     const poseidon = await getPoseidon();

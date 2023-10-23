@@ -3,7 +3,7 @@ PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 [L1]
 WsURL = "ws://xgon-mock-l1-network:8546"
 RpcURL = "http://xgon-mock-l1-network:8545"
-CDKValidiumAddress = "0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C"
+ZkEVMAddress = "0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C"
 DataCommitteeAddress = "0x6Ae5b0863dBF3477335c0102DBF432aFf04ceb22"
 Timeout = "3m"
 RetryPeriod = "5s"
