@@ -180,7 +180,7 @@ services:
       - "/app/xgon-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc --http.api eth,net,debug,xgon,txpool,web3"
   xgon-mock-l1-network:
     container_name: xgon-mock-l1-network
-    image: hermeznetwork/geth-zkevm-contracts:latest
+    image: hermeznetwork/geth-zkevm-contracts:v2.0.0-RC1-fork.5-geth1.12.0
     ports:
       - 8545:8545
       - 8546:8546
