@@ -34,7 +34,7 @@ async function main() {
     const attemptsDeployProxy = 20;
     const networkIDL2 = 1;
     const globalExitRootL2Address = '0xa40d5f56745a118d0906a34e69aec8c0db1cb8fa';
-    const zkevmAddressL2 = ethers.constants.AddressZero;
+    const zkevmAddressL2 = '0x2ecf31ece36ccac2d3222a303b1409233ecbb225';
     const maxUint256 = ethers.BigNumber.from('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff').toString();
 
     let balanceBrige;
