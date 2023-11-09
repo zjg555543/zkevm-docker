@@ -14,11 +14,11 @@ TableSuffix = ""
 
 [ClaimTxManager]
 Enabled = true
-FreeGas = true
 FrequencyToMonitorTxs = "1s"
 PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
 RetryInterval = "1s"
 RetryNumber = 10
+FreeGas = true
 
 [Etherman]
 L1URL = "http://xgon-mock-l1-network:8545"
@@ -52,19 +52,20 @@ SentinelConfigFilePath = "/app/sentinel_config.json"
     MaxConns = 20
     TableSuffix = ""
     [BridgeServer.Redis]
-    Addr = "xgon-bridge-redis:6379"
+    IsClusterMode = false
+    Addrs = ["xgon-bridge-redis:6379"]
     Username = ""
     Password = ""
     DB = 0
     MockPrice = true
 
 [CoinKafkaConsumer]
-Brokers = ["47.242.254.164:9093","47.242.234.158:9093","8.210.43.30:9093"]
+Brokers = ["xgon-bridge-coin-kafka:9092"]
 Topics = ["explorer_chainAddressPrice_push"]
-ConsumerGroupID = "web3_okbc_explorerchainprice"
+ConsumerGroupID = "xgon-bridge-service"
 InitialOffset = -1
-Username = "alikafka_pre_public_intl-sg-25u2gbq160y"
-Password = "ON0fCq8vpVnFJKmStqPgRB95sOhDXC0O"
+Username = ""
+Password = ""
 RootCAPath = "/app/root-ca-cert"
 
 [NetworkConfig]
@@ -72,3 +73,9 @@ GenBlockNumber = 502
 PolygonBridgeAddress = "0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"
 PolygonZkEVMGlobalExitRootAddress = "0xEd236da21Ff62bC7B62608AdB818da49E8549fa7"
 L2PolygonBridgeAddresses = ["0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"]
+
+[NacosConfig]
+NacosUrls = ""
+NamespaceId = "public"
+ApplicationName = ""
+ExternalListenAddr = "127.0.0.1:26659"
