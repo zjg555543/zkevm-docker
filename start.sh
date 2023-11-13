@@ -1,6 +1,6 @@
-docker-compose up -d xgon-state-db
-docker-compose up -d xgon-pool-db
-docker-compose up -d xgon-event-db
-docker-compose up -d xgon-bridge-db
-docker-compose up -d xgon-mock-l1-network
+docker-compose up -d x1-state-db
+docker-compose up -d x1-pool-db
+docker-compose up -d x1-event-db
+docker-compose up -d x1-bridge-db
+docker-compose up -d x1-mock-l1-network
 sleep 3

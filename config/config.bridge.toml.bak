@@ -7,7 +7,7 @@ Database = "postgres"
 User = "test_user"
 Password = "test_password"
 Name = "test_db"
-Host = "xgon-bridge-db"
+Host = "x1-bridge-db"
 Port = "5432"
 MaxConns = 20
 
@@ -19,8 +19,8 @@ RetryInterval = "1s"
 RetryNumber = 10
 
 [Etherman]
-L1URL = "http://xgon-mock-l1-network:8545"
-L2URLs = ["http://xgon-json-rpc:8123"]
+L1URL = "http://x1-mock-l1-network:8545"
+L2URLs = ["http://x1-json-rpc:8123"]
 
 [Synchronizer]
 SyncInterval = "1s"
@@ -42,7 +42,7 @@ BridgeVersion = "v1"
     User = "test_user"
     Password = "test_password"
     Name = "test_db"
-    Host = "xgon-bridge-db"
+    Host = "x1-bridge-db"
     Port = "5432"
     MaxConns = 20
 

@@ -15,47 +15,47 @@ docker stop $(docker ps -aq); docker rm $(docker ps -aq);docker ps -a
 
 cd ../
 
-#rm -rf ./xgon-contracts
+#rm -rf ./x1-contracts
 
-git clone -b v0.1.2 https://github.com/0xPolygonHermez/xgon-node.git
-git clone -b v0.1.0 https://github.com/0xPolygonHermez/xgon-bridge-service.git
-git clone -b v1.1.0-fork.4 https://github.com/0xPolygonHermez/xgon-contracts
+git clone -b v0.1.2 https://github.com/0xPolygonHermez/x1-node.git
+git clone -b v0.1.0 https://github.com/0xPolygonHermez/x1-bridge-service.git
+git clone -b v1.1.0-fork.4 https://github.com/0xPolygonHermez/x1-contracts
 
-cd ./xgon-node
+cd ./x1-node
 make build-docker
 cd -
 
-cd ./xgon-bridge-service
+cd ./x1-bridge-service
 make build-docker
 
 cd-
-cd xgon-bridge-ui
-cp ../xgon-docker/ui/tokens.context.tsx src/contexts/tokens.context.tsx
-docker build . -t xgon-bridge-ui
+cd x1-bridge-ui
+cp ../x1-docker/ui/tokens.context.tsx src/contexts/tokens.context.tsx
+docker build . -t x1-bridge-ui
 
 cd -
-cd ./xgon-contracts
+cd ./x1-contracts
 rm deployment/deploy_output.json 
 git reset  --hard
 
-cp ../xgon-docker/config/deploy_parameters.json deployment/deploy_parameters.json
-cp ../xgon-docker/config/contract_env_example .env
-# cp ../xgon-docker/config/1_createGenesis.js deployment/1_createGenesis.js 
+cp ../x1-docker/config/deploy_parameters.json deployment/deploy_parameters.json
+cp ../x1-docker/config/contract_env_example .env
+# cp ../x1-docker/config/1_createGenesis.js deployment/1_createGenesis.js 
 
 cd -
-cd xgon-docker  
+cd x1-docker  
 
-docker-compose up -d xgon-state-db
-docker-compose up -d xgon-pool-db
-docker-compose up -d xgon-event-db
-docker-compose up -d xgon-bridge-db
-docker-compose up -d xgon-mock-l1-network
+docker-compose up -d x1-state-db
+docker-compose up -d x1-pool-db
+docker-compose up -d x1-event-db
+docker-compose up -d x1-bridge-db
+docker-compose up -d x1-mock-l1-network
 sleep 3
 
 
 ## TODO trans eth on L1, 0x2ecf31ece36ccac2d3222a303b1409233ecbb225
 
-cd ../xgon-contracts
+cd ../x1-contracts
 npm i
 npm run deploy:testnet:ZkEVM:localhost
 
@@ -67,24 +67,24 @@ cat deployment/genesis.json
 cd -
 
 #need start after 
-docker-compose up -d xgon-approve 
-docker-compose up -d xgon-prover
+docker-compose up -d x1-approve 
+docker-compose up -d x1-prover
 sleep 3
-docker-compose up -d xgon-sync
+docker-compose up -d x1-sync
 sleep 3
 
-docker-compose up -d xgon-eth-tx-manager
-docker-compose up -d xgon-sequencer
-docker-compose up -d xgon-sequence-sender
-docker-compose up -d xgon-l2gaspricer
-docker-compose up -d xgon-aggregator
-docker-compose up -d xgon-json-rpc
+docker-compose up -d x1-eth-tx-manager
+docker-compose up -d x1-sequencer
+docker-compose up -d x1-sequence-sender
+docker-compose up -d x1-l2gaspricer
+docker-compose up -d x1-aggregator
+docker-compose up -d x1-json-rpc
 
-docker-compose up -d xgon-explorer-json-rpc
-docker-compose up -d xgon-explorer-l1
-docker-compose up -d xgon-explorer-l2
-docker-compose up -d xgon-bridge-service
-docker-compose up -d xgon-bridge-ui
+docker-compose up -d x1-explorer-json-rpc
+docker-compose up -d x1-explorer-l1
+docker-compose up -d x1-explorer-l2
+docker-compose up -d x1-bridge-service
+docker-compose up -d x1-bridge-ui
 
 docker ps -a
 
@@ -103,10 +103,10 @@ cast send --legacy --from 0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225 --private-k
 Provide L1 ETH to the Bridge
 
 # 质押初始化
-https://xgon.polygon.technology/docs/setup-xgon/#provide-l1-eth-to-the-bridge
+https://x1.polygon.technology/docs/setup-x1/#provide-l1-eth-to-the-bridge
 
 # clamim 质押
-https://xgon.polygon.technology/docs/setup-xgon/#claim-your-l2-zketh
+https://x1.polygon.technology/docs/setup-x1/#claim-your-l2-zketh
 
 
 ```
