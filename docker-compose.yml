@@ -394,3 +394,11 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
       KAFKA_ZOOKEEPER_CONNECT: kafka-zookeeper:2181
       KAFKA_CREATE_TOPICS: "explorer_chainAddressPrice_push:1:1"
+      
+  kafka-zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: kafka-zookeeper
+    ports:
+      - "2181:2181"
+    expose:
+      - 2181
