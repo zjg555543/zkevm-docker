@@ -382,3 +382,15 @@ services:
       - "postgres"
       - "-N"
       - "500"
+  x1-bridge-coin-kafka:
+    image: wurstmeister/kafka
+    container_name: x1-bridge-coin-kafka
+    expose:
+      - 9092
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://localhost:9123
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9123
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_ZOOKEEPER_CONNECT: kafka-zookeeper:2181
+      KAFKA_CREATE_TOPICS: "explorer_chainAddressPrice_push:1:1"
