@@ -8,7 +8,7 @@
     "trustedAggregator": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
     "trustedAggregatorTimeout": 604799,
     "pendingStateTimeout": 604799,
-    "forkID": 5,
+    "forkID": 6,
     "admin": "0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225",
     "zkEVMOwner": "0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225",
     "timelockAddress": "0x2ECF31eCe36ccaC2d3222A303b1409233ECBB225",
