@@ -210,7 +210,7 @@ services:
 
   x1-prover:
     container_name: x1-prover
-    image: hermeznetwork/zkevm-prover:v2.2.0 
+    image: hermeznetwork/zkevm-prover:v3.0.2 
     ports:
       # - 50051:50051 # Prover
       - 50052:50052 # Mock prover
