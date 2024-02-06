@@ -33,7 +33,7 @@ PollMinAllowedGasPriceInterval = "15s"
 	MaxConns = 200
 
 [Etherman]
-URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
 ForkIDChunkSize = 20000
 MultiGasProvider = false
 	[Etherscan]

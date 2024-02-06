@@ -21,7 +21,7 @@ RetryInterval = "1s"
 RetryNumber = 10
 
 [Etherman]
-L1URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+L1URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
 L2URLs = ["http://x1-json-rpc:8123"]
 L1ChainId = 11155111 
 L2ChainIds = [1001]

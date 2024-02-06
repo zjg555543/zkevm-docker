@@ -1,8 +1,8 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 
 [L1]
-WsURL = "wss://sepolia.infura.io/ws/v3/563f6332bff84704b14989b8b74e14c0"
-RpcURL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+WsURL = "wss://sepolia.infura.io/ws/v3/6d3d0adfe7c74dcb87642b37f1477aec"
+RpcURL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
 ZkEVMAddress = "0x0CFA51F965bd81d1f659b4326340f04BEd857BAF"
 DataCommitteeAddress = "0x3bD94c469F6CB1bE871F68B9B4Eba99B4D63079c"
 Timeout = "3m"
