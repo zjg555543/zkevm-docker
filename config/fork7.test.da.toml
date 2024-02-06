@@ -1,0 +1,31 @@
+PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
+
+[L1]
+WsURL = "wss://sepolia.infura.io/ws/v3/563f6332bff84704b14989b8b74e14c0"
+RpcURL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+PolygonValidiumAddress = ""
+DataCommitteeAddress = ""
+Timeout = "3m"
+RetryPeriod = "5s"
+BlockBatchSize = 32
+
+[Log]
+Environment = "development" # "production" or "development"
+Level = "debug"
+Outputs = ["stderr"]
+
+[DB]
+User = "committee_user"
+Password = "committee_password"
+Name = "committee_db"
+Host = "x1-data-availability-db"
+Port = "5432"
+EnableLog = false
+MaxConns = 200
+
+[RPC]
+Host = "0.0.0.0"
+Port = 8444
+ReadTimeout = "60s"
+WriteTimeout = "60s"
+MaxRequestsPerIPAndSecond = 500
