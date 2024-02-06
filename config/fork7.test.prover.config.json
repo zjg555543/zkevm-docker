@@ -1,5 +1,5 @@
 {
-    "runExecutorServer": true,
+    "runExecutorServer": false,
     "runExecutorClient": false,
     "runExecutorClientMultithread": false,
     "runHashDBServer": true,

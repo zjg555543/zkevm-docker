@@ -70,14 +70,20 @@ services:
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
+  x1-executor-fork6:
+    container_name: x1-executor
+    image: hermeznetwork/zkevm-prover:v3.0.2 
+    ports:
+      - 50061:50061 # MT
+      - 50071:50071 # Executor
+    volumes:
+      - ./config/fork6.test.executor.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
   x1-prover-fork6:
     container_name: x1-prover
     image: hermeznetwork/zkevm-prover:v3.0.2 
-    ports:
-      - 50051:50051 # Prover
-      - 50052:50052 # Mock prover
-      - 50061:50061 # MT
-      - 50071:50071 # Executor
     volumes:
       - /data/prover-data/v3.0.0-RC3-fork.6/config:/app/config
       - ./config/fork6.test.prover.config.json:/usr/src/app/config.json
@@ -232,14 +238,20 @@ services:
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  x1-prover-fork7:
-    container_name: x1-prover
-    image: hermeznetwork/zkevm-prover:v3.0.2 
+  x1-executor-fork7:
+    container_name: x1-executor
+    image: hermeznetwork/zkevm-prover:v4.0.4
     ports:
-      - 50051:50051 # Prover
-      - 50052:50052 # Mock prover
       - 50061:50061 # MT
       - 50071:50071 # Executor
+    volumes:
+      - ./config/fork7.test.executor.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  x1-prover-fork7:
+    container_name: x1-prover
+    image: hermeznetwork/zkevm-prover:v4.0.4
     volumes:
       - /data/prover-data/v3.0.0-RC3-fork.6/config:/app/config
       - ./config/fork7.test.prover.config.json:/usr/src/app/config.json
