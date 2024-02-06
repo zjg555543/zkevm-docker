@@ -1,5 +1,5 @@
 [Log]
-Level = "debug"
+Level = "info"
 Outputs = ["stdout"]
 
 [SyncDB]
@@ -21,9 +21,9 @@ RetryInterval = "1s"
 RetryNumber = 10
 
 [Etherman]
-L1URL = "http://x1-mock-l1-network:8545"
+L1URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
 L2URLs = ["http://x1-json-rpc:8123"]
-L1ChainId = 1337
+L1ChainId = 11155111 
 L2ChainIds = [1001]
 
 [Synchronizer]
@@ -52,7 +52,7 @@ SentinelConfigFilePath = "/app/sentinel_config.json"
     MaxConns = 20
     TableSuffix = ""
     [BridgeServer.Redis]
-    Addr = "x1-bridge-redis:6379"
+    Addrs = ["x1-bridge-redis:6379"]
     Username = ""
     Password = ""
     DB = 0
@@ -69,6 +69,6 @@ RootCAPath = "/app/root-ca-cert"
 
 [NetworkConfig]
 GenBlockNumber = 5229651 
-PolygonBridgeAddress = "0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"
-PolygonZkEVMGlobalExitRootAddress = "0xEd236da21Ff62bC7B62608AdB818da49E8549fa7"
-L2PolygonBridgeAddresses = ["0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0"]
+PolygonBridgeAddress = "0xB8D64186f67F2E434DDc51fd79B734225c3285c4"
+PolygonZkEVMGlobalExitRootAddress = "0x4F7E1779eaA6DBc842194FEcF1bf215cf2A5411c"
+L2PolygonBridgeAddresses = ["0xB8D64186f67F2E434DDc51fd79B734225c3285c4"]

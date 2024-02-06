@@ -251,6 +251,7 @@ services:
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
       - ./config/config.bridge.toml:/app/config.toml
+      - ./config/root-ca-cert:/app/root-ca-cert
     command:
       - "/bin/sh"
       - "-c"
@@ -258,20 +259,20 @@ services:
 
   x1-bridge-ui:
     container_name: x1-bridge-ui
-    image: zkevm-bridge-ui
+    image: hermeznetwork/zkevm-bridge-ui:latest
     ports:
       - 8090:80
     environment:
-      - ETHEREUM_RPC_URL=http://127.0.0.1:8545
-      - ETHEREUM_EXPLORER_URL=http://127.0.0.1:4000
-      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS=0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0
+      - ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0
+      - ETHEREUM_EXPLORER_URL=https://sepolia.etherscan.io/
+      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS=0xB8D64186f67F2E434DDc51fd79B734225c3285c4
       - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
-      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS=0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C
-      - POLYGON_ZK_EVM_RPC_URL=http://127.0.0.1:8123
+      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS=0x0CFA51F965bd81d1f659b4326340f04BEd857BAF
+      - POLYGON_ZK_EVM_RPC_URL=http://52.40.99.48:8123
       - POLYGON_ZK_EVM_EXPLORER_URL=http://127.0.0.1:4001
-      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS=0xFc2f92CBFA1b38a4B38B412F582cf08028cBA9e0
+      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS=0xB8D64186f67F2E434DDc51fd79B734225c3285c4
       - POLYGON_ZK_EVM_NETWORK_ID=1
-      - BRIDGE_API_URL=http://127.0.0.1:8080
+      - BRIDGE_API_URL=http://52.40.99.48:8080
       - ENABLE_FIAT_EXCHANGE_RATES=false
       - ENABLE_OUTDATED_NETWORK_MODAL=false
       - ENABLE_DEPOSIT_WARNING=true
