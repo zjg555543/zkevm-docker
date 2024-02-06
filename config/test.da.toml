@@ -1,10 +1,10 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 
 [L1]
-WsURL = "ws://x1-mock-l1-network:8546"
-RpcURL = "http://x1-mock-l1-network:8545"
-ZkEVMAddress = "0x0D9088C72Cd4F08e9dDe474D8F5394147f64b22C"
-DataCommitteeAddress = "0x6Ae5b0863dBF3477335c0102DBF432aFf04ceb22"
+WsURL = "wss://sepolia.infura.io/ws/v3/563f6332bff84704b14989b8b74e14c0"
+RpcURL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+ZkEVMAddress = "0x0CFA51F965bd81d1f659b4326340f04BEd857BAF"
+DataCommitteeAddress = "0x3bD94c469F6CB1bE871F68B9B4Eba99B4D63079c"
 Timeout = "3m"
 RetryPeriod = "5s"
 

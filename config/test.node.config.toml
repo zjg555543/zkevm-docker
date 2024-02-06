@@ -33,7 +33,7 @@ PollMinAllowedGasPriceInterval = "15s"
 	MaxConns = 200
 
 [Etherman]
-URL = "http://x1-mock-l1-network:8545"
+URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
 ForkIDChunkSize = 20000
 MultiGasProvider = false
 	[Etherscan]
@@ -58,7 +58,7 @@ TrustedSequencerURL = "" # If it is empty or not specified, then the value is re
 
 [Sequencer]
 WaitPeriodPoolIsEmpty = "1s"
-LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+LastBatchVirtualizationTimeMaxWaitPeriod = "60s"
 BlocksAmountForTxsToBeDeleted = 100
 FrequencyToCheckTxsForDelete = "12h"
 MaxTxsPerBatch = 300
@@ -74,16 +74,16 @@ MaxSteps = 7570538
 TxLifetimeCheckTimeout = "10m"
 MaxTxLifetime = "3h"
 	[Sequencer.Finalizer]
-		GERDeadlineTimeout = "2s"
+		GERDeadlineTimeout = "20s"
 		ForcedBatchDeadlineTimeout = "5s"
 		SleepDuration = "100ms"
 		ResourcePercentageToCloseBatch = 10
 		GERFinalityNumberOfBlocks = 0
-		ClosingSignalsManagerWaitForCheckingL1Timeout = "10s"
-		ClosingSignalsManagerWaitForCheckingGER = "10s"
-		ClosingSignalsManagerWaitForCheckingForcedBatches = "10s"
+		ClosingSignalsManagerWaitForCheckingL1Timeout = "60s"
+		ClosingSignalsManagerWaitForCheckingGER = "60s"
+		ClosingSignalsManagerWaitForCheckingForcedBatches = "60s"
 		ForcedBatchesFinalityNumberOfBlocks = 0
-		TimestampResolution = "10s"
+		TimestampResolution = "60s"
 		StopSequencerOnBatchNum = 0
 	[Sequencer.DBManager]
 		PoolRetrievalInterval = "500ms"
@@ -96,13 +96,14 @@ MaxTxLifetime = "3h"
 		Enabled = false
 
 [SequenceSender]
-WaitPeriodSendSequence = "15s"
-LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+WaitPeriodSendSequence = "65s"
+LastBatchVirtualizationTimeMaxWaitPeriod = "60s"
 MaxTxSizeForL1 = 131072
-MaxBatchesForL1 = 10
-SenderAddress = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
-L2Coinbase = "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
-PrivateKey = {Path = "/pk/sequencer.keystore", Password = "testonly"}
+MaxBatchesForL1 = 20
+SenderAddress = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
+DAPermitApiPrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 UseValidium = true 
 
 [Aggregator]
@@ -113,15 +114,16 @@ VerifyProofInterval = "10s"
 TxProfitabilityCheckerType = "acceptall"
 TxProfitabilityMinReward = "1.1"
 ProofStatePollingInterval = "5s"
-SenderAddress = "0x70997970c51812dc3a010c7d01b50e0d17dc79c8"
+SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 
 [EthTxManager]
+GasPriceMarginFactor = 2
 ForcedGas = 0
 PrivateKeys = [
-	{Path = "/pk/sequencer.keystore", Password = "testonly"},
-	{Path = "/pk/aggregator.keystore", Password = "testonly"}
+	{Path = "/pk/sequencer.keystore", Password = "password"},
+	{Path = "/pk/aggregator.keystore", Password = "password"}
 ]
 
 [L2GasPriceSuggester]
