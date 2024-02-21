@@ -13,8 +13,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -31,8 +31,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -48,8 +48,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -63,8 +63,8 @@ services:
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
     volumes:
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -77,7 +77,7 @@ services:
       - 50061:50061 # MT
       - 50071:50071 # Executor
     volumes:
-      - ./config/fork6.test.executor.config.json:/usr/src/app/config.json
+      - ./config/fork6/test.executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
@@ -86,7 +86,7 @@ services:
     image: hermeznetwork/zkevm-prover:v3.0.2 
     volumes:
       - /data/prover-data/v3.0.0-RC3-fork.6/config:/app/config
-      - ./config/fork6.test.prover.config.json:/usr/src/app/config.json
+      - ./config/fork6/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
@@ -104,7 +104,7 @@ services:
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork6.config.bridge.toml:/app/config.toml
+      - ./config/fork6/config.bridge.toml:/app/config.toml
       - ./config/root-ca-cert:/app/root-ca-cert
     command:
       - "/bin/sh"
@@ -121,8 +121,8 @@ services:
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -137,8 +137,8 @@ services:
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -151,8 +151,8 @@ services:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
-      - ./config/fork6.test.node.config.toml:/app/config.toml
-      - ./config/fork6.test.genesis.config.json:/app/genesis.json
+      - ./config/fork6/test.node.config.toml:/app/config.toml
+      - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -164,7 +164,7 @@ services:
     ports:
       - 8444:8444
     volumes:
-      - ./config/fork6.test.da.toml:/app/config.toml
+      - ./config/fork6/test.da.toml:/app/config.toml
       - ./config/test-member.keystore:/pk/test-member.keystore
     command:
       - "/bin/sh"
@@ -181,8 +181,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -199,8 +199,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -216,8 +216,8 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -231,8 +231,8 @@ services:
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
     volumes:
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -245,7 +245,7 @@ services:
       - 50061:50061 # MT
       - 50071:50071 # Executor
     volumes:
-      - ./config/fork7.test.executor.config.json:/usr/src/app/config.json
+      - ./config/fork7/test.executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
@@ -254,7 +254,7 @@ services:
     image: hermeznetwork/zkevm-prover:v4.0.4
     volumes:
       - /data/prover-data/v3.0.0-RC3-fork.6/config:/app/config
-      - ./config/fork7.test.prover.config.json:/usr/src/app/config.json
+      - ./config/fork7/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
@@ -272,7 +272,7 @@ services:
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork7.config.bridge.toml:/app/config.toml
+      - ./config/fork7/config.bridge.toml:/app/config.toml
       - ./config/root-ca-cert:/app/root-ca-cert
     command:
       - "/bin/sh"
@@ -289,8 +289,8 @@ services:
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -305,8 +305,8 @@ services:
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -319,8 +319,8 @@ services:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
-      - ./config/fork7.test.node.config.toml:/app/config.toml
-      - ./config/fork7.test.genesis.config.json:/app/genesis.json
+      - ./config/fork7/test.node.config.toml:/app/config.toml
+      - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
@@ -332,7 +332,7 @@ services:
     ports:
       - 8444:8444
     volumes:
-      - ./config/fork7.test.da.toml:/app/config.toml
+      - ./config/fork7/test.da.toml:/app/config.toml
       - ./config/test-member.keystore:/pk/test-member.keystore
     command:
       - "/bin/sh"
