@@ -19,6 +19,7 @@ FrequencyToMonitorTxs = "1s"
 PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
 RetryInterval = "1s"
 RetryNumber = 10
+AuthorizedClaimMessageAddresses = []
 
 [Etherman]
 L1URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
@@ -71,4 +72,6 @@ RootCAPath = "/app/root-ca-cert"
 GenBlockNumber = 5229651 
 PolygonBridgeAddress = "0xB8D64186f67F2E434DDc51fd79B734225c3285c4"
 PolygonZkEVMGlobalExitRootAddress = "0x4F7E1779eaA6DBc842194FEcF1bf215cf2A5411c"
+PolygonRollupManagerAddress = "0xB7f8BC63BbcaD18155201308C8f3540b07f84F5e"
+PolygonZkEvmAddress = "0x8dAF17A20c9DBA35f005b6324F493785D239719d"
 L2PolygonBridgeAddresses = ["0xB8D64186f67F2E434DDc51fd79B734225c3285c4"]
