@@ -59,16 +59,16 @@ SentinelConfigFilePath = "/app/sentinel_config.json"
     MockPrice = true
 
 [CoinKafkaConsumer]
-Brokers = ["47.242.254.164:9093","47.242.234.158:9093","8.210.43.30:9093"]
+Brokers = ["x1-bridge-coin-kafka:9092"]
 Topics = ["explorer_chainAddressPrice_push"]
-ConsumerGroupID = "web3_okbc_explorerchainprice"
+ConsumerGroupID = "x1-bridge-service"
 InitialOffset = -1
-Username = "alikafka_pre_public_intl-sg-25u2gbq160y"
-Password = "ON0fCq8vpVnFJKmStqPgRB95sOhDXC0O"
+Username = ""
+Password = ""
 RootCAPath = "/app/root-ca-cert"
 
 [NetworkConfig]
-GenBlockNumber = 5229651 
-PolygonBridgeAddress = "0xB8D64186f67F2E434DDc51fd79B734225c3285c4"
-PolygonZkEVMGlobalExitRootAddress = "0x4F7E1779eaA6DBc842194FEcF1bf215cf2A5411c"
-L2PolygonBridgeAddresses = ["0xB8D64186f67F2E434DDc51fd79B734225c3285c4"]
+GenBlockNumber = 5332574 
+PolygonBridgeAddress = "0x835bc34a7c0E4e429024f1c0546fF64985519a0B"
+PolygonZkEVMGlobalExitRootAddress = "0xa79e678eC794ADe4ABFb866407bFbea0bBe5FCf9"
+L2PolygonBridgeAddresses = ["0x835bc34a7c0E4e429024f1c0546fF64985519a0B"]
