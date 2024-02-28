@@ -1,8 +1,8 @@
 {
     "l1Config": {
         "chainId": 11155111,
-        "polygonZkEVMAddress": "0x9BE3428f26d6369dAef23a73DEf21148084Bf5Ef",
-        "polygonRollupManagerAddress": "0x99108c3DB4D193Fb4f6a8C735D0858498ebC56Ab",
+        "polygonZkEVMAddress": "0x99108c3DB4D193Fb4f6a8C735D0858498ebC56Ab",
+        "polygonRollupManagerAddress": "0x9BE3428f26d6369dAef23a73DEf21148084Bf5Ef",
         "polTokenAddress": "0xe223519d64C0A49e7C08303c2220251be6b70e1d",
         "polygonZkEVMGlobalExitRootAddress": "0x1755df912C6250c612D0B5B11267E055088D5D13"
     },
