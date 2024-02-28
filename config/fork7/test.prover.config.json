@@ -2,18 +2,22 @@
     "runExecutorServer": false,
     "runExecutorClient": false,
     "runExecutorClientMultithread": false,
+
     "runHashDBServer": true,
     "runHashDBTest": false,
+
     "runAggregatorServer": false,
     "runAggregatorClient": true,
     "runAggregatorClientMock": false,
     "aggregatorClientMockTimeout": 1,
     "proverName": "test-prover",
+    
     "runFileGenBatchProof": false,
     "runFileGenAggregatedProof": false,
     "runFileGenFinalProof": false,
     "runFileProcessBatch": false,
     "runFileProcessBatchMultithread": false,
+
     "runKeccakScriptGenerator": false,
     "runKeccakTest": false,
     "runStorageSMTest": false,
@@ -21,6 +25,7 @@
     "runMemAlignSMTest": false,
     "runSHA256Test": false,
     "runBlakeTest": false,
+
     "executeInParallel": true,
     "useMainExecGenerated": true,
     "saveRequestToFile": false,
@@ -34,28 +39,37 @@
     "opcodeTracer": false,
     "logRemoteDbReads": false,
     "logExecutorServerResponses": false,
+
     "proverServerPort": 50051,
     "proverServerMockPort": 50052,
     "proverServerMockTimeout": 10000000,
     "proverClientPort": 50051,
     "proverClientHost": "127.0.0.1",
+
     "executorServerPort": 50071,
     "executorROMLineTraces": false,
     "executorClientPort": 50071,
     "executorClientHost": "127.0.0.1",
+
     "hashDBServerPort": 50061,
     "hashDBURL": "local",
+
     "aggregatorServerPort": 50081,
     "aggregatorClientPort": 50081,
-    "aggregatorClientHost": "x1-aggregator",
+    "aggregatorClientHost": "zkevm-aggregator",
+
     "mapConstPolsFile": false,
     "mapConstantsTreeFile": false,
+
     "inputFile": "input_executor_0.json",
     "inputFile2": "input_executor_1.json",
+
     "keccakScriptFile": "config/scripts/keccak_script.json",
     "storageRomFile": "config/scripts/storage_sm_rom.json",
+
     "outputPath": "output",
-    "databaseURL": "postgresql://prover_user:prover_pass@x1-state-db:5432/prover_db",
+
+    "databaseURL": "postgresql://prover_user:prover_pass@zkevm-state-db:5432/prover_db",
     "dbNodesTableName": "state.nodes",
     "dbProgramTableName": "state.program",
     "dbMultiWrite": true,
@@ -72,5 +86,6 @@
     "ECRecoverPrecalc": false,
     "ECRecoverPrecalcNThreads": 4,
     "stateManager": true,
-    "useAssociativeCache": false
+    "useAssociativeCache" : false
 }
+

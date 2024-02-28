@@ -1,51 +1,51 @@
 version: "3.5"
 networks:
   default:
-    name: x1
+    name: zkevm
 services:
-  x1-sequencer-fork6:
-    container_name: x1-sequencer
-    image: x1-node-fork6
+  zkevm-sequencer-fork6:
+    container_name: zkevm-sequencer
+    image: zkevm-node-fork6
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/fork6/test.node.config.toml:/app/config.toml
       - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  x1-json-rpc-fork6:
-    container_name: x1-json-rpc
-    image: x1-node-fork6
+  zkevm-json-rpc-fork6:
+    container_name: zkevm-json-rpc
+    image: zkevm-node-fork6
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
       - 9091:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/fork6/test.node.config.toml:/app/config.toml
       - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  x1-aggregator-fork6:
-    container_name: x1-aggregator
-    image: x1-node-fork6
+  zkevm-aggregator-fork6:
+    container_name: zkevm-aggregator
+    image: zkevm-node-fork6
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
       - ./config/fork6/test.node.config.toml:/app/config.toml
@@ -53,25 +53,25 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  x1-sync-fork6:
-    container_name: x1-sync
-    image: x1-node-fork6
+  zkevm-sync-fork6:
+    container_name: zkevm-sync
+    image: zkevm-node-fork6
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
     volumes:
       - ./config/fork6/test.node.config.toml:/app/config.toml
       - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  x1-executor-fork6:
-    container_name: x1-executor
+  zkevm-executor-fork6:
+    container_name: zkevm-executor
     image: hermeznetwork/zkevm-prover:v3.0.2 
     ports:
       - 50061:50061 # MT
@@ -81,8 +81,8 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-prover-fork6:
-    container_name: x1-prover
+  zkevm-prover-fork6:
+    container_name: zkevm-prover
     image: hermeznetwork/zkevm-prover:v3.0.2 
     volumes:
       - /data/zkevm/v3.0.0-RC3-fork.6/config:/app/config
@@ -90,34 +90,13 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-bridge-service-fork6:
-    container_name: x1-bridge-service
-    image: x1-bridge-service-fork6
-    ports:
-      - 8080:8080
-      - 9090:9090
-    environment:
-      - ZKEVM_BRIDGE_DATABASE_USER=test_user
-      - ZKEVM_BRIDGE_DATABASE_PASSWORD=test_password
-      - ZKEVM_BRIDGE_DATABASE_NAME=test_db
-      - ZKEVM_BRIDGE_DATABASE_HOST=x1-bridge-db
-      - ZKEVM_BRIDGE_DATABASE_PORT=5432
-    volumes:
-      - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork6/config.bridge.toml:/app/config.toml
-      - ./config/root-ca-cert:/app/root-ca-cert
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/x1-bridge run --cfg /app/config.toml"
-
-  x1-eth-tx-manager-fork6:
-    container_name: x1-eth-tx-manager
-    image: x1-node-fork6
+  zkevm-eth-tx-manager-fork6:
+    container_name: zkevm-eth-tx-manager
+    image: zkevm-node-fork6
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
@@ -126,14 +105,14 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  x1-sequence-sender-fork6:
-    container_name: x1-sequence-sender
-    image: x1-node-fork6
+  zkevm-sequence-sender-fork6:
+    container_name: zkevm-sequence-sender
+    image: zkevm-node-fork6
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
@@ -142,13 +121,13 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  x1-l2gaspricer-fork6:
-    container_name: x1-l2gaspricer
-    image: x1-node-fork6
+  zkevm-l2gaspricer-fork6:
+    container_name: zkevm-l2gaspricer
+    image: zkevm-node-fork6
     environment:
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/fork6/test.node.config.toml:/app/config.toml
@@ -156,64 +135,51 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  x1-data-availability-fork6:
-    container_name: x1-data-availability
-    image: x1-data-availability-fork6
-    ports:
-      - 8444:8444
-    volumes:
-      - ./config/fork6/test.da.toml:/app/config.toml
-      - ./config/test-member.keystore:/pk/test-member.keystore
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/x1-data-availability run --cfg /app/config.toml"
-
-  x1-sequencer-fork7:
-    container_name: x1-sequencer
-    image: x1-node-fork7
+  zkevm-sequencer-fork7:
+    container_name: zkevm-sequencer
+    image: zkevm-node-fork7
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/fork7/test.node.config.toml:/app/config.toml
       - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  x1-json-rpc-fork7:
-    container_name: x1-json-rpc
-    image: x1-node-fork7
+  zkevm-json-rpc-fork7:
+    container_name: zkevm-json-rpc
+    image: zkevm-node-fork7
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
       - 9091:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/fork7/test.node.config.toml:/app/config.toml
       - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  x1-aggregator-fork7:
-    container_name: x1-aggregator
-    image: x1-node-fork7
+  zkevm-aggregator-fork7:
+    container_name: zkevm-aggregator
+    image: zkevm-node-fork7
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
       - ./config/fork7/test.node.config.toml:/app/config.toml
@@ -221,25 +187,25 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  x1-sync-fork7:
-    container_name: x1-sync
-    image: x1-node-fork7
+  zkevm-sync-fork7:
+    container_name: zkevm-sync
+    image: zkevm-node-fork7
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
     volumes:
       - ./config/fork7/test.node.config.toml:/app/config.toml
       - ./config/fork7/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  x1-executor-fork7:
-    container_name: x1-executor
+  zkevm-executor-fork7:
+    container_name: zkevm-executor
     image: hermeznetwork/zkevm-prover:v4.0.14
     ports:
       - 50061:50061 # MT
@@ -249,8 +215,8 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-prover-fork7:
-    container_name: x1-prover
+  zkevm-prover-fork7:
+    container_name: zkevm-prover
     image: hermeznetwork/zkevm-prover:v4.0.14
     volumes:
       - /data/zkevm/v4.0.0-rc.6-fork.7/config:/app/config
@@ -258,34 +224,13 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-bridge-service-fork7:
-    container_name: x1-bridge-service
-    image: x1-bridge-service-fork7
-    ports:
-      - 8080:8080
-      - 9090:9090
-    environment:
-      - ZKEVM_BRIDGE_DATABASE_USER=test_user
-      - ZKEVM_BRIDGE_DATABASE_PASSWORD=test_password
-      - ZKEVM_BRIDGE_DATABASE_NAME=test_db
-      - ZKEVM_BRIDGE_DATABASE_HOST=x1-bridge-db
-      - ZKEVM_BRIDGE_DATABASE_PORT=5432
-    volumes:
-      - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork7/config.bridge.toml:/app/config.toml
-      - ./config/root-ca-cert:/app/root-ca-cert
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/x1-bridge run --cfg /app/config.toml"
-
-  x1-eth-tx-manager-fork7:
-    container_name: x1-eth-tx-manager
-    image: x1-node-fork7
+  zkevm-eth-tx-manager-fork7:
+    container_name: zkevm-eth-tx-manager
+    image: zkevm-node-fork7
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
@@ -294,14 +239,14 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  x1-sequence-sender-fork7:
-    container_name: x1-sequence-sender
-    image: x1-node-fork7
+  zkevm-sequence-sender-fork7:
+    container_name: zkevm-sequence-sender
+    image: zkevm-node-fork7
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=zkevm-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
@@ -310,13 +255,13 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  x1-l2gaspricer-fork7:
-    container_name: x1-l2gaspricer
-    image: x1-node-fork7
+  zkevm-l2gaspricer-fork7:
+    container_name: zkevm-l2gaspricer
+    image: zkevm-node-fork7
     environment:
-      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_POOL_DB_HOST=zkevm-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
       - ./config/fork7/test.node.config.toml:/app/config.toml
@@ -324,68 +269,10 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+      - "/app/zkevm-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  x1-data-availability-fork7:
-    container_name: x1-data-availability
-    image: x1-data-availability-fork7
-    ports:
-      - 8444:8444
-    volumes:
-      - ./config/fork7/test.da.toml:/app/config.toml
-      - ./config/test-member.keystore:/pk/test-member.keystore
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/x1-data-availability run --cfg /app/config.toml"
-
-  x1-bridge-db:
-    container_name: x1-bridge-db
-    image: postgres
-    expose:
-      - 5436
-    ports:
-      - 5436:5432
-    environment:
-      - POSTGRES_USER=test_user
-      - POSTGRES_PASSWORD=test_password
-      - POSTGRES_DB=test_db
-    command: [ "postgres", "-N", "500" ]
-
-  x1-bridge-redis:
-    container_name: x1-bridge-redis
-    image: redis
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
-    expose:
-      - 6379
-    ports:
-      - 6379:6379
-    environment:
-      - REDIS_PASSWORD=my_password
-      - REDIS_PORT=6379
-      - REDIS_DATABASES=8
-
-  x1-data-availability-db:
-    container_name: x1-data-availability-db
-    image: postgres
-    ports:
-      - 5437:5432
-    environment:
-      - POSTGRES_USER=committee_user
-      - POSTGRES_PASSWORD=committee_password
-      - POSTGRES_DB=committee_db
-    command:
-      - "postgres"
-      - "-N"
-      - "500"
-
-  x1-state-db:
-    container_name: x1-state-db
+  zkevm-state-db:
+    container_name: zkevm-state-db
     image: postgres
     ports:
       - 5432:5432
@@ -400,8 +287,8 @@ services:
       - "-N"
       - "500"
 
-  x1-pool-db:
-    container_name: x1-pool-db
+  zkevm-pool-db:
+    container_name: zkevm-pool-db
     image: postgres
     ports:
       - 5433:5432
@@ -414,8 +301,8 @@ services:
       - "-N"
       - "500"
 
-  x1-event-db:
-    container_name: x1-event-db
+  zkevm-event-db:
+    container_name: zkevm-event-db
     image: postgres
     ports:
       - 5435:5432
@@ -430,47 +317,3 @@ services:
       - "-N"
       - "500"
 
-  x1-bridge-ui:
-    container_name: x1-bridge-ui
-    image: hermeznetwork/zkevm-bridge-ui:mainnet
-    ports:
-      - 8090:80
-    environment:
-      - ETHEREUM_RPC_URL=https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662
-      - ETHEREUM_EXPLORER_URL=http://16.162.168.223:4000
-      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS=0x9C12674286D3bdf98918C40A1C364227d02eF74F
-      - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
-      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS=0x99108c3DB4D193Fb4f6a8C735D0858498ebC56Ab
-      - POLYGON_ZK_EVM_RPC_URL=http://16.162.168.223:8123
-      - POLYGON_ZK_EVM_EXPLORER_URL=http://16.162.168.223:4001
-      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS=0x9C12674286D3bdf98918C40A1C364227d02eF74F
-      - POLYGON_ZK_EVM_NETWORK_ID=1
-      - BRIDGE_API_URL=http://16.162.168.223:8080
-      - ENABLE_FIAT_EXCHANGE_RATES=false
-      - ENABLE_OUTDATED_NETWORK_MODAL=false
-      - ENABLE_DEPOSIT_WARNING=true
-      - ENABLE_REPORT_FORM=false
-      - USE_FIAT_EXCHANGE_RATES=false
-      - SHOW_OUTDATED_NETWORK_MODAL=false
-
-
-  x1-bridge-coin-kafka:
-    image: wurstmeister/kafka
-    container_name: x1-bridge-coin-kafka
-    expose:
-      - 9092
-    environment:
-      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://localhost:9123
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
-      KAFKA_LISTENERS: INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:9123
-      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
-      KAFKA_ZOOKEEPER_CONNECT: kafka-zookeeper:2181
-      KAFKA_CREATE_TOPICS: "explorer_chainAddressPrice_push:1:1"
-
-  kafka-zookeeper:
-    image: wurstmeister/zookeeper
-    container_name: kafka-zookeeper
-    ports:
-      - "2181:2181"
-    expose:
-      - 2181
