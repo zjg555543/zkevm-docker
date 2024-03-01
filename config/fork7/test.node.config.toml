@@ -84,7 +84,7 @@ DisableAPIs = []
 SyncInterval = "1s"
 SyncChunkSize = 100
 TrustedSequencerURL = "http://x1-json-rpc:8123" # If it is empty or not specified, then the value is read from the smc.
-L1SynchronizationMode = "sequential" # "sequential" or "parallel"
+L1SynchronizationMode = "parallel" # "sequential" or "parallel"
 	[Synchronizer.L1ParallelSynchronization]
 		MaxClients = 10
 		MaxPendingNoProcessedBlocks = 25
