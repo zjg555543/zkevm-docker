@@ -3,8 +3,8 @@ PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 [L1]
 WsURL = "wss://sepolia.infura.io/ws/v3/6d3d0adfe7c74dcb87642b37f1477aec"
 RpcURL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
-ZkEVMAddress = "0xe14fc607c46344850A66F09175E851D0e7eB9684"
-DataCommitteeAddress = "0x9b4eFAa692A120bd4Fd0632CCA45351970494dcc"
+ZkEVMAddress = "0x1D7c6F9642DBA8416540930baEB89f435EeFA0f5"
+DataCommitteeAddress = "0x95f1aa6DbFb073f346523BF2e0D8996aFfCA26A2"
 Timeout = "3m"
 RetryPeriod = "5s"
 
