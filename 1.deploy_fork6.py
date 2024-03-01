@@ -2,9 +2,9 @@ import subprocess
 import logging
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
 
-genAccount = "0xe4A1860D01Fdd99102d4Ac659b719150d46975A5"
-genPriveKey = "cdaa6615bcdd09c4ab01f6de1fd0fa88f18f2c74f703e4ba39dbdfbbfb9c59f5"
-genMnemonic = "impact actual insane eight abuse nose awful spike loan caught notice nice"
+genAccount = "0x4E1eDE630015b6124555920cE07340055a83fFa4"
+genPriveKey = "0x0a9d0d0c583897af3bd66ce1209a393c364f61d53c251416c6ff3f03a2d156db"
+genMnemonic = "view bleak actress village ride dismiss load sausage want fitness cloth quantum"
 
 def greet(name):
     print(f"Hello, {name}!")
@@ -40,8 +40,8 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
 
     # 部署合约
-    # command = "cd ./x1-contracts; npm run deploy:deployer:ZkEVM:sepolia; npm run  deploy:ZkEVM:sepolia; npm run  verify:ZkEVM:sepolia; cat deployment/genesis.json; cat deployment/deploy_output.json "
-    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    command = "cd ./x1-contracts; npm run deploy:deployer:ZkEVM:sepolia; npm run  deploy:ZkEVM:sepolia; npm run  verify:ZkEVM:sepolia; cat deployment/genesis.json; cat deployment/deploy_output.json "
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
 
 
 
