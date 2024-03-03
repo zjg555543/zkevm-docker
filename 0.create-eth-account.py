@@ -1,3 +1,4 @@
+import json
 from eth_account import Account
 
 Account.enable_unaudited_hdwallet_features()
@@ -15,3 +16,15 @@ print(f"Address:        {address}")
 print(f"Private Key:    {private_key}")
 print(f"Mnemonic:       {mnemonic}")
 print("\n")
+
+# 构建包含账户信息的字典
+account_info = {
+    "address": address,
+    "private_key": private_key,
+    "mnemonic": mnemonic
+}
+
+# 将字典保存为 JSON 文件
+json_file_path = 'account_info.json'  # 替换为你的实际 JSON 文件路径
+with open(json_file_path, 'w') as json_file:
+    json.dump(account_info, json_file, indent=2)

@@ -52,53 +52,53 @@ if __name__ == '__main__':
     print('Upgrade fork7...')
 
     # 编译合约
-    # command = '''
-    # rm -rf fork7;
-    # mkdir fork7;
-    # cd fork7;
-    # git clone https://github.com/jiaji-wei/x1-contracts.git;
-    # cd ./x1-contracts;
-    # git checkout zkevm/v4.0.0-fork.7; 
-    # cp ../../fork6/x1-contracts/deployment/deploy_parameters.json upgrade/upgradeToV2/;
-    # cp ../../fork6/x1-contracts/deployment/deploy_output.json upgrade/upgradeToV2/;
-    # cp -rf ../../fork6/x1-contracts/.openzeppelin .;
-    # cp ../../fork6/x1-contracts/.env .;
-    # cd upgrade/upgradeToV2/;
-    # cp upgrade_parameters.json.example upgrade_parameters.json;
-    # '''
-    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    # logging.info(result.stdout)
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'consensusContract', "PolygonValidiumEtrogIsolated")
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'dataAvailabilityProtocol', "PolygonDataCommittee")
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_output.json', 'gasTokenAddress', OKBAddress)
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', True)
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockDelay', 360)
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000000")
-    # replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'polTokenAddress', OKBAddress)
+    command = '''
+    rm -rf fork7;
+    mkdir fork7;
+    cd fork7;
+    git clone https://github.com/jiaji-wei/x1-contracts.git;
+    cd ./x1-contracts;
+    git checkout zkevm/v4.0.0-fork.7; 
+    cp ../../fork6/x1-contracts/deployment/deploy_parameters.json upgrade/upgradeToV2/;
+    cp ../../fork6/x1-contracts/deployment/deploy_output.json upgrade/upgradeToV2/;
+    cp -rf ../../fork6/x1-contracts/.openzeppelin .;
+    cp ../../fork6/x1-contracts/.env .;
+    cd upgrade/upgradeToV2/;
+    cp upgrade_parameters.json.example upgrade_parameters.json;
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'consensusContract', "PolygonValidiumEtrogIsolated")
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'dataAvailabilityProtocol', "PolygonDataCommittee")
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/deploy_output.json', 'gasTokenAddress', OKBAddress)
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', True)
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockDelay', 360)
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000000")
+    replace_file('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'polTokenAddress', OKBAddress)
 
     # 部署合约
-    # command = '''
-    # cd fork7/x1-contracts;
-    # npm i;
-    # npm run upgradev2:timelock:sepolia;
-    # cat upgrade/upgradeToV2/upgrade_output.json
-    # '''
-    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    # logging.info(result.stdout)
+    command = '''
+    cd fork7/x1-contracts;
+    npm i;
+    npm run upgradev2:timelock:sepolia;
+    cat upgrade/upgradeToV2/upgrade_output.json
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
 
     # 编译节点
-    # command = '''
-    # cd fork7;
-    # git clone -b zjg/fork7-upgrade https://github.com/okx/x1-node.git;
-    # cd x1-node;
-    # docker build -t x1-node-fork7 -f ./Dockerfile .
-    # cd ../;
-    # git clone -b zjg/fork7-upgrade https://github.com/okx/x1-data-availability.git
-    # cd x1-data-availability;
-    # docker build -t x1-data-availability-fork7 -f ./Dockerfile .
-    # '''
-    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    # logging.info(result.stdout)
+    command = '''
+    cd fork7;
+    git clone -b zjg/fork7-upgrade https://github.com/okx/x1-node.git;
+    cd x1-node;
+    docker build -t x1-node-fork7 -f ./Dockerfile .
+    cd ../;
+    git clone -b zjg/fork7-upgrade https://github.com/okx/x1-data-availability.git
+    cd x1-data-availability;
+    docker build -t x1-data-availability-fork7 -f ./Dockerfile .
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
 
     # 配置节点
     rollupmgr = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
@@ -107,11 +107,11 @@ if __name__ == '__main__':
     genesisStr = get_genesis('./fork6/x1-contracts/deployment/genesis.json')
 
     dataCommitteeContract = get_value('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
-    polygonZkEVMAddress = get_value('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
+    newPolygonZKEVM = get_value('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
 
-    replace_variable('./config/fork7/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork7/test.da.toml', '{PolygonValidiumAddress}', newPolygonZKEVM)
     replace_variable('./config/fork7/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
-    replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMAddress}', newPolygonZKEVM)
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonRollupManagerAddress}', rollupmgr)
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)

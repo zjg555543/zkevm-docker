@@ -3,10 +3,6 @@ import logging
 import json
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
 
-genAccount = "0xC7BfFA34425A7DE568a50519cA75193523bFef53"
-genPriveKey = "0x7cef03307b6920714c776ed055f2d59792f77ad1a375a50644d628bdcdfbe8fd"
-genMnemonic = "average citizen crumble myself garden bacon release banner repeat siege pear spare"
-
 def replace_variable(file_path, variable_name, new_value):
     # logging.info("file_path: " + file_path + " variable_name: " + variable_name + " new_value: " + new_value)
     with open(file_path, 'r') as file:
@@ -38,8 +34,18 @@ def get_genesis(file_path):
 
     return str(new_json_data)
 
+def loadAccount():
+    # 读取JSON文件
+    with open("account_info.json", 'r') as json_file:
+        account_info = json.load(json_file)
+    return account_info
+
 if __name__ == '__main__':
     print('Deploying fork6...')
+    account = loadAccount()
+    genAccount = account["address"]
+    genPriveKey = account["private_key"]
+    genMnemonic = account["mnemonic"]
 
     command = '''
     docker stop $(docker ps -aq); 
