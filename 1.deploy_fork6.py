@@ -41,38 +41,72 @@ def get_genesis(file_path):
 if __name__ == '__main__':
     print('Deploying fork6...')
 
-    command = "docker stop $(docker ps -aq); docker rm $(docker ps -aq);docker ps -a;docker rmi --force $(docker images -q);docker images"
+    command = '''
+    docker stop $(docker ps -aq); 
+    docker rm $(docker ps -aq);
+    docker ps -a;
+    docker rmi --force $(docker images -q);
+    docker images
+    '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 编译合约
-    command = "rm -rf x1-contracts; git clone -b release/v0.2.0 https://github.com/okx/x1-contracts.git; cd ./x1-contracts; cp ../config/deployment/deploy_parameters.json deployment/deploy_parameters.json;  cp ../config/deployment/.env .env;  cp ../config/deployment/hardhat.config.js hardhat.config.js;  cp ../config/deployment/1_createGenesis.js deployment/1_createGenesis.js"
+    command = '''
+    rm -rf fork6; 
+    mkdir fork6;
+    cd fork6; 
+    git clone -b release/v0.2.0 https://github.com/okx/x1-contracts.git; 
+    cd ./x1-contracts; 
+    cp ../config/deployment/deploy_parameters.json deployment/deploy_parameters.json;  
+    cp ../config/deployment/.env .env;  
+    cp ../config/deployment/hardhat.config.js hardhat.config.js;  
+    cp ../config/deployment/1_createGenesis.js deployment/1_createGenesis.js
+    '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./x1-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork6/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork6/x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+
+    # 部署合约
+    command = '''
+    cd ./fork6/x1-contracts; 
+    npm i; 
+    npm run deploy:deployer:ZkEVM:sepolia; 
+    npm run  deploy:ZkEVM:sepolia; 
+    npm run  verify:ZkEVM:sepolia; 
+    cat deployment/genesis.json; 
+    cat deployment/deploy_output.json 
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
 
     # 编译node
-    command = "rm -rf x1-node; git clone -b release/v0.2.0 https://github.com/okx/x1-node.git; cd x1-node; docker build -t x1-node-fork6 -f ./Dockerfile ."
+    command = '''
+    cd fork6; 
+    git clone -b release/v0.2.0 https://github.com/okx/x1-node.git; 
+    cd x1-node; 
+    docker build -t x1-node-fork6 -f ./Dockerfile .
+    '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 编译da
-    command = "rm -rf x1-data-availability; git clone -b release/v0.2.0 https://github.com/okx/x1-data-availability.git; cd x1-data-availability; docker build -t x1-data-availability-fork6 -f ./Dockerfile ."
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 部署合约
-    command = "cd ./x1-contracts; npm i; npm run deploy:deployer:ZkEVM:sepolia; npm run  deploy:ZkEVM:sepolia; npm run  verify:ZkEVM:sepolia; cat deployment/genesis.json; cat deployment/deploy_output.json "
+    command = '''
+    cd fork6;
+    git clone -b release/v0.2.0 https://github.com/okx/x1-data-availability.git; 
+    cd x1-data-availability; 
+    docker build -t x1-data-availability-fork6 -f ./Dockerfile .
+    '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 替换文件
-    polygonZkEVMAddress = get_value('./x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    dataCommitteeContract = get_value('./x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
-    deploymentBlockNumber = get_value('./x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
-    genesisStr = get_genesis('./x1-contracts/deployment/genesis.json')
+    polygonZkEVMAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    dataCommitteeContract = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
+    deploymentBlockNumber = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    genesisStr = get_genesis('./fork6/x1-contracts/deployment/genesis.json')
 
     replace_variable('./config/fork6/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork6/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
@@ -80,7 +114,6 @@ if __name__ == '__main__':
     replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork6/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork6/test.genesis.config.json', '{genesis}', genesisStr)
-
 
     # 设置da地址
     command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://x1-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
