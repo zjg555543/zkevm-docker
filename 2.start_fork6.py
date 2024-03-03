@@ -34,16 +34,23 @@ if __name__ == '__main__':
 
     sleep 3
     docker-compose up -d x1-executor-fork6
+    sleep 3
     docker-compose up -d x1-prover-fork6
+    sleep 3
     docker-compose up -d x1-sync-fork6
-
     sleep 3
     docker-compose up -d x1-eth-tx-manager-fork6
+    sleep 3
     docker-compose up -d x1-sequencer-fork6
+    sleep 3
     docker-compose up -d x1-sequence-sender-fork6
+    sleep 3
     docker-compose up -d x1-l2gaspricer-fork6
+    sleep 3
     docker-compose up -d x1-aggregator-fork6
+    sleep 3
     docker-compose up -d x1-json-rpc-fork6
+    sleep 3
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
@@ -52,7 +59,6 @@ if __name__ == '__main__':
     account = loadAccount()
     genAccount = account["address"]
     genPriveKey = account["private_key"]
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {newZKEVM} 'setDataAvailabilityProtocol(address)'  {dataCommitteeContract}"
     command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url http://127.0.0.1:8123 0xC949254d682D8c9ad5682521675b8F43b102aec4 --value 0.0001ether"
 
     command = command.replace("{genAccount}", account["address"])
