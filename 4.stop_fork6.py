@@ -32,6 +32,7 @@ if __name__ == '__main__':
 
     docker rm x1-data-availability
     docker rm x1-executor
+    docker stop x1-prover
     docker rm x1-prover
     docker rm x1-sync
 

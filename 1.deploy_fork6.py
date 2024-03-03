@@ -130,3 +130,6 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
+    logging.info("docker-compose logs --tail 50 -f | grep x1-sequencer")
+    logging.info("Deploy fork6 done.")
+
