@@ -30,17 +30,17 @@ if __name__ == '__main__':
     docker-compose stop x1-aggregator-fork6
     docker-compose stop x1-json-rpc-fork6
 
-    docker-compose rm x1-data-availability-fork6
-    docker-compose rm x1-executor-fork6
-    docker-compose rm x1-prover-fork6
-    docker-compose rm x1-sync-fork6
+    docker rm x1-data-availability-fork6
+    docker rm x1-executor-fork6
+    docker rm x1-prover-fork6
+    docker rm x1-sync-fork6
 
-    docker-compose rm x1-eth-tx-manager-fork6
-    docker-compose rm x1-sequencer-fork6
-    docker-compose rm x1-sequence-sender-fork6
-    docker-compose rm x1-l2gaspricer-fork6
-    docker-compose rm x1-aggregator-fork6
-    docker-compose rm x1-json-rpc-fork6
+    docker rm x1-eth-tx-manager-fork6
+    docker rm x1-sequencer-fork6
+    docker rm x1-sequence-sender-fork6
+    docker rm x1-l2gaspricer-fork6
+    docker rm x1-aggregator-fork6
+    docker rm x1-json-rpc-fork6
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
