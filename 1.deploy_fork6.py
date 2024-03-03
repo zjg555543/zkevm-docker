@@ -78,9 +78,9 @@ if __name__ == '__main__':
     command = '''
     cd ./fork6/zkevm-contracts; 
     npm i; 
-    npm run deploy:deployer:ZkEVM:sepolia; 
-    npm run  deploy:ZkEVM:sepolia; 
-    npm run  verify:ZkEVM:sepolia; 
+    npm run deploy:deployer:ZkEVM:goerli; 
+    npm run  deploy:ZkEVM:goerli; 
+    npm run  verify:ZkEVM:goerli; 
     cat deployment/genesis.json; 
     cat deployment/deploy_output.json 
     '''

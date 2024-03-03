@@ -33,7 +33,7 @@ if __name__ == '__main__':
     print('Set fork7 da...')
 
     # 设置newZKEVM合约
-    # newPolygonZKEVM = get_value('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
+    # newPolygonZKEVM = get_value('./fork7/zkevm-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
     # account = loadAccount()
     
     # command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {newZKEVM} 'setDataAvailabilityProtocol(address)'  {dataCommitteeContract}"
