@@ -116,4 +116,5 @@ if __name__ == '__main__':
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesis}', genesisStr)
+    replace_variable('./config/fork6/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
 
