@@ -8,7 +8,7 @@ genPriveKey = "0x7cef03307b6920714c776ed055f2d59792f77ad1a375a50644d628bdcdfbe8f
 genMnemonic = "average citizen crumble myself garden bacon release banner repeat siege pear spare"
 
 def replace_variable(file_path, variable_name, new_value):
-    logging.info("file_path: " + file_path)
+    # logging.info("file_path: " + file_path + " variable_name: " + variable_name + " new_value: " + new_value)
     with open(file_path, 'r') as file:
         file_content = file.read()
 
@@ -24,9 +24,19 @@ def get_value(file_path, key):
 
     # 获取 "polygonZkEVMAddress" 的值
     value = data.get(key, None)
+    return str(value)
 
-    # 打印结果
-    print("value 的值是:", value)
+def get_genesis(file_path):
+    # 读取JSON文件
+    lines = []
+    with open(file_path, 'r') as file:
+        lines = file.readlines()
+    # 删除第一行和最后一行
+    lines = lines[1:-1]
+
+    new_json_data = ''.join(lines)
+
+    return str(new_json_data)
 
 if __name__ == '__main__':
     print('Deploying fork6...')
@@ -57,8 +67,14 @@ if __name__ == '__main__':
     polygonZkEVMGlobalExitRootAddress = get_value('./x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     dataCommitteeContract = get_value('./x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
     deploymentBlockNumber = get_value('./x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    genesisStr = get_genesis('./x1-contracts/deployment/genesis.json')
 
-    replace_variable('./x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./config/fork6/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork6/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+    replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork6/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork6/test.genesis.config.json', '{genesis}', genesisStr)
 
 
 
