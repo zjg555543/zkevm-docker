@@ -1,5 +1,6 @@
 import subprocess
 import logging
+import json
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
 
 def get_genesis(file_path):
@@ -13,6 +14,13 @@ def get_genesis(file_path):
     new_json_data = ''.join(lines)
 
     return str(new_json_data)
+
+def loadAccount():
+    # 读取JSON文件
+    with open("account_info.json", 'r') as json_file:
+        account_info = json.load(json_file)
+    return account_info
+
 
 if __name__ == '__main__':
     print('Deploying fork6...')
@@ -38,6 +46,18 @@ if __name__ == '__main__':
     docker-compose up -d x1-json-rpc-fork6
 
     '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+
+    account = loadAccount()
+    genAccount = account["address"]
+    genPriveKey = account["private_key"]
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {newZKEVM} 'setDataAvailabilityProtocol(address)'  {dataCommitteeContract}"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url http://127.0.0.1:8123 0xC949254d682D8c9ad5682521675b8F43b102aec4 --value 0.0001ether"
+
+    command = command.replace("{genAccount}", account["address"])
+    command = command.replace("{genPriveKey}", account["private_key"])
+
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
     
