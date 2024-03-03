@@ -30,6 +30,8 @@ if __name__ == '__main__':
     docker-compose up -d x1-pool-db
     docker-compose up -d x1-event-db
     docker-compose up -d x1-data-availability-db
+
+    sleep 3
     docker-compose up -d x1-data-availability-fork6
 
     sleep 3
