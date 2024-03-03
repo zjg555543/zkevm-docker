@@ -56,7 +56,7 @@ if __name__ == '__main__':
     rm -rf fork7;
     mkdir fork7;
     cd fork7;
-    git clone https://github.com/jiaji-wei/x1-contracts.git;
+    git clone https://github.com/zjg555543/x1-contracts.git;
     cd ./x1-contracts;
     git checkout zkevm/v4.0.0-fork.7; 
     cp ../../fork6/x1-contracts/deployment/deploy_parameters.json upgrade/upgradeToV2/;
