@@ -89,7 +89,7 @@ if __name__ == '__main__':
     # 编译节点
     command = '''
     cd fork7;
-    git clone -b zjg/fork7-upgrade https://github.com/okx/x1-node.git;
+    git clone -b zjg/fork7-upgrade-temp https://github.com/okx/x1-node.git;
     cd x1-node;
     docker build -t x1-node-fork7 -f ./Dockerfile .
     cd ../;
