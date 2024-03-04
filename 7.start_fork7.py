@@ -19,19 +19,28 @@ if __name__ == '__main__':
 
     command = '''
     docker-compose up -d x1-executor-fork7
+    sleep 3
     docker-compose up -d  x1-sync-fork7
-
-    # docker-compose up -d x1-data-availability-fork7
-    # docker-compose up -d x1-prover-fork7
-    # docker-compose up -d x1-sequencer-fork7
-
-    # docker-compose up -d x1-eth-tx-manager-fork7
-    # docker-compose up -d x1-sequence-sender-fork7
-    # docker-compose up -d x1-l2gaspricer-fork7
-    # docker-compose up -d x1-aggregator-fork7
-    # docker-compose up -d x1-json-rpc-fork7
+    sleep 3
+    docker-compose up -d x1-data-availability-fork7
+    sleep 3
+    docker-compose up -d x1-prover-fork7
+    sleep 3
+    docker-compose up -d x1-sequencer-fork7
+    sleep 3
+    docker-compose up -d x1-eth-tx-manager-fork7
+    sleep 3
+    docker-compose up -d x1-sequence-sender-fork7
+    sleep 3
+    docker-compose up -d x1-l2gaspricer-fork7
+    sleep 3
+    docker-compose up -d x1-aggregator-fork7
+    sleep 3
+    docker-compose up -d x1-json-rpc-fork7
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
+
+    logging.info("docker-compose logs --tail 10 -f")
     
