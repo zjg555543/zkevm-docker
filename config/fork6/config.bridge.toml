@@ -71,4 +71,4 @@ RootCAPath = "/app/root-ca-cert"
 GenBlockNumber = {GenBlockNumber} 
 PolygonBridgeAddress = "{PolygonBridgeAddress}"
 PolygonZkEVMGlobalExitRootAddress = "{PolygonZkEVMGlobalExitRootAddress}"
-L2PolygonBridgeAddresses = ["{L2PolygonBridgeAddresses}"]
+L2PolygonBridgeAddresses = ["{PolygonBridgeAddress}"]
