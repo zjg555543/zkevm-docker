@@ -129,7 +129,7 @@ if __name__ == '__main__':
     replace_variable('./config/fork7/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEvmAddress}', newPolygonZKEVM)
 
-    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
-    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', newPolygonZKEVM)
-    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK7}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK7}', newPolygonZKEVM)
+    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK7}', polygonZkEVMBridgeAddress)
 
