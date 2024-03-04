@@ -135,9 +135,9 @@ if __name__ == '__main__':
     replace_variable('./config/fork6/test.genesis.config.json', '{genesis}', genesisStr)
     replace_variable('./config/fork6/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
 
-    replace_variable('./config/fork6/config.birdge.toml', '{GenBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork6/config.birdge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork6/config.birdge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork6/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork6/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork6/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
 
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', polygonZkEVMAddress)

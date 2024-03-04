@@ -123,9 +123,11 @@ if __name__ == '__main__':
     replace_variable('./config/fork7/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesis}', genesisStr)
 
-    replace_variable('./config/fork7/config.birdge.toml', '{GenBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork7/config.birdge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork7/config.birdge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork7/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', rollupmgr)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEvmAddress}', newPolygonZKEVM)
 
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', newPolygonZKEVM)
