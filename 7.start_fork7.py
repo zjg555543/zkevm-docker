@@ -37,6 +37,10 @@ if __name__ == '__main__':
     docker-compose up -d x1-aggregator-fork7
     sleep 3
     docker-compose up -d x1-json-rpc-fork7
+    sleep 3
+    docker-compose up -d x1-bridge-service-fork7
+    sleep 3
+    docker-compose up -d x1-bridge-ui-fork7
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

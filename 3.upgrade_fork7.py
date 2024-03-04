@@ -96,6 +96,10 @@ if __name__ == '__main__':
     git clone -b zjg/fork7-upgrade https://github.com/okx/x1-data-availability.git
     cd x1-data-availability;
     docker build -t x1-data-availability-fork7 -f ./Dockerfile .
+    cd ../;
+    git clone -b fork7-split https://github.com/okx/x1-bridge-service.git
+    cd x1-bridge-service;
+    docker build -t x1-bridge-service-fork7 -f ./Dockerfile .
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
@@ -104,6 +108,7 @@ if __name__ == '__main__':
     rollupmgr = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     deploymentBlockNumber = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    polygonZkEVMBridgeAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork6/x1-contracts/deployment/genesis.json')
 
     dataCommitteeContract = get_value('./fork7/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
@@ -111,10 +116,18 @@ if __name__ == '__main__':
 
     replace_variable('./config/fork7/test.da.toml', '{PolygonValidiumAddress}', newPolygonZKEVM)
     replace_variable('./config/fork7/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMAddress}', newPolygonZKEVM)
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonRollupManagerAddress}', rollupmgr)
     replace_variable('./config/fork7/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork7/test.genesis.config.json', '{genesis}', genesisStr)
-    replace_variable('./config/fork6/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
+
+    replace_variable('./config/fork7/config.birdge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork7/config.birdge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork7/config.birdge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+
+    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', newPolygonZKEVM)
+    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
 

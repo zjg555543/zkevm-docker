@@ -30,6 +30,8 @@ if __name__ == '__main__':
     docker-compose up -d x1-pool-db
     docker-compose up -d x1-event-db
     docker-compose up -d x1-data-availability-db
+    docker-compose up -d x1-bridge-db
+    docker-compose up -d x1-bridge-redis
 
     sleep 3
     docker-compose up -d x1-data-availability-fork6
@@ -53,6 +55,13 @@ if __name__ == '__main__':
     sleep 3
     docker-compose up -d x1-json-rpc-fork6
     sleep 3
+    docker-compose up -d kafka-zookeeper
+    sleep 3
+    docker-compose up -d x1-bridge-coin-kafka
+    sleep 3
+    docker-compose up -d x1-bridge-service-fork6
+    sleep 3
+    docker-compose up -d x1-bridge-ui-fork6
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

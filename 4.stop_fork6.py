@@ -29,10 +29,14 @@ if __name__ == '__main__':
     docker-compose stop x1-l2gaspricer-fork6
     docker-compose stop x1-aggregator-fork6
     docker-compose stop x1-json-rpc-fork6
+    docker-compose stop x1-bridge-service-fork6
+    docker-compose stop x1-bridge-ui-fork6
+    sleep 3
 
     docker rm x1-data-availability
     docker rm x1-executor
     docker stop x1-prover
+    sleep 3
     docker rm x1-prover
     docker rm x1-sync
 
@@ -42,6 +46,8 @@ if __name__ == '__main__':
     docker rm x1-l2gaspricer
     docker rm x1-aggregator
     docker rm x1-json-rpc
+    docker rm x1-bridge-service
+    docker rm x1-bridge-ui
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

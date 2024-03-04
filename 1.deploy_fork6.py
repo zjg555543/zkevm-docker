@@ -107,20 +107,41 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
+    # 编译bridge
+    command = ''' 
+    cd fork6;
+    git clone -b release/v0.2.0 https://github.com/okx/x1-bridge-service.git;
+    cd x1-bridge-service;
+    docker build -t x1-bridge-service-fork6 -f ./Dockerfile .
+    '''
+
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+
     # 替换文件
     polygonZkEVMAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     dataCommitteeContract = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
     deploymentBlockNumber = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    polygonZkEVMBridgeAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork6/x1-contracts/deployment/genesis.json')
 
     replace_variable('./config/fork6/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork6/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+
     replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork6/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork6/test.genesis.config.json', '{genesis}', genesisStr)
     replace_variable('./config/fork6/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
+
+    replace_variable('./config/fork6/config.birdge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork6/config.birdge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork6/config.birdge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+
+    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', polygonZkEVMAddress)
+    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
 
     # 设置da地址
     command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://x1-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
