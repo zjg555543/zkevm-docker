@@ -62,7 +62,7 @@ if __name__ == '__main__':
     rm -rf fork8; 
     mkdir fork8;
     cd fork8; 
-    git clone -b release/v0.2.0 https://github.com/okx/x1-contracts.git; 
+    git clone -b zjg/v5.0.0-rc.2-fork.8 https://github.com/okx/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/deploy_parameters.json deployment/deploy_parameters.json;  
     cp ../../config/deployment/.env .env;  
