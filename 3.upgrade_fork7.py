@@ -125,8 +125,8 @@ if __name__ == '__main__':
 
     replace_variable('./config/fork7/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork7/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', rollupmgr)
-    replace_variable('./config/fork7/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork7/config.bridge.toml', '{PolygonRollupManagerAddress}', rollupmgr)
     replace_variable('./config/fork7/config.bridge.toml', '{PolygonZkEvmAddress}', newPolygonZKEVM)
 
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK7}', polygonZkEVMBridgeAddress)

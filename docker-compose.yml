@@ -345,7 +345,7 @@ services:
     expose:
       - 5436
     ports:
-      - 5436:5432
+      - 5434:5432
     environment:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=test_password
