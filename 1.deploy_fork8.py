@@ -62,28 +62,26 @@ if __name__ == '__main__':
     rm -rf fork8; 
     mkdir fork8;
     cd fork8; 
-    git clone -b zjg/v5.0.0-rc.2-fork.8 https://github.com/okx/x1-contracts.git; 
+    git clone -b zkevm/v5.0.0-rc.2-fork.8-upgrade https://github.com/jiaji-wei/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/.env .env;  
-    cp ../../config/deployment/1_createGenesis.ts deployment/v2/1_createGenesis.ts
-    cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json
+    cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
     cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
     replace_variable('./fork8/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork8/x1-contracts/v2/deployment/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork8/x1-contracts/v2/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork8/x1-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork8/x1-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
     cd ./fork8/x1-contracts; 
     npm i; 
-    npm run deploy:testnet:v2:sepolia; 
+    npm run deploy:v2:sepolia; 
     npm run  verify:v2:sepolia; 
     cat deployment/v2/create_rollup_output.json;
     cat deployment/v2/deploy_output.json;
-    cat deployment/v2/genesis.json;
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
@@ -120,19 +118,20 @@ if __name__ == '__main__':
     logging.info(result.stdout)
 
     # 替换文件
-    dataCommitteeContract = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommittee')
-    deploymentBlockNumber = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlock')
+    dataCommitteeContract = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
+    deploymentBlockNumber = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
     rollupAddress = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
-    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonRollupManager')
+    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     polygonZkEVMBridgeAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork8/x1-contracts/deployment/v2/genesis.json')
 
-    replace_variable('./config/fork8/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork8/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
 
     replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonRollupManagerAddress}', rollupAddress)
     replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork8/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork8/test.genesis.config.json', '{genesis}', genesisStr)
@@ -151,6 +150,7 @@ if __name__ == '__main__':
     command = command.replace("{genAccount}", genAccount)
     command = command.replace("{genPriveKey}", genPriveKey)
     command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
+    logging.info(command)
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 

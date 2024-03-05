@@ -72,7 +72,7 @@ services:
 
   x1-executor-fork8:
     container_name: x1-executor
-    image: hermeznetwork/zkevm-prover:v4.0.14
+    image: hermeznetwork/zkevm-prover:v5.0.3
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
@@ -83,7 +83,7 @@ services:
 
   x1-prover-fork8:
     container_name: x1-prover
-    image: hermeznetwork/zkevm-prover:v4.0.14
+    image: hermeznetwork/zkevm-prover:v5.0.3
     volumes:
       - /data/zkevm/v4.0.0-rc.6-fork.7/config:/app/config
       - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
