@@ -120,9 +120,9 @@ if __name__ == '__main__':
     # 替换文件
     dataCommitteeContract = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
     deploymentBlockNumber = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    rollupAddress = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
-    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonRollupManagerAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     polygonZkEVMBridgeAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork8/x1-contracts/deployment/v2/genesis.json')
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
 
     replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork8/test.genesis.config.json', '{polygonRollupManagerAddress}', rollupAddress)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
     replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
     replace_variable('./config/fork8/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork8/test.genesis.config.json', '{genesis}', genesisStr)
@@ -140,6 +140,8 @@ if __name__ == '__main__':
     replace_variable('./config/fork8/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork8/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
     replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonRollupManagerAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEvmAddress}', polygonZkEVMAddress)
 
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', polygonZkEVMAddress)
