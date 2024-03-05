@@ -7,7 +7,7 @@
     "chainID": 195,
     "adminZkEVM":"{ADMIN}",
     "forkID": 8,
-    "consensusContract": "PolygonValidiumEtrog",
+    "consensusContract": "PolygonValidiumEtrogIsolated",
     "dataAvailabilityProtocol": "PolygonDataCommittee",
     "gasTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
     "deployerPvtKey": "",

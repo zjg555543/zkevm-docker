@@ -18,7 +18,7 @@ Outputs = ["stderr"]
 		[State.Batch.Constraints]
 		MaxTxsPerBatch = 300
 		MaxBatchBytesSize = 120000
-		MaxCumulativeGasUsed = 9223372036854775807
+		MaxCumulativeGasUsed = 1125899906842624
 		MaxKeccakHashes = 2145
 		MaxPoseidonHashes = 252357
 		MaxPoseidonPaddings = 135191
@@ -84,7 +84,7 @@ DisableAPIs = []
 SyncInterval = "1s"
 SyncChunkSize = 100
 TrustedSequencerURL = "http://x1-json-rpc:8123" # If it is empty or not specified, then the value is read from the smc.
-L1SynchronizationMode = "parallel" # "sequential" or "parallel"
+L1SynchronizationMode = "sequential"
 	[Synchronizer.L1ParallelSynchronization]
 		MaxClients = 10
 		MaxPendingNoProcessedBlocks = 25
@@ -119,6 +119,9 @@ StateConsistencyCheckInterval = "5s"
 		HaltOnBatchNumber = 0
 		SequentialBatchSanityCheck = false
 		SequentialProcessL2Block = true
+	[Sequencer.Finalizer.Metrics]
+		Interval = "60m"
+		EnableLog = true		
 	[Sequencer.StreamServer]
 		Port = 6900
 		Filename = "/datastreamer/datastream.bin"
@@ -151,6 +154,7 @@ SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 UpgradeEtrogBatchNumber = 0
+BatchProofL1BlockConfirmations = 2
 
 [EthTxManager]
 GasPriceMarginFactor = 2
