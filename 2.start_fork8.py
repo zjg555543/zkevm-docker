@@ -16,7 +16,7 @@ def get_genesis(file_path):
     return str(new_json_data)
 
 if __name__ == '__main__':
-    print('Deploying fork6...')
+    print('Deploying fork8...')
 
     command = '''
     docker-compose up -d x1-state-db
@@ -27,34 +27,34 @@ if __name__ == '__main__':
     docker-compose up -d x1-bridge-redis
 
     sleep 3
-    docker-compose up -d x1-data-availability-fork6
+    docker-compose up -d x1-data-availability-fork8
 
     sleep 3
-    docker-compose up -d x1-executor-fork6
+    docker-compose up -d x1-executor-fork8
     sleep 3
-    docker-compose up -d x1-prover-fork6
+    docker-compose up -d x1-prover-fork8
     sleep 3
-    docker-compose up -d x1-sync-fork6
+    docker-compose up -d x1-sync-fork8
     sleep 3
-    docker-compose up -d x1-eth-tx-manager-fork6
+    docker-compose up -d x1-eth-tx-manager-fork8
     sleep 3
-    docker-compose up -d x1-sequencer-fork6
+    docker-compose up -d x1-sequencer-fork8
     sleep 3
-    docker-compose up -d x1-sequence-sender-fork6
+    docker-compose up -d x1-sequence-sender-fork8
     sleep 3
-    docker-compose up -d x1-l2gaspricer-fork6
+    docker-compose up -d x1-l2gaspricer-fork8
     sleep 3
-    docker-compose up -d x1-aggregator-fork6
+    docker-compose up -d x1-aggregator-fork8
     sleep 3
-    docker-compose up -d x1-json-rpc-fork6
+    docker-compose up -d x1-json-rpc-fork8
     sleep 3
     docker-compose up -d kafka-zookeeper
     sleep 3
     docker-compose up -d x1-bridge-coin-kafka
     sleep 3
-    docker-compose up -d x1-bridge-service-fork6
+    docker-compose up -d x1-bridge-service-fork8
     sleep 3
-    docker-compose up -d x1-bridge-ui-fork6
+    docker-compose up -d x1-bridge-ui-fork8
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

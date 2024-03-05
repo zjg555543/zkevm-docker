@@ -41,7 +41,7 @@ def loadAccount():
     return account_info
 
 if __name__ == '__main__':
-    print('Deploying fork6...')
+    print('Deploying fork8...')
     account = loadAccount()
     genAccount = account["address"]
     genPriveKey = account["private_key"]
@@ -59,9 +59,9 @@ if __name__ == '__main__':
 
     # 编译合约
     command = '''
-    rm -rf fork6; 
-    mkdir fork6;
-    cd fork6; 
+    rm -rf fork8; 
+    mkdir fork8;
+    cd fork8; 
     git clone -b release/v0.2.0 https://github.com/okx/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/deploy_parameters.json deployment/deploy_parameters.json;  
@@ -71,12 +71,12 @@ if __name__ == '__main__':
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork6/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork6/x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork8/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork8/x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork6/x1-contracts; 
+    cd ./fork8/x1-contracts; 
     npm i; 
     npm run deploy:deployer:ZkEVM:sepolia; 
     npm run  deploy:ZkEVM:sepolia; 
@@ -89,55 +89,55 @@ if __name__ == '__main__':
 
     # 编译node
     command = '''
-    cd fork6; 
+    cd fork8; 
     git clone -b release/v0.2.0 https://github.com/okx/x1-node.git; 
     cd x1-node; 
-    docker build -t x1-node-fork6 -f ./Dockerfile .
+    docker build -t x1-node-fork8 -f ./Dockerfile .
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 编译da
     command = '''
-    cd fork6;
+    cd fork8;
     git clone -b release/v0.2.0 https://github.com/okx/x1-data-availability.git; 
     cd x1-data-availability; 
-    docker build -t x1-data-availability-fork6 -f ./Dockerfile .
+    docker build -t x1-data-availability-fork8 -f ./Dockerfile .
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 编译bridge
     command = ''' 
-    cd fork6;
+    cd fork8;
     git clone -b release/v0.2.0 https://github.com/okx/x1-bridge-service.git;
     cd x1-bridge-service;
-    docker build -t x1-bridge-service-fork6 -f ./Dockerfile .
+    docker build -t x1-bridge-service-fork8 -f ./Dockerfile .
     '''
 
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     # 替换文件
-    polygonZkEVMAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    dataCommitteeContract = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
-    deploymentBlockNumber = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
-    polygonZkEVMBridgeAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork6/x1-contracts/deployment/genesis.json')
+    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork8/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    dataCommitteeContract = get_value('./fork8/x1-contracts/deployment/deploy_output.json', 'dataCommitteeContract')
+    deploymentBlockNumber = get_value('./fork8/x1-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    polygonZkEVMBridgeAddress = get_value('./fork8/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork8/x1-contracts/deployment/genesis.json')
 
-    replace_variable('./config/fork6/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork6/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+    replace_variable('./config/fork8/test.da.toml', '{ZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
 
-    replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork6/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork6/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork6/test.genesis.config.json', '{genesis}', genesisStr)
-    replace_variable('./config/fork6/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork8/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork8/test.genesis.config.json', '{genesis}', genesisStr)
+    replace_variable('./config/fork8/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
 
-    replace_variable('./config/fork6/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork6/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork6/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
 
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK6}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK6}', polygonZkEVMAddress)
@@ -152,5 +152,5 @@ if __name__ == '__main__':
     logging.info(result.stdout)
 
     logging.info("docker-compose logs --tail 50 -f | grep x1-sequencer")
-    logging.info("Deploy fork6 done.")
+    logging.info("Deploy fork8 done.")
 
