@@ -171,9 +171,9 @@ services:
       - "-c"
       - "/app/x1-data-availability run --cfg /app/config.toml"
 
-  x1-sequencer-fork7:
+  x1-sequencer-fork8:
     container_name: x1-sequencer
-    image: x1-node-fork7
+    image: x1-node-fork8
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -181,16 +181,16 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  x1-json-rpc-fork7:
+  x1-json-rpc-fork8:
     container_name: x1-json-rpc
-    image: x1-node-fork7
+    image: x1-node-fork8
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -199,16 +199,16 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  x1-aggregator-fork7:
+  x1-aggregator-fork8:
     container_name: x1-aggregator
-    image: x1-node-fork7
+    image: x1-node-fork8
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -216,51 +216,51 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  x1-sync-fork7:
+  x1-sync-fork8:
     container_name: x1-sync
-    image: x1-node-fork7
+    image: x1-node-fork8
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
     volumes:
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  x1-executor-fork7:
+  x1-executor-fork8:
     container_name: x1-executor
     image: hermeznetwork/zkevm-prover:v4.0.14
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
     volumes:
-      - ./config/fork7/test.executor.config.json:/usr/src/app/config.json
+      - ./config/fork8/test.executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-prover-fork7:
+  x1-prover-fork8:
     container_name: x1-prover
     image: hermeznetwork/zkevm-prover:v4.0.14
     volumes:
       - /data/zkevm/v4.0.0-rc.6-fork.7/config:/app/config
-      - ./config/fork7/test.prover.config.json:/usr/src/app/config.json
+      - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
-  x1-bridge-service-fork7:
+  x1-bridge-service-fork8:
     container_name: x1-bridge-service
-    image: x1-bridge-service-fork7
+    image: x1-bridge-service-fork8
     ports:
       - 8080:8080
       - 9090:9090
@@ -272,16 +272,16 @@ services:
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork7/config.bridge.toml:/app/config.toml
+      - ./config/fork8/config.bridge.toml:/app/config.toml
       - ./config/root-ca-cert:/app/root-ca-cert
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-bridge run --cfg /app/config.toml"
 
-  x1-eth-tx-manager-fork7:
+  x1-eth-tx-manager-fork8:
     container_name: x1-eth-tx-manager
-    image: x1-node-fork7
+    image: x1-node-fork8
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -289,50 +289,50 @@ services:
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  x1-sequence-sender-fork7:
+  x1-sequence-sender-fork8:
     container_name: x1-sequence-sender
-    image: x1-node-fork7
+    image: x1-node-fork8
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  x1-l2gaspricer-fork7:
+  x1-l2gaspricer-fork8:
     container_name: x1-l2gaspricer
-    image: x1-node-fork7
+    image: x1-node-fork8
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
-      - ./config/fork7/test.node.config.toml:/app/config.toml
-      - ./config/fork7/test.genesis.config.json:/app/genesis.json
+      - ./config/fork8/test.node.config.toml:/app/config.toml
+      - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  x1-data-availability-fork7:
+  x1-data-availability-fork8:
     container_name: x1-data-availability
-    image: x1-data-availability-fork7
+    image: x1-data-availability-fork8
     ports:
       - 8444:8444
     volumes:
-      - ./config/fork7/test.da.toml:/app/config.toml
+      - ./config/fork8/test.da.toml:/app/config.toml
       - ./config/test-member.keystore:/pk/test-member.keystore
     command:
       - "/bin/sh"
@@ -453,7 +453,7 @@ services:
       - USE_FIAT_EXCHANGE_RATES=false
       - SHOW_OUTDATED_NETWORK_MODAL=false
 
-  x1-bridge-ui-fork7:
+  x1-bridge-ui-fork8:
     container_name: x1-bridge-ui
     image: hermeznetwork/zkevm-bridge-ui:mainnet
     ports:
@@ -461,12 +461,12 @@ services:
     environment:
       - ETHEREUM_RPC_URL=https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662
       - ETHEREUM_EXPLORER_URL=http://16.162.168.223:4000
-      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS={ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK7}
+      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS={ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}
       - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
-      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS={ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK7}
+      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS={ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}
       - POLYGON_ZK_EVM_RPC_URL=http://16.162.168.223:8123
       - POLYGON_ZK_EVM_EXPLORER_URL=http://16.162.168.223:4001
-      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS={POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK7}
+      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS={POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}
       - POLYGON_ZK_EVM_NETWORK_ID=1
       - BRIDGE_API_URL=http://16.162.168.223:8080
       - ENABLE_FIAT_EXCHANGE_RATES=false

@@ -15,12 +15,12 @@ def get_genesis(file_path):
     return str(new_json_data)
 
 if __name__ == '__main__':
-    print('Start fork7...')
+    print('Start fork8...')
 
     command = '''
-    docker-compose up -d x1-executor-fork7
+    docker-compose up -d x1-executor-fork8
     sleep 3
-    docker-compose up -d  x1-sync-fork7
+    docker-compose up -d  x1-sync-fork8
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
