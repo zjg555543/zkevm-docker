@@ -56,9 +56,8 @@ if __name__ == '__main__':
     rm -rf fork8;
     mkdir fork8;
     cd fork8;
-    git clone -b zkevm/v5.0.0-rc.2-fork.8-upgrade https://github.com/jiaji-wei/x1-contracts.git;;
+    git clone -b zkevm/v5.0.0-rc.2-fork.8-upgrade https://github.com/jiaji-wei/x1-contracts.git;
     cd ./x1-contracts;
-    git checkout zkevm/v4.0.0-fork.7; 
     cp ../../fork6/x1-contracts/deployment/deploy_parameters.json upgrade/upgradeToV2/;
     cp ../../fork6/x1-contracts/deployment/deploy_output.json upgrade/upgradeToV2/;
     cp -rf ../../fork6/x1-contracts/.openzeppelin .;
