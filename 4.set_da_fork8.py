@@ -32,7 +32,7 @@ def loadAccount():
 if __name__ == '__main__':
     print('Set fork8 da...')
 
-     # 设置da地址
+    # 设置da地址
     dataCommitteeContract = get_value('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
     newPolygonZKEVM = get_value('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
 
