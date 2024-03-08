@@ -168,10 +168,10 @@ DefaultGasPriceWei = 1000000000
 MaxGasPriceWei = 0
 
 [MTClient]
-URI  = "x1-executor:50061"
+URI  = "x1-executor-2:50061"
 
 [Executor]
-URI = "x1-executor:50071"
+URI = "x1-executor-2:50071"
 MaxGRPCMessageSize = 100000000
 
 [Metrics]

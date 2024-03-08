@@ -242,7 +242,7 @@ services:
     container_name: x1-sync-2
     image: x1-node-fork8
     ports:
-      - 9095:9091 # needed if metrics enabled
+      - 9096:9091 # needed if metrics enabled
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db-2
     volumes:
@@ -261,6 +261,17 @@ services:
       - 50071:50071 # Executor
     volumes:
       - ./config/fork8/test.executor.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  x1-executor-fork8-2:
+    container_name: x1-executor-2
+    image: hermeznetwork/zkevm-prover:v5.0.3
+    ports:
+      - 60061:50061 # MT
+      - 60071:50071 # Executor
+    volumes:
+      - ./config/fork8/test.executor-2.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
