@@ -5,7 +5,7 @@ networks:
 services:
   x1-sequencer-fork8:
     container_name: x1-sequencer
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -22,7 +22,7 @@ services:
 
   x1-json-rpc-fork8:
     container_name: x1-json-rpc
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -40,7 +40,7 @@ services:
 
   x1-aggregator-fork8:
     container_name: x1-aggregator
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -57,7 +57,7 @@ services:
 
   x1-sync-fork8:
     container_name: x1-sync
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
@@ -72,7 +72,7 @@ services:
 
   x1-executor-fork8:
     container_name: x1-executor
-    image: hermeznetwork/zkevm-prover:v5.0.3
+    image: okexchain/x1-prover:origin_upgrade-fork8_20240311085240_44780a10
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
@@ -83,16 +83,16 @@ services:
 
   x1-prover-fork8:
     container_name: x1-prover
-    image: hermeznetwork/zkevm-prover:v5.0.3
+    image: okexchain/x1-prover:origin_upgrade-fork8_20240311085240_44780a10
     volumes:
-      - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
+      # - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
       - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
   x1-bridge-service-fork8:
     container_name: x1-bridge-service
-    image: x1-bridge-service-fork8
+    image: okexchain/x1-bridge-service:origin_hai_fork8_20240311085214_16541cc
     ports:
       - 8080:8080
       - 9090:9090
@@ -113,7 +113,7 @@ services:
 
   x1-eth-tx-manager-fork8:
     container_name: x1-eth-tx-manager
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -130,7 +130,7 @@ services:
 
   x1-sequence-sender-fork8:
     container_name: x1-sequence-sender
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
@@ -146,7 +146,7 @@ services:
 
   x1-l2gaspricer-fork8:
     container_name: x1-l2gaspricer
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
@@ -160,7 +160,7 @@ services:
 
   x1-data-availability-fork8:
     container_name: x1-data-availability
-    image: x1-data-availability-fork8
+    image: okexchain/x1-data-availability:origin_zjg_fork8-upgrade_20240311095032_babe04f
     ports:
       - 8444:8444
     volumes:

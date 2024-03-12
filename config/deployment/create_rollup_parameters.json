@@ -1,5 +1,5 @@
 {
-    "realVerifier": true,
+    "realVerifier": false,
     "trustedSequencerURL": "http://x1-json-rpc:8123",
     "networkName": "zkevm",
     "description":"0.0.1",
