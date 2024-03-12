@@ -62,7 +62,7 @@ if __name__ == '__main__':
     rm -rf fork8; 
     mkdir fork8;
     cd fork8; 
-    git clone -b zkevm/v5.0.0-rc.2-fork.8-upgrade https://github.com/jiaji-wei/x1-contracts.git; 
+    git clone -b jiaji/fork8-upgrade https://github.com/okx/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
@@ -85,34 +85,6 @@ if __name__ == '__main__':
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-
-    # 编译node
-    command = '''
-    cd fork8; 
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-node.git; 
-    cd x1-node; 
-    docker build -t x1-node-fork8 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 编译da
-    command = '''
-    cd fork8;
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-data-availability.git; 
-    cd x1-data-availability; 
-    docker build -t x1-data-availability-fork8 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 编译bridge
-    command = ''' 
-    cd fork8;
-    git clone -b hai/fork8 https://github.com/okx/x1-bridge-service.git;
-    cd x1-bridge-service;
-    docker build -t x1-bridge-service-fork8 -f ./Dockerfile .
-    '''
 
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
