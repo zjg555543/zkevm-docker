@@ -13,7 +13,7 @@
     "zkEVMOwner": "{ADMIN}",
     "timelockAddress": "{ADMIN}",
     "minDelayTimelock": 125,
-    "salt": "0x0000000000000000000000000000000000000000000000000000000000000011",
+    "salt": "0x0000000000000000000000000000000000000000000000000000000000000022",
     "initialZkEVMDeployerOwner" :"{ADMIN}",
     "maticTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
     "zkEVMDeployerAddress":"",
