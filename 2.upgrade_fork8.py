@@ -72,7 +72,7 @@ if __name__ == '__main__':
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/deploy_output.json', 'gasTokenAddress', OKBAddress)
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', False)
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockDelay', 125)
-    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000044")
+    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000055")
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'polTokenAddress', OKBAddress)
 
     # 部署合约
