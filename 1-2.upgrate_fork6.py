@@ -43,47 +43,7 @@ def loadAccount():
 if __name__ == '__main__':
     print('Upgrate fork6...')
     print(''''
-            cp ../fork5/.openzeppelin . -r
-            cp -r ../fork5/.openzeppelin . 
-            pwd
-            npm run compile
-            npm i
-            cd ../ 
-
-            mkdir deployc && cd deployc
-            npx hardhat #enter
-            npm install --save-dev hardhat
-            cp ../fork6/compiled-contracts/FflonkVerifier.json .
-            cat FflonkVerifier.json 
-            cd scripts
-            vim deploy.js
-            vim ../hardhat.config.js
-            vim ../hardhat.config.js
-            cd ../
-            npx hardhat run scripts/deploy.js --network goerli
-
-            cd ../fork6/upgrade/
-            cp upgrade_parameters.json.example upgrade_parameters.json
-
-            cp -r ../fork5/.openzeppelin .
-            cp ../fork5/.env .
-            vim upgrade/upgrade_parameters.json
-            cat ../fork5/deployment/deploy_parameters.json
-            vim upgrade/upgrade_parameters.json
-            cat ../fork5/deployment/deploy_output.json 
-            vim upgrade/upgrade_parameters.
-            vim upgrade/upgrade_parameters.json
-            vim hardhat.config.js
-            HARDHAT_NETWORK=sepolia node upgrade/timeLockUpgrade.js
-
-            HARDHAT_NETWORK=sepolia node upgrade/timeLockUpgrade.js
-            yarn compile
-            vim upgrade/upgrade_parameters.json
-            HARDHAT_NETWORK=sepolia node upgrade/timeLockUpgrade.js
-            cat  upgrade/upgrade_output_1710239287.245.json 
-            cat ../fork5/deployment/deploy_output.json 
-
-
-
+            https://okg-block.larksuite.com/wiki/GVpfwk5goiDT5nk9NnTu5SXZs5f
+          https://okg-block.larksuite.com/docx/GKuvdTrylobERaxzeyJuX2Dhstj
           ''')
 
