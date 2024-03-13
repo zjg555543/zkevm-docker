@@ -5,7 +5,7 @@ networks:
 services:
   x1-sequencer-fork5:
     container_name: x1-sequencer
-    image: okexchain/x1-node:origin_zjg_v0.1.0-eth-v1.13.11_20240313151343_6f07740b
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
