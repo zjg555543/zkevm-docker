@@ -63,6 +63,7 @@ if __name__ == '__main__':
     git clone -b release/v0.1.0 https://github.com/okx/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/deploy_parameters.json deployment/deploy_parameters.json;  
+    cp -r ../../config/deployment/hardhat.config.js hardhat.config.js;
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/1_createGenesis.js deployment/1_createGenesis.js
     '''
