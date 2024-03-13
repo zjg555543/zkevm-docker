@@ -87,37 +87,6 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
-    # 编译node
-    command = '''
-    cd fork6; 
-    git clone -b release/v0.2.0 https://github.com/okx/x1-node.git; 
-    cd x1-node; 
-    docker build -t x1-node-fork6 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 编译da
-    command = '''
-    cd fork6;
-    git clone -b release/v0.2.0 https://github.com/okx/x1-data-availability.git; 
-    cd x1-data-availability; 
-    docker build -t x1-data-availability-fork6 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 编译bridge
-    command = ''' 
-    cd fork6;
-    git clone -b release/v0.2.0 https://github.com/okx/x1-bridge-service.git;
-    cd x1-bridge-service;
-    docker build -t x1-bridge-service-fork6 -f ./Dockerfile .
-    '''
-
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
     # 替换文件
     polygonZkEVMAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork6/x1-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')

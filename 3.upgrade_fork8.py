@@ -56,7 +56,7 @@ if __name__ == '__main__':
     rm -rf fork8;
     mkdir fork8;
     cd fork8;
-    git clone -b zjg/v5.0.0-rc.2-fork.8-upgrade https://github.com/zjg555543/x1-contracts.git;
+    git clone -b release/v0.3.0 https://github.com/okx/x1-contracts.git;
     cd ./x1-contracts;
     cp ../../fork6/x1-contracts/deployment/deploy_parameters.json upgrade/upgradeToV2/;
     cp ../../fork6/x1-contracts/deployment/deploy_output.json upgrade/upgradeToV2/;
@@ -70,9 +70,9 @@ if __name__ == '__main__':
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'consensusContract', "PolygonValidiumEtrogIsolated")
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'dataAvailabilityProtocol', "PolygonDataCommittee")
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/deploy_output.json', 'gasTokenAddress', OKBAddress)
-    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', True)
+    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', False)
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockDelay', 125)
-    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000000")
+    replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000011")
     replace_file('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'polTokenAddress', OKBAddress)
 
     # 部署合约
@@ -81,24 +81,6 @@ if __name__ == '__main__':
     npm i;
     npm run upgradev2:timelock:sepolia;
     cat upgrade/upgradeToV2/upgrade_output.json
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
-
-    # 编译节点
-    command = '''
-    cd fork8;
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-node.git;
-    cd x1-node;
-    docker build -t x1-node-fork8 -f ./Dockerfile .
-    cd ../;
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-data-availability.git; 
-    cd x1-data-availability;
-    docker build -t x1-data-availability-fork8 -f ./Dockerfile .
-    cd ../;
-    git clone -b hai/fork8 https://github.com/okx/x1-bridge-service.git;
-    cd x1-bridge-service;
-    docker build -t x1-bridge-service-fork8 -f ./Dockerfile .
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)

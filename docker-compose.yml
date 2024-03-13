@@ -5,7 +5,7 @@ networks:
 services:
   x1-sequencer-fork6:
     container_name: x1-sequencer
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -22,7 +22,7 @@ services:
 
   x1-json-rpc-fork6:
     container_name: x1-json-rpc
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -40,7 +40,7 @@ services:
 
   x1-aggregator-fork6:
     container_name: x1-aggregator
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -57,7 +57,7 @@ services:
 
   x1-sync-fork6:
     container_name: x1-sync
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
@@ -85,14 +85,14 @@ services:
     container_name: x1-prover
     image: hermeznetwork/zkevm-prover:v3.0.2 
     volumes:
-      - /data/zkevm/v3.0.0-RC3-fork.6/config:/app/config
+      # - /data/zkevm/v3.0.0-RC3-fork.6/config:/app/config
       - ./config/fork6/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
   x1-bridge-service-fork6:
     container_name: x1-bridge-service
-    image: x1-bridge-service-fork6
+    image: okexchain/x1-bridge-service:origin_release_v0.2.0_20240313034630_c75f6f7
     ports:
       - 8080:8080
       - 9090:9090
@@ -113,7 +113,7 @@ services:
 
   x1-eth-tx-manager-fork6:
     container_name: x1-eth-tx-manager
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -130,7 +130,7 @@ services:
 
   x1-sequence-sender-fork6:
     container_name: x1-sequence-sender
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
@@ -146,7 +146,7 @@ services:
 
   x1-l2gaspricer-fork6:
     container_name: x1-l2gaspricer
-    image: x1-node-fork6
+    image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
@@ -160,7 +160,7 @@ services:
 
   x1-data-availability-fork6:
     container_name: x1-data-availability
-    image: x1-data-availability-fork6
+    image: okexchain/x1-data-availability:origin_release_v0.2.0_20231218035038_138b0e2
     ports:
       - 8444:8444
     volumes:
@@ -173,7 +173,7 @@ services:
 
   x1-sequencer-fork8:
     container_name: x1-sequencer
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -190,7 +190,7 @@ services:
 
   x1-json-rpc-fork8:
     container_name: x1-json-rpc
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -208,7 +208,7 @@ services:
 
   x1-aggregator-fork8:
     container_name: x1-aggregator
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -225,7 +225,7 @@ services:
 
   x1-sync-fork8:
     container_name: x1-sync
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
@@ -240,7 +240,7 @@ services:
 
   x1-sync-fork8-2:
     container_name: x1-sync-2
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9096:9091 # needed if metrics enabled
     environment:
@@ -279,14 +279,14 @@ services:
     container_name: x1-prover
     image: hermeznetwork/zkevm-prover:v5.0.3
     volumes:
-      - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
+      # - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
       - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
   x1-bridge-service-fork8:
     container_name: x1-bridge-service
-    image: x1-bridge-service-fork8
+    image: okexchain/x1-bridge-service:origin_hai_fork8_20240311085214_16541cc
     ports:
       - 8080:8080
       - 9090:9090
@@ -307,7 +307,7 @@ services:
 
   x1-eth-tx-manager-fork8:
     container_name: x1-eth-tx-manager
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -324,7 +324,7 @@ services:
 
   x1-sequence-sender-fork8:
     container_name: x1-sequence-sender
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
@@ -340,7 +340,7 @@ services:
 
   x1-l2gaspricer-fork8:
     container_name: x1-l2gaspricer
-    image: x1-node-fork8
+    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
@@ -354,7 +354,7 @@ services:
 
   x1-data-availability-fork8:
     container_name: x1-data-availability
-    image: x1-data-availability-fork8
+    image: okexchain/x1-data-availability:origin_zjg_fork8-upgrade_20240311095032_babe04f
     ports:
       - 8444:8444
     volumes:
@@ -367,7 +367,7 @@ services:
 
   x1-data-availability-fork8-2:
     container_name: x1-data-availability-2
-    image: x1-data-availability-fork8
+    image: okexchain/x1-data-availability:origin_zjg_fork8-upgrade_20240311095032_babe04f
     ports:
       - 8445:8444
     volumes:
