@@ -3,6 +3,175 @@ networks:
   default:
     name: x1
 services:
+  x1-sequencer-fork5:
+    container_name: x1-sequencer
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    ports:
+      - 9092:9091 # needed if metrics enabled
+      - 6060:6060
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+    volumes:
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+
+  x1-json-rpc-fork5:
+    container_name: x1-json-rpc
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    ports:
+      - 8123:8123
+      - 8133:8133 # needed if WebSockets enabled
+      - 9091:9091 # needed if metrics enabled
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+    volumes:
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+
+  x1-aggregator-fork5:
+    container_name: x1-aggregator
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    ports:
+      - 50081:50081
+      - 9093:9091 # needed if metrics enabled
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
+    volumes:
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+
+  x1-sync-fork5:
+    container_name: x1-sync
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    ports:
+      - 9095:9091 # needed if metrics enabled
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+    volumes:
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+
+  x1-executor-fork5:
+    container_name: x1-executor
+    image: okexchain/x1-prover:origin_release_v0.1.0_20240313100714_244aa95a 
+    ports:
+      - 50061:50061 # MT
+      - 50071:50071 # Executor
+    volumes:
+      - ./config/fork5/test.executor.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  x1-prover-fork5:
+    container_name: x1-prover
+    image: okexchain/x1-prover:origin_release_v0.1.0_20240313100714_244aa95a 
+    volumes:
+      # - /data/zkevm/v3.0.0-RC3-fork.6/config:/app/config
+      - ./config/fork5/test.prover.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  x1-bridge-service-fork5:
+    container_name: x1-bridge-service
+    image: okexchain/x1-bridge-service:origin_release_v0.1.0_20240313100640_77f445e
+    ports:
+      - 8080:8080
+      - 9090:9090
+    environment:
+      - ZKEVM_BRIDGE_DATABASE_USER=test_user
+      - ZKEVM_BRIDGE_DATABASE_PASSWORD=test_password
+      - ZKEVM_BRIDGE_DATABASE_NAME=test_db
+      - ZKEVM_BRIDGE_DATABASE_HOST=x1-bridge-db
+      - ZKEVM_BRIDGE_DATABASE_PORT=5432
+    volumes:
+      - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
+      - ./config/fork5/config.bridge.toml:/app/config.toml
+      - ./config/root-ca-cert:/app/root-ca-cert
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-bridge run --cfg /app/config.toml"
+
+  x1-eth-tx-manager-fork5:
+    container_name: x1-eth-tx-manager
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    ports:
+      - 9094:9091 # needed if metrics enabled
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+    volumes:
+      - ./config/sequencer.keystore:/pk/sequencer.keystore
+      - ./config/aggregator.keystore:/pk/aggregator.keystore
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+
+  x1-sequence-sender-fork5:
+    container_name: x1-sequence-sender
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    environment:
+      - ZKEVM_NODE_STATEDB_HOST=x1-state-db
+      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+      - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
+    volumes:
+      - ./config/sequencer.keystore:/pk/sequencer.keystore
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+
+  x1-l2gaspricer-fork5:
+    container_name: x1-l2gaspricer
+    image: okexchain/x1-node:origin_release_v0.1.0_20240313100605_9e945f8f
+    environment:
+      - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
+    volumes:
+      - ./config/sequencer.keystore:/pk/keystore
+      - ./config/fork5/test.node.config.toml:/app/config.toml
+      - ./config/fork5/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+
+  x1-data-availability-fork5:
+    container_name: x1-data-availability
+    image: okexchain/x1-data-availability:origin_release_v0.1.0_20240313101317_0b4274b
+    ports:
+      - 8444:8444
+    volumes:
+      - ./config/fork5/test.da.toml:/app/config.toml
+      - ./config/test-member.keystore:/pk/test-member.keystore
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-data-availability run --cfg /app/config.toml"
+
+
   x1-sequencer-fork6:
     container_name: x1-sequencer
     image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
