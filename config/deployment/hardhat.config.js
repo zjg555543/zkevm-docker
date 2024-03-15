@@ -102,6 +102,7 @@ module.exports = {
                 initialIndex: 0,
                 count: 20,
             },
+            gasPrice: 200000000000, 
         },
         rinkeby: {
             url: process.env.RINKEBY_PROVIDER ? process.env.RINKEBY_PROVIDER : `https://rinkeby.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
