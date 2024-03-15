@@ -167,6 +167,10 @@ if __name__ == '__main__':
     sleep 3
     docker-compose up -d x1-bridge-ui-fork6
 
+    docker-compose up -d x1-state-db-2;
+    docker-compose up -d x1-pool-db-2;
+    docker-compose up -d x1-event-db-2;
+
     sleep 3
     docker-compose up -d x1-executor-fork6-2
 
