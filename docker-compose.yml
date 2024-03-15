@@ -39,7 +39,7 @@ services:
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
   x1-json-rpc-fork6-2:
-    container_name: x1-json-rpc
+    container_name: x1-json-rpc-2
     image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 8123:8123
@@ -89,7 +89,7 @@ services:
       - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
   x1-sync-fork6-2:
-    container_name: x1-sync
+    container_name: x1-sync-2
     image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
       - 9095:9091 # needed if metrics enabled
@@ -115,7 +115,7 @@ services:
       zkProver -c /usr/src/app/config.json
 
   x1-executor-fork6-2:
-    container_name: x1-executor
+    container_name: x1-executor-2
     image: hermeznetwork/zkevm-prover:v3.0.2 
     ports:
       - 50061:50061 # MT
