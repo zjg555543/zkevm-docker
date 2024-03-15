@@ -42,9 +42,9 @@ services:
     container_name: x1-json-rpc-2
     image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
-      - 8123:8123
-      - 8133:8133 # needed if WebSockets enabled
-      - 9091:9091 # needed if metrics enabled
+      - 28123:8123
+      - 28133:8133 # needed if WebSockets enabled
+      - 29091:9091 # needed if metrics enabled
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db-2
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db-2
@@ -92,7 +92,7 @@ services:
     container_name: x1-sync-2
     image: okexchain/x1-node:origin_release_v0.2.0_20231222060515_575fe361
     ports:
-      - 9095:9091 # needed if metrics enabled
+      - 29095:9091 # needed if metrics enabled
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db-2
     volumes:
@@ -118,8 +118,8 @@ services:
     container_name: x1-executor-2
     image: hermeznetwork/zkevm-prover:v3.0.2 
     ports:
-      - 50061:50061 # MT
-      - 50071:50071 # Executor
+      - 250061:50061 # MT
+      - 250071:50071 # Executor
     volumes:
       - ./config/fork6/test.executor-2.config.json:/usr/src/app/config.json
     command: >
