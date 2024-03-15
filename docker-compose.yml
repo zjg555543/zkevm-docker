@@ -118,8 +118,8 @@ services:
     container_name: x1-executor-2
     image: hermeznetwork/zkevm-prover:v3.0.2 
     ports:
-      - 250061:50061 # MT
-      - 250071:50071 # Executor
+      - 60061:50061 # MT
+      - 60071:50071 # Executor
     volumes:
       - ./config/fork6/test.executor-2.config.json:/usr/src/app/config.json
     command: >
