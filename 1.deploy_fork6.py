@@ -1,6 +1,8 @@
 import subprocess
 import logging
 import json
+import random
+
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
 
 def replace_variable(file_path, variable_name, new_value):
@@ -71,6 +73,10 @@ if __name__ == '__main__':
     logging.info(result.stdout)
     replace_variable('./fork6/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
     replace_variable('./fork6/x1-contracts/deployment/deploy_parameters.json', '{ADMIN}', genAccount)
+
+    random_digits = [str(random.randint(0, 9)) for _ in range(5)]
+    random_number = ''.join(random_digits)
+    replace_variable('./fork6/x1-contracts/deployment/deploy_parameters.json', '{SALT}', random_number)
 
     # 部署合约
     command = '''
