@@ -161,6 +161,15 @@ if __name__ == '__main__':
     sleep 3
     docker-compose up -d x1-bridge-ui-fork6
 
+    sleep 3
+    docker-compose up -d x1-executor-fork6-2
+
+    sleep 3 
+    docker-compose up -d x1-sync-fork6-2
+
+    sleep 3 
+    docker-compose up -d x1-json-rpc-fork6-2
+    
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
