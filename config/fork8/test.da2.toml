@@ -1,4 +1,5 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
+PermitApiAddress = "0x694d3f1487e17a96eda98ced6ae3ec751a08e9fe"
 
 [L1]
 WsURL = "wss://sepolia.infura.io/ws/v3/6d3d0adfe7c74dcb87642b37f1477aec"

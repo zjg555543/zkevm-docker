@@ -134,7 +134,6 @@ MaxTxSizeForL1 = 131072
 MaxBatchesForL1 = 50
 SenderAddress = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
 L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
-PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 DAPermitApiPrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 	[SequenceSender.StreamClient]
 		Server = "x1-sequencer:6900"

@@ -374,7 +374,7 @@ services:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
-      - ./config/sequencer.keystore:/pk/sequencer.keystore
+      - ./config/dapermit.keystore:/pk/sequencer.keystore
       - ./config/fork8/test.node.config.toml:/app/config.toml
       - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
@@ -421,6 +421,21 @@ services:
       - "/bin/sh"
       - "-c"
       - "/app/x1-data-availability run --cfg /app/config.toml"
+
+  x1-signer-fork8:
+    container_name: x1-signer-fork8
+    restart: unless-stopped
+    image: x1-signer-fork8
+    ports:
+      - 7001:7001
+    volumes:
+      - ./config/fork8/signer.config.toml:/app/config.toml
+      - ./sequencer.keystore:/pk/sequencer.keystore
+      - ./aggregator.keystore:/pk/aggregator.keystore
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/x1-signer http -cfg /app/config.toml"
 
   x1-bridge-db:
     container_name: x1-bridge-db
