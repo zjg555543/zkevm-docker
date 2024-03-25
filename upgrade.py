@@ -436,12 +436,15 @@ def start_fork8(batch):
 def upgrade_fork8_l2contract():
     logging.info('Update L2 bridge contract...')
 
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'gasTokenName', "OKB")
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'gasTokenSymbol', "OKB")
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'gasTokenDecimals', 18)
+
     # 部署合约
     command = '''
     cd fork8/xlayer-contracts;
-    npm i;
     npm run upgradev2L2:timelock:x1;
-    cat upgrade/upgradeToV2/upgrade_outputL2.json
+    cat upgrade/upgradeToV2/upgrade_outputL2.json;
     '''
 
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
