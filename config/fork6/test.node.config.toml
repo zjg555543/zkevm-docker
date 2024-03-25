@@ -9,7 +9,7 @@ Outputs = ["stderr"]
 User = "state_user"
 Password = "state_password"
 Name = "state_db"
-Host = "x1-state-db"
+Host = "xlayer-state-db"
 Port = "5432"
 EnableLog = false
 MaxConns = 200
@@ -27,7 +27,7 @@ PollMinAllowedGasPriceInterval = "15s"
 	User = "pool_user"
 	Password = "pool_password"
 	Name = "pool_db"
-	Host = "x1-pool-db"
+	Host = "xlayer-pool-db"
 	Port = "5432"
 	EnableLog = false
 	MaxConns = 200
@@ -134,10 +134,10 @@ DefaultGasPriceWei = 1000000000
 MaxGasPriceWei = 0
 
 [MTClient]
-URI  = "x1-executor:50061"
+URI  = "xlayer-executor:50061"
 
 [Executor]
-URI = "x1-executor:50071"
+URI = "xlayer-executor:50071"
 MaxGRPCMessageSize = 100000000
 
 [Metrics]
@@ -153,7 +153,7 @@ ProfilingEnabled = true
 	User = "event_user"
 	Password = "event_password"
 	Name = "event_db"
-	Host = "x1-event-db"
+	Host = "xlayer-event-db"
 	Port = "5432"
 	EnableLog = false
 	MaxConns = 200
@@ -162,7 +162,7 @@ ProfilingEnabled = true
 User = "prover_user"
 Password = "prover_pass"
 Name = "prover_db"
-Host = "x1-state-db"
+Host = "xlayer-state-db"
 Port = "5432"
 EnableLog = false
 MaxConns = 200

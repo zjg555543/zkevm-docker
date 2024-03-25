@@ -1,0 +1,11 @@
+{
+    "l1Config": {
+        "chainId": 11155111,
+        "polygonZkEVMAddress": "{polygonZkEVMAddress}",
+        "polygonRollupManagerAddress": "{polygonRollupManagerAddress}",
+        "polTokenAddress": "0xe223519d64C0A49e7C08303c2220251be6b70e1d",
+        "polygonZkEVMGlobalExitRootAddress": "{polygonZkEVMGlobalExitRootAddress}"
+    },
+    "genesisBlockNumber":  {genesisBlockNumber},
+    {genesis}
+}
