@@ -12,6 +12,15 @@ conn = psycopg2.connect(
     port="5432"
 )
 
+#PGPASSWORD=test_password psql -h 127.0.0.1 -p 5434 -d test_db -U test_user;
+conn_bridge = psycopg2.connect(
+    dbname="test_db",
+    user="test_user",
+    password="test_password",
+    host="127.0.0.1",
+    port="5434"
+)
+
 OKBAddress = "0xe223519d64C0A49e7C08303c2220251be6b70e1d"
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
@@ -278,6 +287,7 @@ def upgrade_fork8():
     replace_variable('./config/fork8/config.bridge.toml', '{PolygonRollupManagerAddress}', rollupmgr)
     replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEvmAddress}', newPolygonZKEVM)
 
+    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS_FORK8}', rollupmgr)
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', newPolygonZKEVM)
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
@@ -484,12 +494,43 @@ def start_fork8_bridge():
     docker-compose up -d xlayer-bridge-service-fork8
     sleep 3
     docker-compose up -d xlayer-bridge-ui-fork8
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
 
+    # 删除数据库
+    # PGPASSWORD=test_password psql -h 127.0.0.1 -p 5434 -d test_db -U test_user;
+    # select * from public.gorp_migrations;
+    # delete from public.gorp_migrations where id = '0010.sql';
+    # delete from public.gorp_migrations where id = '0009.sql';
+    # delete from public.gorp_migrations where id = '0008.sql';
+    # delete from public.gorp_migrations where id = '0007.sql';
+
+    command = '''
+    delete from public.gorp_migrations where id = '0010.sql';
+    delete from public.gorp_migrations where id = '0009.sql';
+    delete from public.gorp_migrations where id = '0008.sql';
+    delete from public.gorp_migrations where id = '0007.sql';
+    '''
+    # 执行 SQL 查询
+    cur = conn_bridge.cursor()
+    cur.execute(command)
+    conn_bridge.commit()
+    logging.info("command: " + command)
+    # 关闭游标和连接
+    cur.close()
+    conn_bridge.close()
+
+    logging.info('Delete db ok')
+
+    command = '''
+    docker-compose up -d xlayer-bridge-service-fork8
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
     logging.info("docker-compose logs --tail 10 -f")
+
 
 def sync_fork8():
     logging.info('Start fork8 sync...')
