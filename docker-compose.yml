@@ -5,7 +5,7 @@ networks:
 services:
   xlayer-sequencer-fork6:
     container_name: xlayer-sequencer
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -22,7 +22,7 @@ services:
 
   xlayer-json-rpc-fork6:
     container_name: xlayer-json-rpc
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -40,7 +40,7 @@ services:
 
   xlayer-aggregator-fork6:
     container_name: xlayer-aggregator
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -57,7 +57,7 @@ services:
 
   xlayer-sync-fork6:
     container_name: xlayer-sync
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
@@ -92,7 +92,7 @@ services:
 
   xlayer-bridge-service-fork6:
     container_name: xlayer-bridge-service
-    image: xlayer-bridge-service-fork6
+    image: okexchain/xlayer-bridge-service:origin_release_v0.2.0_20240325112628_c75f6f7
     ports:
       - 8080:8080
       - 9090:9090
@@ -109,11 +109,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xlayer-bridge run --cfg /app/config.toml"
+      - "/app/x1-bridge run --cfg /app/config.toml"
 
   xlayer-eth-tx-manager-fork6:
     container_name: xlayer-eth-tx-manager
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -130,7 +130,7 @@ services:
 
   xlayer-sequence-sender-fork6:
     container_name: xlayer-sequence-sender
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     environment:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
@@ -146,7 +146,7 @@ services:
 
   xlayer-l2gaspricer-fork6:
     container_name: xlayer-l2gaspricer
-    image: xlayer-node-fork6
+    image: okexchain/xlayer-node:origin_release_v0.2.0_20240325112551_77b0dce2
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
@@ -160,7 +160,7 @@ services:
 
   xlayer-data-availability-fork6:
     container_name: xlayer-data-availability
-    image: xlayer-data-availability-fork6
+    image: okexchain/xlayer-data-availability:origin_release_v0.2.0_20240325112707_210e7c3
     ports:
       - 8444:8444
     volumes:

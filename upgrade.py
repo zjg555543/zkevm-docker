@@ -189,7 +189,7 @@ def start_fork6():
     docker-compose up -d xlayer-data-availability-fork6
     docker-compose up -d xlayer-executor-fork6
     docker-compose up -d xlayer-prover-fork6
-    sleep 1
+    sleep 3
     docker-compose up -d xlayer-sync-fork6
     sleep 1
     docker-compose up -d xlayer-sequencer-fork6
@@ -495,9 +495,9 @@ if __name__ == '__main__':
     # deploy fork6
     deploy_fork6()
     start_fork6()
-    for i in range(0, 10):
+    for i in range(0, 3):
         logging.info("Waiting for 2s...")
-        time.sleep(2)
+        time.sleep(1)
         send_tx()
 
     # upgrade fork8
