@@ -62,21 +62,21 @@ if __name__ == '__main__':
     rm -rf fork8; 
     mkdir fork8;
     cd fork8; 
-    git clone -b zkevm/v5.0.0-rc.2-fork.8-upgrade https://github.com/jiaji-wei/x1-contracts.git; 
-    cd ./x1-contracts; 
+    git clone -b release/v0.3.0 https://github.com/okx/xlayer-contracts.git; 
+    cd ./xlayer-contracts; 
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
     cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork8/x1-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork8/x1-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork8/x1-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork8/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork8/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork8/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork8/x1-contracts; 
+    cd ./fork8/xlayer-contracts; 
     npm i; 
     npm run deploy:v2:sepolia; 
     npm run  verify:v2:sepolia; 
@@ -86,46 +86,46 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
-    # 编译node
-    command = '''
-    cd fork8; 
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-node.git; 
-    cd x1-node; 
-    docker build -t x1-node-fork8 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # # 编译node
+    # command = '''
+    # cd fork8; 
+    # git clone -b zjg/fork8-upgrade https://github.com/okx/xlayer-node.git; 
+    # cd xlayer-node; 
+    # docker build -t xlayer-node-fork8 -f ./Dockerfile .
+    # '''
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
-    # 编译da
-    command = '''
-    cd fork8;
-    git clone -b zjg/fork8-upgrade https://github.com/okx/x1-data-availability.git; 
-    cd x1-data-availability; 
-    docker build -t x1-data-availability-fork8 -f ./Dockerfile .
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # # 编译da
+    # command = '''
+    # cd fork8;
+    # git clone -b zjg/fork8-upgrade https://github.com/okx/xlayer-data-availability.git; 
+    # cd xlayer-data-availability; 
+    # docker build -t xlayer-data-availability-fork8 -f ./Dockerfile .
+    # '''
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
-    # 编译bridge
-    command = ''' 
-    cd fork8;
-    git clone -b hai/fork8 https://github.com/okx/x1-bridge-service.git;
-    cd x1-bridge-service;
-    docker build -t x1-bridge-service-fork8 -f ./Dockerfile .
-    '''
+    # # 编译bridge
+    # command = ''' 
+    # cd fork8;
+    # git clone -b hai/fork8 https://github.com/okx/xlayer-bridge-service.git;
+    # cd xlayer-bridge-service;
+    # docker build -t xlayer-bridge-service-fork8 -f ./Dockerfile .
+    # '''
 
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
     # 替换文件
-    dataCommitteeContract = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    deploymentBlockNumber = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    polygonZkEVMAddress = get_value('./fork8/x1-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dataCommitteeContract = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
+    deploymentBlockNumber = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    polygonZkEVMAddress = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
-    polygonRollupManagerAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork8/x1-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork8/x1-contracts/deployment/v2/genesis.json')
+    polygonRollupManagerAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork8/xlayer-contracts/deployment/v2/genesis.json')
 
     replace_variable('./config/fork8/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
 
     # 设置da地址
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://x1-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     command = command.replace("{genAccount}", genAccount)
     command = command.replace("{genPriveKey}", genPriveKey)
     command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
@@ -156,6 +156,6 @@ if __name__ == '__main__':
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
-    logging.info("docker-compose logs --tail 50 -f | grep x1-sequencer")
+    logging.info("docker-compose logs --tail 50 -f | grep xlayer-sequencer")
     logging.info("Deploy fork8 done.")
 

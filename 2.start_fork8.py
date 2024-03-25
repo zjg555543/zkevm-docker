@@ -19,42 +19,42 @@ if __name__ == '__main__':
     print('Deploying fork8...')
 
     command = '''
-    docker-compose up -d x1-state-db
-    docker-compose up -d x1-pool-db
-    docker-compose up -d x1-event-db
-    docker-compose up -d x1-data-availability-db
-    docker-compose up -d x1-bridge-db
-    docker-compose up -d x1-bridge-redis
+    docker-compose up -d xlayer-state-db
+    docker-compose up -d xlayer-pool-db
+    docker-compose up -d xlayer-event-db
+    docker-compose up -d xlayer-data-availability-db
+    docker-compose up -d xlayer-bridge-db
+    docker-compose up -d xlayer-bridge-redis
 
     sleep 3
-    docker-compose up -d x1-data-availability-fork8
+    docker-compose up -d xlayer-data-availability-fork8
 
     sleep 3
-    docker-compose up -d x1-executor-fork8
+    docker-compose up -d xlayer-executor-fork8
     sleep 3
-    docker-compose up -d x1-prover-fork8
+    docker-compose up -d xlayer-prover-fork8
     sleep 3
-    docker-compose up -d x1-sync-fork8
+    docker-compose up -d xlayer-sync-fork8
     sleep 3
-    docker-compose up -d x1-eth-tx-manager-fork8
+    docker-compose up -d xlayer-eth-tx-manager-fork8
     sleep 3
-    docker-compose up -d x1-sequencer-fork8
+    docker-compose up -d xlayer-sequencer-fork8
     sleep 3
-    docker-compose up -d x1-sequence-sender-fork8
+    docker-compose up -d xlayer-sequence-sender-fork8
     sleep 3
-    docker-compose up -d x1-l2gaspricer-fork8
+    docker-compose up -d xlayer-l2gaspricer-fork8
     sleep 3
-    docker-compose up -d x1-aggregator-fork8
+    docker-compose up -d xlayer-aggregator-fork8
     sleep 3
-    docker-compose up -d x1-json-rpc-fork8
+    docker-compose up -d xlayer-json-rpc-fork8
     sleep 3
     docker-compose up -d kafka-zookeeper
     sleep 3
-    docker-compose up -d x1-bridge-coin-kafka
+    docker-compose up -d xlayer-bridge-coin-kafka
     sleep 3
-    docker-compose up -d x1-bridge-service-fork8
+    docker-compose up -d xlayer-bridge-service-fork8
     sleep 3
-    docker-compose up -d x1-bridge-ui-fork8
+    docker-compose up -d xlayer-bridge-ui-fork8
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

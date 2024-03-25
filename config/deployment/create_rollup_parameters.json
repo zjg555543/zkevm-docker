@@ -1,6 +1,6 @@
 {
     "realVerifier": true,
-    "trustedSequencerURL": "http://x1-json-rpc:8123",
+    "trustedSequencerURL": "http://xlayer-json-rpc:8123",
     "networkName": "zkevm",
     "description":"0.0.1",
     "trustedSequencer":"0x4820E45eB6Cf99074389544F83FE1F30084bdAb7",

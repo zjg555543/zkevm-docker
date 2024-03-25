@@ -33,10 +33,10 @@ if __name__ == '__main__':
     print('Set fork8 da...')
 
      # 设置da地址
-    dataCommitteeContract = get_value('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
-    newPolygonZKEVM = get_value('./fork8/x1-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
+    dataCommitteeContract = get_value('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
+    newPolygonZKEVM = get_value('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
 
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://x1-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     
     account = loadAccount()
     command = command.replace("{genAccount}", account["address"])
