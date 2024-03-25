@@ -150,7 +150,7 @@ ProofStatePollingInterval = "5s"
 SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
-UpgradeEtrogBatchNumber = 0
+UpgradeEtrogBatchNumber = {UpgradeEtrogBatchNumber}
 
 [EthTxManager]
 GasPriceMarginFactor = 2

@@ -255,7 +255,7 @@ services:
 
   xlayer-executor-fork8:
     container_name: xlayer-executor
-    image: xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
+    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
@@ -266,7 +266,7 @@ services:
 
   xlayer-executor-fork8-2:
     container_name: xlayer-executor-2
-    image: xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
+    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
     ports:
       - 60061:50061 # MT
       - 60071:50071 # Executor
@@ -277,7 +277,7 @@ services:
 
   xlayer-prover-fork8:
     container_name: xlayer-prover
-    image: xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
+    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
     volumes:
       - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
       - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
@@ -354,7 +354,7 @@ services:
 
   xlayer-data-availability-fork8:
     container_name: xlayer-data-availability
-    image: origin_release_v0.3.0_20240321025443_f84bdab
+    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240321025443_f84bdab
     ports:
       - 8444:8444
     volumes:
@@ -367,7 +367,7 @@ services:
 
   xlayer-data-availability-fork8-2:
     container_name: xlayer-data-availability-2
-    image: origin_release_v0.3.0_20240321025443_f84bdab
+    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240321025443_f84bdab
     ports:
       - 8445:8444
     volumes:

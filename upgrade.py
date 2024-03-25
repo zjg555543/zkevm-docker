@@ -2,6 +2,15 @@ import subprocess
 import logging
 import json
 import time
+import psycopg2
+
+conn = psycopg2.connect(
+    dbname="state_db",
+    user="state_user",
+    password="state_password",
+    host="127.0.0.1",
+    port="5432"
+)
 
 OKBAddress = "0xe223519d64C0A49e7C08303c2220251be6b70e1d"
 
@@ -63,11 +72,10 @@ def zkevm_batchNumber():
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
-    parsed_data = json.loads(result)
+    parsed_data = json.loads(result.stdout)
     # 获取 result 的值并转换为十进制
     result_hex = parsed_data["result"]
     result_decimal = int(result_hex, 16)
-    logging.info("结果的十进制值为:", result_decimal)
     return result_decimal
 
 def zkevm_verifiedBatchNumber():
@@ -77,11 +85,10 @@ def zkevm_verifiedBatchNumber():
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
-    parsed_data = json.loads(result)
+    parsed_data = json.loads(result.stdout)
     # 获取 result 的值并转换为十进制
     result_hex = parsed_data["result"]
     result_decimal = int(result_hex, 16)
-    logging.info("结果的十进制值为:", result_decimal)
     return result_decimal
 
 def send_tx():
@@ -275,8 +282,6 @@ def upgrade_fork8():
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', newPolygonZKEVM)
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
 
-    # schedule 合约
-
 
 def set_da_fork8():
     logging.info('Set fork8 da...')
@@ -363,14 +368,24 @@ def stop_fork6():
 def delete_db(batch_num):
     logging.info('Delete db...')
 
+    # PGPASSWORD=state_password psql -h 127.0.0.1 -p 5432 -d state_db -U state_user;
+    # select * from state.batch;
+    # delete from state.batch where batch_num = '{batch_num}';
+
     command = '''
-    PGPASSWORD=state_password psql -h 127.0.0.1 -p 5432 -d state_db -U state_user;
-    delete from state.batch where batch_num == {batch_num};
+    delete from state.batch where batch_num = '{batch_num}';
     '''
     command = command.replace("{batch_num}", batch_num)
+    # 执行 SQL 查询
+    cur = conn.cursor()
+    cur.execute(command)
+    conn.commit()
+    logging.info("command: " + command)
+    # 关闭游标和连接
+    cur.close()
+    conn.close()
 
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    logging.info('Delete db ok')
 
 def execute_fork8():
     logging.info('execute fork8 ...')
@@ -378,7 +393,7 @@ def execute_fork8():
     timelockContractAdress = get_value('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_output.json', 'timelockContractAdress')
 
     account = loadAccount()
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662  {timelockContractAdress} '{executeData}"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662  {timelockContractAdress} '{executeData}'"
     command = command.replace("{genAccount}", account["address"])
     command = command.replace("{genPriveKey}", account["private_key"])
     command = command.replace("{executeData}", executeData)
@@ -387,8 +402,10 @@ def execute_fork8():
     logging.info(result.stdout)
     
 
-def start_fork8():
+def start_fork8(batch):
     logging.info('Start fork8...')
+
+    replace_variable('./config/fork8/test.node.config.toml', '{UpgradeEtrogBatchNumber}', batch)
 
     command = '''
     docker-compose up -d xlayer-executor-fork8
@@ -423,7 +440,7 @@ def upgrade_fork8_l2contract():
     command = '''
     cd fork8/xlayer-contracts;
     npm i;
-    npm run upgradev2L2:timelock:xlayer;
+    npm run upgradev2L2:timelock:x1;
     cat upgrade/upgradeToV2/upgrade_outputL2.json
     '''
 
@@ -502,7 +519,6 @@ if __name__ == '__main__':
 
     # upgrade fork8
     upgrade_fork8()
-    set_da_fork8()
     schedule_fork8()
     logging.info("Waiting for 180s...")
     time.sleep(180)
@@ -513,7 +529,7 @@ if __name__ == '__main__':
         verifyBatch = zkevm_verifiedBatchNumber()
         logging.info("batch: " + str(batch) + " verifyBatch: " + str(verifyBatch))
         time.sleep(2)
-        if batch + 1 == verifyBatch:
+        if verifyBatch + 1 == batch:
             break 
         else:
             logging.info("wating...")
@@ -523,13 +539,16 @@ if __name__ == '__main__':
     stop_fork6()
 
     # 删除数据库
-    delete_db()
+    delete_db(str(batch))
     
     # 执行 execute
     execute_fork8()
 
+    # 设置da
+    set_da_fork8()
+
     # 启动 fork8 程序
-    start_fork8()
+    start_fork8(str(batch))
 
     # 升级 L2 合约
     upgrade_fork8_l2contract()
