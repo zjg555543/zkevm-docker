@@ -555,7 +555,7 @@ if __name__ == '__main__':
     # deploy fork6
     deploy_fork6()
     start_fork6()
-    for i in range(0, 3):
+    for i in range(0, 10):
         logging.info("Waiting for 2s...")
         time.sleep(1)
         send_tx()
@@ -571,7 +571,7 @@ if __name__ == '__main__':
         batch = zkevm_batchNumber()
         verifyBatch = zkevm_verifiedBatchNumber()
         logging.info("batch: " + str(batch) + " verifyBatch: " + str(verifyBatch))
-        time.sleep(2)
+        time.sleep(10)
         if verifyBatch + 1 == batch:
             break 
         else:
@@ -580,24 +580,32 @@ if __name__ == '__main__':
     batch = zkevm_batchNumber()
     # 停止fork6所有节点
     stop_fork6()
+    time.sleep(30)
 
     # 删除数据库
     delete_db(str(batch))
+    time.sleep(30)
     
     # 执行 execute
     execute_fork8()
+    time.sleep(30)
 
     # 设置da
     set_da_fork8()
+    time.sleep(30)
 
     # 启动 fork8 程序
     start_fork8(str(batch))
+    time.sleep(30)
 
     # 升级 L2 合约
     upgrade_fork8_l2contract()
+    time.sleep(30)
 
     start_fork8_bridge()
-    sync_fork8()
+    time.sleep(30)
+
+    #sync_fork8()
 
 
  
