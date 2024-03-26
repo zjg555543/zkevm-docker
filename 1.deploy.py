@@ -51,8 +51,6 @@ if __name__ == '__main__':
     docker stop $(docker ps -aq); 
     docker rm $(docker ps -aq);
     docker ps -a;
-    docker rmi --force $(docker images -q);
-    docker images
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
