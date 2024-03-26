@@ -62,7 +62,7 @@ if __name__ == '__main__':
     rm -rf fork9; 
     mkdir fork9;
     cd fork9; 
-    git clone -b release/v0.3.0 https://github.com/okx/xlayer-contracts.git; 
+    git clone -b jiaji/fork.9 https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
@@ -143,10 +143,10 @@ if __name__ == '__main__':
     replace_variable('./config/fork9/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonRollupManagerAddress)
     replace_variable('./config/fork9/config.bridge.toml', '{PolygonZkEvmAddress}', polygonZkEVMAddress)
 
-    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS_FORK8}', polygonRollupManagerAddress)
-    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
-    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', polygonZkEVMAddress)
-    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS}', polygonRollupManagerAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS}', polygonZkEVMAddress)
+    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
 
     # 设置da地址
     command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"

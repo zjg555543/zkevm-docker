@@ -6,7 +6,7 @@
     "trustedSequencer":"0x4820E45eB6Cf99074389544F83FE1F30084bdAb7",
     "chainID": 195,
     "adminZkEVM":"{ADMIN}",
-    "forkID": 8,
+    "forkID": 9,
     "consensusContract": "PolygonValidiumEtrogIsolated",
     "dataAvailabilityProtocol": "PolygonDataCommittee",
     "gasTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
