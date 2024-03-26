@@ -4,23 +4,6 @@ import json
 import time
 import psycopg2
 
-conn = psycopg2.connect(
-    dbname="state_db",
-    user="state_user",
-    password="state_password",
-    host="127.0.0.1",
-    port="5432"
-)
-
-#PGPASSWORD=test_password psql -h 127.0.0.1 -p 5434 -d test_db -U test_user;
-conn_bridge = psycopg2.connect(
-    dbname="test_db",
-    user="test_user",
-    password="test_password",
-    host="127.0.0.1",
-    port="5434"
-)
-
 OKBAddress = "0xe223519d64C0A49e7C08303c2220251be6b70e1d"
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
@@ -382,6 +365,14 @@ def delete_db(batch_num):
     # select * from state.batch;
     # delete from state.batch where batch_num = '{batch_num}';
 
+    conn = psycopg2.connect(
+        dbname="state_db",
+        user="state_user",
+        password="state_password",
+        host="127.0.0.1",
+        port="5432"
+    )
+
     command = '''
     delete from state.batch where batch_num = '{batch_num}';
     '''
@@ -505,6 +496,14 @@ def start_fork8_bridge():
     # delete from public.gorp_migrations where id = '0009.sql';
     # delete from public.gorp_migrations where id = '0008.sql';
     # delete from public.gorp_migrations where id = '0007.sql';
+
+    conn_bridge = psycopg2.connect(
+        dbname="test_db",
+        user="test_user",
+        password="test_password",
+        host="127.0.0.1",
+        port="5434"
+    )
 
     command = '''
     delete from public.gorp_migrations where id = '0010.sql';
