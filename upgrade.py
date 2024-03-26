@@ -416,6 +416,7 @@ def start_fork8(batch):
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
+    time.sleep(30)
     command = '''
     docker-compose up -d xlayer-data-availability-fork8
     sleep 1
