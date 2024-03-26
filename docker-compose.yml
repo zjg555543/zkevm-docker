@@ -3,9 +3,9 @@ networks:
   default:
     name: xlayer
 services:
-  xlayer-sequencer-fork8:
+  xlayer-sequencer-fork9:
     container_name: xlayer-sequencer
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -13,16 +13,16 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
-  xlayer-json-rpc-fork8:
+  xlayer-json-rpc-fork9:
     container_name: xlayer-json-rpc
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -31,16 +31,16 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
-  xlayer-aggregator-fork8:
+  xlayer-aggregator-fork9:
     container_name: xlayer-aggregator
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -48,51 +48,51 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
-  xlayer-sync-fork8:
+  xlayer-sync-fork9:
     container_name: xlayer-sync
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
     volumes:
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
-  xlayer-executor-fork8:
+  xlayer-executor-fork9:
     container_name: xlayer-executor
-    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
+    image: okexchain/xlayer-prover:origin_zjg_fork9_20240325080109_458b8d26
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
     volumes:
-      - ./config/fork8/test.executor.config.json:/usr/src/app/config.json
+      - ./config/fork9/test.executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
-  xlayer-prover-fork8:
+  xlayer-prover-fork9:
     container_name: xlayer-prover
-    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
+    image: okexchain/xlayer-prover:origin_zjg_fork9_20240325080109_458b8d26
     volumes:
-      - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
-      - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
+      - /data/zkevm/v6.0.0-rc.1-fork.9/config:/app/config
+      - ./config/fork9/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
 
-  xlayer-bridge-service-fork8:
+  xlayer-bridge-service-fork9:
     container_name: xlayer-bridge-service
-    image: okexchain/xlayer-bridge-service:origin_release_v0.3.0_20240321025357_53a8055
+    image: okexchain/xlayer-bridge-service:origin_zjg_fork9_20240325080026_53a8055
     ports:
       - 8080:8080
       - 9090:9090
@@ -104,16 +104,16 @@ services:
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
       - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
-      - ./config/fork8/config.bridge.toml:/app/config.toml
+      - ./config/fork9/config.bridge.toml:/app/config.toml
       - ./config/root-ca-cert:/app/root-ca-cert
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-bridge run --cfg /app/config.toml"
 
-  xlayer-eth-tx-manager-fork8:
+  xlayer-eth-tx-manager-fork9:
     container_name: xlayer-eth-tx-manager
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -121,50 +121,50 @@ services:
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
-  xlayer-sequence-sender-fork8:
+  xlayer-sequence-sender-fork9:
     container_name: xlayer-sequence-sender
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     environment:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
-  xlayer-l2gaspricer-fork8:
+  xlayer-l2gaspricer-fork9:
     container_name: xlayer-l2gaspricer
-    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
+    image: okexchain/xlayer-node:origin_zjg_fork9_20240325075954_4ccc81eb
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
-      - ./config/fork8/test.node.config.toml:/app/config.toml
-      - ./config/fork8/test.genesis.config.json:/app/genesis.json
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
       - "/bin/sh"
       - "-c"
       - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
-  xlayer-data-availability-fork8:
+  xlayer-data-availability-fork9:
     container_name: xlayer-data-availability
-    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240321025443_f84bdab
+    image: okexchain/xlayer-data-availability:origin_zjg_fork9_20240325085836_f84bdab
     ports:
       - 8444:8444
     volumes:
-      - ./config/fork8/test.da.toml:/app/config.toml
+      - ./config/fork9/test.da.toml:/app/config.toml
       - ./config/test-member.keystore:/pk/test-member.keystore
     command:
       - "/bin/sh"
@@ -262,14 +262,15 @@ services:
       - "-N"
       - "500"
 
-  xlayer-bridge-ui-fork8:
+  xlayer-bridge-ui-fork9:
     container_name: xlayer-bridge-ui
-    image: hermeznetwork/zkevm-bridge-ui:mainnet
+    image: hermeznetwork/zkevm-bridge-ui:etrog-v2
     ports:
       - 8090:80
     environment:
       - ETHEREUM_RPC_URL=https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662
       - ETHEREUM_EXPLORER_URL=http://16.162.168.223:4000
+      - ETHEREUM_ROLLUP_MANAGER_ADDRESS={ETHEREUM_ROLLUP_MANAGER_ADDRESS_FORK8}
       - ETHEREUM_BRIDGE_CONTRACT_ADDRESS={ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}
       - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
       - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS={ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}

@@ -16,7 +16,7 @@ def get_genesis(file_path):
     return str(new_json_data)
 
 if __name__ == '__main__':
-    print('Deploying fork8...')
+    print('Deploying fork9...')
 
     command = '''
     docker-compose up -d xlayer-state-db
@@ -27,34 +27,34 @@ if __name__ == '__main__':
     docker-compose up -d xlayer-bridge-redis
 
     sleep 3
-    docker-compose up -d xlayer-data-availability-fork8
+    docker-compose up -d xlayer-data-availability-fork9
 
     sleep 3
-    docker-compose up -d xlayer-executor-fork8
+    docker-compose up -d xlayer-executor-fork9
     sleep 3
-    docker-compose up -d xlayer-prover-fork8
+    docker-compose up -d xlayer-prover-fork9
     sleep 3
-    docker-compose up -d xlayer-sync-fork8
+    docker-compose up -d xlayer-sync-fork9
     sleep 3
-    docker-compose up -d xlayer-eth-tx-manager-fork8
+    docker-compose up -d xlayer-eth-tx-manager-fork9
     sleep 3
-    docker-compose up -d xlayer-sequencer-fork8
+    docker-compose up -d xlayer-sequencer-fork9
     sleep 3
-    docker-compose up -d xlayer-sequence-sender-fork8
+    docker-compose up -d xlayer-sequence-sender-fork9
     sleep 3
-    docker-compose up -d xlayer-l2gaspricer-fork8
+    docker-compose up -d xlayer-l2gaspricer-fork9
     sleep 3
-    docker-compose up -d xlayer-aggregator-fork8
+    docker-compose up -d xlayer-aggregator-fork9
     sleep 3
-    docker-compose up -d xlayer-json-rpc-fork8
+    docker-compose up -d xlayer-json-rpc-fork9
     sleep 3
     docker-compose up -d kafka-zookeeper
     sleep 3
     docker-compose up -d xlayer-bridge-coin-kafka
     sleep 3
-    docker-compose up -d xlayer-bridge-service-fork8
+    docker-compose up -d xlayer-bridge-service-fork9
     sleep 3
-    docker-compose up -d xlayer-bridge-ui-fork8
+    docker-compose up -d xlayer-bridge-ui-fork9
 
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)

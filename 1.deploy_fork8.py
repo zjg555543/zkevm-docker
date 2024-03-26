@@ -41,7 +41,7 @@ def loadAccount():
     return account_info
 
 if __name__ == '__main__':
-    print('Deploying fork8...')
+    print('Deploying fork9...')
     account = loadAccount()
     genAccount = account["address"]
     genPriveKey = account["private_key"]
@@ -59,9 +59,9 @@ if __name__ == '__main__':
 
     # 编译合约
     command = '''
-    rm -rf fork8; 
-    mkdir fork8;
-    cd fork8; 
+    rm -rf fork9; 
+    mkdir fork9;
+    cd fork9; 
     git clone -b release/v0.3.0 https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     cp ../../config/deployment/.env .env;  
@@ -70,13 +70,13 @@ if __name__ == '__main__':
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork8/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork8/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork8/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork9/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork9/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork9/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork8/xlayer-contracts; 
+    cd ./fork9/xlayer-contracts; 
     npm i; 
     npm run deploy:v2:sepolia; 
     npm run  verify:v2:sepolia; 
@@ -88,61 +88,62 @@ if __name__ == '__main__':
 
     # # 编译node
     # command = '''
-    # cd fork8; 
-    # git clone -b zjg/fork8-upgrade https://github.com/okx/xlayer-node.git; 
+    # cd fork9; 
+    # git clone -b zjg/fork9-upgrade https://github.com/okx/xlayer-node.git; 
     # cd xlayer-node; 
-    # docker build -t xlayer-node-fork8 -f ./Dockerfile .
+    # docker build -t xlayer-node-fork9 -f ./Dockerfile .
     # '''
     # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     # logging.info(result.stdout)
 
     # # 编译da
     # command = '''
-    # cd fork8;
-    # git clone -b zjg/fork8-upgrade https://github.com/okx/xlayer-data-availability.git; 
+    # cd fork9;
+    # git clone -b zjg/fork9-upgrade https://github.com/okx/xlayer-data-availability.git; 
     # cd xlayer-data-availability; 
-    # docker build -t xlayer-data-availability-fork8 -f ./Dockerfile .
+    # docker build -t xlayer-data-availability-fork9 -f ./Dockerfile .
     # '''
     # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     # logging.info(result.stdout)
 
     # # 编译bridge
     # command = ''' 
-    # cd fork8;
-    # git clone -b hai/fork8 https://github.com/okx/xlayer-bridge-service.git;
+    # cd fork9;
+    # git clone -b hai/fork9 https://github.com/okx/xlayer-bridge-service.git;
     # cd xlayer-bridge-service;
-    # docker build -t xlayer-bridge-service-fork8 -f ./Dockerfile .
+    # docker build -t xlayer-bridge-service-fork9 -f ./Dockerfile .
     # '''
 
     # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     # logging.info(result.stdout)
 
     # 替换文件
-    dataCommitteeContract = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    deploymentBlockNumber = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    polygonZkEVMAddress = get_value('./fork8/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dataCommitteeContract = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
+    deploymentBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    polygonZkEVMAddress = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
-    polygonRollupManagerAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork8/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork8/xlayer-contracts/deployment/v2/genesis.json')
+    polygonRollupManagerAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork9/xlayer-contracts/deployment/v2/genesis.json')
 
-    replace_variable('./config/fork8/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+    replace_variable('./config/fork9/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork9/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
 
-    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork8/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
-    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork8/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork8/test.genesis.config.json', '{genesis}', genesisStr)
-    replace_variable('./config/fork8/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
+    replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork9/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
+    replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork9/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork9/test.genesis.config.json', '{genesis}', genesisStr)
+    replace_variable('./config/fork9/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
 
-    replace_variable('./config/fork8/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork8/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork8/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonRollupManagerAddress)
-    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEvmAddress}', polygonZkEVMAddress)
+    replace_variable('./config/fork9/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork9/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork9/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork9/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonRollupManagerAddress)
+    replace_variable('./config/fork9/config.bridge.toml', '{PolygonZkEvmAddress}', polygonZkEVMAddress)
 
+    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS_FORK8}', polygonRollupManagerAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
     replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', polygonZkEVMAddress)
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
@@ -157,5 +158,5 @@ if __name__ == '__main__':
     logging.info(result.stdout)
 
     logging.info("docker-compose logs --tail 50 -f | grep xlayer-sequencer")
-    logging.info("Deploy fork8 done.")
+    logging.info("Deploy fork9 done.")
 
