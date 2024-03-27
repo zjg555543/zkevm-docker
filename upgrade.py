@@ -471,7 +471,7 @@ def upgrade_fork8_l2contract():
     time.sleep(180)
 
     # execute
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {timelockL2Address} '{executeData}' "
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url http://127.0.0.1:8123 {timelockL2Address} '{executeData}' "
     command = command.replace("{genAccount}", account["address"])
     command = command.replace("{genPriveKey}", account["private_key"])
     command = command.replace("{executeData}", executeData)
