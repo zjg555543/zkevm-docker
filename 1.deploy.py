@@ -60,7 +60,7 @@ if __name__ == '__main__':
     rm -rf fork9; 
     mkdir fork9;
     cd fork9; 
-    git clone -b jiaji/fork.9 https://github.com/okx/xlayer-contracts.git; 
+    git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
