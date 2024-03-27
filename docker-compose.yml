@@ -13,6 +13,7 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
+      - ./:/datastreamer
       - ./config/fork6/test.node.config.toml:/app/config.toml
       - ./config/fork6/test.genesis.config.json:/app/genesis.json
     command:
@@ -181,6 +182,7 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
+      - ./:/datastreamer
       - ./config/fork8/test.node.config.toml:/app/config.toml
       - ./config/fork8/test.genesis.config.json:/app/genesis.json
     command:
@@ -388,6 +390,7 @@ services:
       - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
+      - ./:/datastreamer
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
