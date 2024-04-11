@@ -1,7 +1,7 @@
 {
     "test": true,
     "timelockAdminAddress": "{ADMIN}",
-    "minDelayTimelock": 3600,
+    "minDelayTimelock": 120,
     "salt": "0x0000000000000000000000000000000000000000000000000000000000000000",
     "initialZkEVMDeployerOwner" :"{ADMIN}",
     "admin":"{ADMIN}",
