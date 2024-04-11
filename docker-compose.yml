@@ -160,7 +160,7 @@ services:
 
   xlayer-data-availability-fork8:
     container_name: xlayer-data-availability
-    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240321025443_f84bdab
+    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240411015722_f84bdab
     ports:
       - 8444:8444
     volumes:
