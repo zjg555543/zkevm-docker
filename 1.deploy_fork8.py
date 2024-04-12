@@ -62,7 +62,7 @@ if __name__ == '__main__':
     rm -rf fork8; 
     mkdir fork8;
     cd fork8; 
-    git clone -b jiaji/fork8-upgrade https://github.com/okx/x1-contracts.git; 
+    git clone -b release/v0.3.0 https://github.com/okx/x1-contracts.git; 
     cd ./x1-contracts; 
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
