@@ -5,7 +5,7 @@ networks:
 services:
   x1-sequencer-fork8:
     container_name: x1-sequencer
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     ports:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
@@ -18,11 +18,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequencer"
 
   x1-json-rpc-fork8:
     container_name: x1-json-rpc
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     ports:
       - 8123:8123
       - 8133:8133 # needed if WebSockets enabled
@@ -36,11 +36,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components rpc"
 
   x1-aggregator-fork8:
     container_name: x1-aggregator
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     ports:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
@@ -53,11 +53,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components aggregator"
 
   x1-sync-fork8:
     container_name: x1-sync
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
@@ -68,11 +68,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components synchronizer"
 
   x1-executor-fork8:
     container_name: x1-executor
-    image: okexchain/x1-prover:origin_upgrade-fork8_20240311085240_44780a10
+    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560
     ports:
       - 50061:50061 # MT
       - 50071:50071 # Executor
@@ -83,7 +83,7 @@ services:
 
   x1-prover-fork8:
     container_name: x1-prover
-    image: okexchain/x1-prover:origin_upgrade-fork8_20240311085240_44780a10
+    image: okexchain/xlayer-prover:origin_release_v0.3.0_20240321025433_4f63a560f
     volumes:
       # - /data/zkevm/v5.0.0-rc.4-fork.8/config:/app/config
       - ./config/fork8/test.prover.config.json:/usr/src/app/config.json
@@ -92,7 +92,7 @@ services:
 
   x1-bridge-service-fork8:
     container_name: x1-bridge-service
-    image: okexchain/x1-bridge-service:origin_hai_fork8_20240311085214_16541cc
+    image: okexchain/xlayer-bridge-service:origin_release_v0.3.0_20240321025357_53a8055
     ports:
       - 8080:8080
       - 9090:9090
@@ -109,11 +109,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-bridge run --cfg /app/config.toml"
+      - "/app/xlayer-bridge run --cfg /app/config.toml"
 
   x1-eth-tx-manager-fork8:
     container_name: x1-eth-tx-manager
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
@@ -126,11 +126,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components eth-tx-manager"
 
   x1-sequence-sender-fork8:
     container_name: x1-sequence-sender
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     environment:
       - ZKEVM_NODE_STATEDB_HOST=x1-state-db
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
@@ -142,11 +142,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
 
   x1-l2gaspricer-fork8:
     container_name: x1-l2gaspricer
-    image: okexchain/x1-node:origin_zjg_fork8-upgrade_20240311085142_0fd7de96
+    image: okexchain/xlayer-node:origin_release_v0.3.0_20240321025324_7cbb58cf
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=x1-pool-db
     volumes:
@@ -156,11 +156,11 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
+      - "/app/xlayer-node run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components l2gaspricer"
 
   x1-data-availability-fork8:
     container_name: x1-data-availability
-    image: okexchain/x1-data-availability:origin_zjg_fork8-upgrade_20240311095032_babe04f
+    image: okexchain/xlayer-data-availability:origin_release_v0.3.0_20240411015722_f84bdab
     ports:
       - 8444:8444
     volumes:
@@ -169,7 +169,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/x1-data-availability run --cfg /app/config.toml"
+      - "/app/xlayer-data-availability run --cfg /app/config.toml"
 
   x1-bridge-db:
     container_name: x1-bridge-db
