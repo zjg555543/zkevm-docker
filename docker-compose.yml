@@ -13,4 +13,20 @@ services:
       - ./config/fork9/test.stateless_executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
+
+  xlayer-state-db:
+    container_name: xlayer-state-db
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./config/sql/init_prover_db.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=state_user
+      - POSTGRES_PASSWORD=state_password
+      - POSTGRES_DB=state_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
       
