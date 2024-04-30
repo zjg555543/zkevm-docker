@@ -6,7 +6,7 @@ Outputs = ["stderr"]
 [SequenceSender]
 WaitPeriodSendSequence = "15s"
 LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
-MaxTxSizeForL1 = 131072
+MaxTxSizeForL1 = 13107
 L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
 PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 SequencesTxFileName = "sequencesender.json"
