@@ -66,3 +66,24 @@ services:
     depends_on:
       xlayer-state-db:
         condition: service_healthy
+
+
+  xlayer-aggregator-db:
+    container_name: xlayer-aggregator-db
+    image: postgres:15
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=aggregator_user
+      - POSTGRES_PASSWORD=aggregator_password
+      - POSTGRES_DB=aggregator_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
