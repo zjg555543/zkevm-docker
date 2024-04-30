@@ -1,0 +1,34 @@
+[Log]
+Environment = "development" # "production" or "development"
+Level = "info"
+Outputs = ["stderr"]
+
+[SequenceSender]
+WaitPeriodSendSequence = "15s"
+LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+MaxTxSizeForL1 = 131072
+L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
+SequencesTxFileName = "sequencesender.json"
+WaitPeriodPurgeTxFile = "60m"
+MaxPendingTx = 1
+	[SequenceSender.StreamClient]
+		Server = "172.31.54.18:6900"
+	[SequenceSender.EthTxManager]
+		FrequencyToMonitorTxs = "1s"
+		WaitTxToBeMined = "2m"
+		ConsolidationL1ConfirmationBlocks = 5
+		FinalizationL1ConfirmationBlocks = 10
+		WaitReceiptToBeGenerated = "8s"
+		PrivateKeys = [
+			{Path = "/pk/sequencer.keystore", Password = "password"},
+		]
+		ForcedGas = 0
+		GasPriceMarginFactor = 1
+		MaxGasPriceLimit = 0
+		PersistenceFilename = "ethtxmanager.json"
+			[SequenceSender.EthTxManager.Etherman]
+				URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+				MultiGasProvider = false
+				L1ChainID = 11155111
+				HTTPHeaders = []
