@@ -33,10 +33,6 @@ services:
   xlayer-seqsender:
     container_name: xlayer-seqsender
     image: hermeznetwork/zkevm-seqsender:v0.1.1-RC1
-    environment:
-      - ZKEVM_NODE_SEQUENCESENDER_L2COINBASE=${SEQUENCER_ADDR}
-      - ZKEVM_NODE_SEQUENCESENDER_ETHTXMANAGER_ETHERMAN_URL=${L1_EP}
-      - ZKEVM_NODE_SEQUENCESENDER_ETHTXMANAGER_ETHERMAN_L1CHAINID=${L1_CHAINID}
     volumes:
       - ./config/data-seqsender:/app/data
       - ./config/sequencer.keystore:/pk/sequencer.keystore
