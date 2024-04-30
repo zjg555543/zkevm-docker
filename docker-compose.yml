@@ -109,3 +109,13 @@ services:
       timeout: 5s
       retries: 5
       start_period: 5s
+
+  xlayer-prover:
+    container_name: xlayer-prover
+    restart: unless-stopped
+    image: hermeznetwork/zkevm-prover:v6.0.1
+    volumes:
+      - ./config/prover/config.json:/usr/src/app/config.json
+      - ./config/prover/config:/app/config
+    command: >
+      zkProver -c /usr/src/app/config.json
