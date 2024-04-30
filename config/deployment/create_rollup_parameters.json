@@ -1,5 +1,5 @@
 {
-    "realVerifier": true,
+    "realVerifier": false,
     "trustedSequencerURL": "http://xlayer-json-rpc:8123",
     "networkName": "zkevm",
     "description":"0.0.1",
@@ -7,8 +7,7 @@
     "chainID": 195,
     "adminZkEVM":"{ADMIN}",
     "forkID": 9,
-    "consensusContract": "PolygonValidiumEtrog",
-    "dataAvailabilityProtocol": "PolygonDataCommittee",
+    "consensusContract": "PolygonZkEVMEtrog",
     "gasTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
     "deployerPvtKey": "",
     "maxFeePerGas":"",

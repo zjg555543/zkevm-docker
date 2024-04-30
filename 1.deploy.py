@@ -60,8 +60,9 @@ if __name__ == '__main__':
     rm -rf fork9; 
     mkdir fork9;
     cd fork9; 
-    git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
+    git clone https://github.com/0xPolygonHermez/zkevm-contracts.git; 
     cd ./xlayer-contracts; 
+    git checkout v6.0.0-rc.1-fork.9;
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
     cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
