@@ -148,13 +148,13 @@ if __name__ == '__main__':
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
 
     # 设置da地址
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-    command = command.replace("{genAccount}", genAccount)
-    command = command.replace("{genPriveKey}", genPriveKey)
-    command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
-    logging.info(command)
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    # command = command.replace("{genAccount}", genAccount)
+    # command = command.replace("{genPriveKey}", genPriveKey)
+    # command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
+    # logging.info(command)
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
     logging.info("docker-compose logs --tail 50 -f | grep xlayer-sequencer")
     logging.info("Deploy fork9 done.")
