@@ -61,7 +61,7 @@ if __name__ == '__main__':
     mkdir fork9;
     cd fork9; 
     git clone https://github.com/0xPolygonHermez/zkevm-contracts.git; 
-    cd ./xlayer-contracts; 
+    cd ./zkevm-contracts; 
     git checkout v6.0.0-rc.1-fork.9;
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
@@ -69,13 +69,13 @@ if __name__ == '__main__':
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork9/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork9/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork9/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork9/zkevm-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork9/zkevm-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork9/zkevm-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork9/xlayer-contracts; 
+    cd ./fork9/zkevm-contracts; 
     npm i; 
     npm run deploy:v2:sepolia; 
     npm run  verify:v2:sepolia; 
@@ -117,14 +117,14 @@ if __name__ == '__main__':
     # logging.info(result.stdout)
 
     # 替换文件
-    dataCommitteeContract = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    deploymentBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    polygonZkEVMAddress = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dataCommitteeContract = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
+    deploymentBlockNumber = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    polygonZkEVMAddress = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
-    polygonRollupManagerAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork9/xlayer-contracts/deployment/v2/genesis.json')
+    polygonRollupManagerAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
 
     replace_variable('./config/fork9/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork9/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
