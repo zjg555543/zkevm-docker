@@ -29,6 +29,12 @@ services:
       - "postgres"
       - "-N"
       - "500"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U state_user -d state_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
       
   xlayer-seqsender:
     container_name: xlayer-seqsender
