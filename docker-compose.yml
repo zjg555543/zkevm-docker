@@ -115,7 +115,7 @@ services:
     restart: unless-stopped
     image: hermeznetwork/zkevm-prover:v6.0.1
     volumes:
-      - ./config/prover/config.json:/usr/src/app/config.json
-      - ./config/prover/config:/app/config
+      - ./config/fork9/test.prover.config.json:/usr/src/app/config.json
+      - ./config/fork9:/app/config
     command: >
       zkProver -c /usr/src/app/config.json
