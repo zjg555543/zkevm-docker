@@ -43,7 +43,6 @@ services:
     container_name: xlayer-seqsender
     image: hermeznetwork/zkevm-seqsender:v0.1.1-RC1
     volumes:
-      - ./config/data-seqsender:/app/data
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/fork9/seqsender.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
