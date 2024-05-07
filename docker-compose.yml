@@ -118,7 +118,7 @@ services:
 
   xlayer-erigon-seq:
     container_name: xlayer-erigon-seq
-    image: zjg555543/erigon-sequencer:v0.3.1
+    image: zjg555543/erigon-sequencer:v0.3.1-injected
     environment:
       - CDK_ERIGON_SEQUENCER=1
     ports:
