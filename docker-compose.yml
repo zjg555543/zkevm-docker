@@ -108,7 +108,7 @@ services:
     container_name: zkevm-approve
     image: hermeznetwork/zkevm-node:v0.6.6
     volumes:
-      - ./sequencer.keystore:/pk/keystore
+      - ./config/sequencer.keystore:/pk/keystore
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
