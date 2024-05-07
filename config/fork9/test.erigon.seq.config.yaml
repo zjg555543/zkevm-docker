@@ -12,10 +12,10 @@ zkevm.address-sequencer: "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
 zkevm.address-zkevm: "{polygonZkEVMAddress}"
 zkevm.address-admin: "{polygonRollupManagerAddress}"
 zkevm.address-rollup: "{polygonZkEVMAddress}"
-zkevm.address-ger-manager: "{GerManagerAddress}"
+zkevm.address-ger-manager: "{polygonZkEVMGlobalExitRootAddress}"
 
 zkevm.l1-rollup-id: 1
-zkevm.l1-first-block: {GenesisBlockNumber}
+zkevm.l1-first-block: {genesisBlockNumber}
 zkevm.l1-block-range: 10
 zkevm.l1-query-delay: 100
 zkevm.rpc-ratelimit: 300

@@ -51,18 +51,6 @@ def loadAccount():
 
 if __name__ == '__main__':
     print('Config ...')
-    account = loadAccount()
-    genAccount = account["address"]
-    genPriveKey = account["private_key"]
-    genMnemonic = account["mnemonic"]
-
-    command = '''
-    docker stop $(docker ps -aq); 
-    docker rm $(docker ps -aq);
-    docker ps -a;
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
 
     # 替换文件
     deploymentBlockNumber = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
@@ -80,8 +68,8 @@ if __name__ == '__main__':
         "./config/fork9/aggregator.node.config.toml", 
         "./config/fork9/seqsender.node.config.toml", 
         "./config/fork9/test.erigon.seq.config.yaml",
-        "dynamic-mynetwork-conf.json",
-        "dynamic-mynetwork-allocs.json"
+        "./config/erigon/dynamic-mynetwork-conf.json",
+        "./config/erigon/dynamic-mynetwork-allocs.json"
     ]
 
     for file in file_list:
