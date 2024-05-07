@@ -1,0 +1,6 @@
+{
+  "root": "{dynamicRoot}",
+  "timestamp": {dynamicTimestamp},
+  "gasLimit": 0,
+  "difficulty": 0
+}

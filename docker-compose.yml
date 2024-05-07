@@ -54,7 +54,7 @@ services:
 
   xlayer-aggregator:
     container_name: xlayer-aggregator
-    image: hermeznetwork/zkevm-aggregator:v0.0.1-RC7
+    image: zjg555543/erigon-aggregator:v0.0.1-RC7
     ports:
       - 50081:50081
     volumes:
@@ -102,3 +102,31 @@ services:
     depends_on:
       xlayer-state-db:
         condition: service_healthy
+
+  xlayer-approve:
+    container_name: zkevm-approve
+    image: hermeznetwork/zkevm-node:v0.6.6
+    volumes:
+      - ./sequencer.keystore:/pk/keystore
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw testonly --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml"
+
+  xlayer-erigon-seq:
+    container_name: xlayer-erigon-seq
+    image: zjg555543/erigon-sequencer:v0.3.1
+    environment:
+      - CDK_ERIGON_SEQUENCER=1
+    ports:
+      - 8545:8545
+      - 6900:6900
+    volumes:
+      - ./config/fork9/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
+      - ./config/erigon/dynamic-mynetwork-allocs.json:/home/erigon/dynamic-configs/dynamic-mynetwork-allocs.json
+      - ./config/erigon/dynamic-mynetwork-chainspec.json:/home/erigon/dynamic-configs/dynamic-mynetwork-chainspec.json
+      - ./config/erigon/dynamic-mynetwork-conf.json:/home/erigon/dynamic-configs/dynamic-mynetwork-conf.json
+    command: >
+      cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml

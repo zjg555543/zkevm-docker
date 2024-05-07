@@ -8,7 +8,7 @@
     "runAggregatorClient": false,
     "runAggregatorClientMock": false,
     "aggregatorClientMockTimeout": 1,
-    "proverName": "test-prover",
+    "proverName": "stateless-executor",
     "runFileGenBatchProof": false,
     "runFileGenAggregatedProof": false,
     "runFileGenFinalProof": false,
