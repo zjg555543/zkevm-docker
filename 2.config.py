@@ -22,6 +22,15 @@ def get_value(file_path, key):
     value = data.get(key, None)
     return str(value)
 
+def get_value_second(file_path, key1, key2):
+    # 读取JSON文件
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    value = data.get(key1, None)
+    value2 = value.get(key2, None)
+    return str(value2)
+
 def get_genesis(file_path):
     # 读取JSON文件
     lines = []
@@ -58,14 +67,14 @@ if __name__ == '__main__':
     # 替换文件
     deploymentBlockNumber = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
     polygonZkEVMAddress = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dynamicRoot = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'genesis')
+    dynamicTimestamp = get_value_second('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
     polygonRollupManagerAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     polygonZkEVMBridgeAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
     dynamicAlloc = "" # TODO
-    dynamicRoot = ""
-    dynamicTimestamp = ""
-
+    
     file_list = [
         "./config/fork9/test.genesis.config.json", 
         "./config/fork9/aggregator.node.config.toml", 
@@ -86,6 +95,5 @@ if __name__ == '__main__':
         replace_variable(file, '{dynamicTimestamp}', dynamicTimestamp)
 
 
-    logging.info("docker-compose logs --tail 50 -f | grep xlayer-sequencer")
-    logging.info("Deploy fork9 done.")
+    logging.info("Config done.")
 
