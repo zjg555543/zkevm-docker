@@ -49,6 +49,30 @@ def loadAccount():
         account_info = json.load(json_file)
     return account_info
 
+def get_erigon_genesis(file_path):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    new_json_obj = {}
+    temp_array = data.get("genesis", None)
+    for item in temp_array:
+        add = str(item["address"])
+        new_item = item
+        if "bytecode" in item:
+            new_item["code"] = item["bytecode"]
+            del new_item["bytecode"] 
+        else:
+            new_item["code"] = None
+
+        if "storage" not in item:
+            new_item["storage"] = None
+
+        del new_item["address"]
+        
+        new_json_obj[add] = new_item
+
+    return json.dumps(new_json_obj, indent=4)
+
 if __name__ == '__main__':
     print('Config ...')
 
@@ -61,7 +85,8 @@ if __name__ == '__main__':
     polygonZkEVMGlobalExitRootAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     polygonZkEVMBridgeAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
     genesisStr = get_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
-    dynamicAlloc = "" # TODO
+    dynamicAlloc = get_erigon_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
+    logging.info(dynamicAlloc)
     
     file_list = [
         "./config/fork9/test.genesis.config.json", 
