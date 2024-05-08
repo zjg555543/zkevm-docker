@@ -1,6 +1,8 @@
 import subprocess
 import logging
 import json
+import shutil
+
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
 
 def replace_variable(file_path, variable_name, new_value):
@@ -76,7 +78,7 @@ def get_erigon_genesis(file_path):
 if __name__ == '__main__':
     print('Config ...')
 
-    # 替换文件
+    # 获取变量
     deploymentBlockNumber = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
     polygonZkEVMAddress = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
     dynamicRoot = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'genesis')
@@ -87,6 +89,19 @@ if __name__ == '__main__':
     genesisStr = get_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
     dynamicAlloc = get_erigon_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
     logging.info(dynamicAlloc)
+
+    # 拷贝模版
+    shutil.copy('./config/template/dynamic-mynetwork-allocs.json', './config/erigon')
+    shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
+    shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
+
+    shutil.copy('./config/template/aggregator.node.config.toml', './config/fork9')
+    shutil.copy('./config/template/seqsender.node.config.toml', './config/fork9')
+    shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/fork9')
+    shutil.copy('./config/template/test.genesis.config.json', './config/fork9')
+    shutil.copy('./config/template/test.node.config.toml', './config/fork9')
+    shutil.copy('./config/template/test.prover.config.json', './config/fork9')
+    shutil.copy('./config/template/test.stateless_executor.config.json', './config/fork9')
     
     file_list = [
         "./config/fork9/test.genesis.config.json", 
