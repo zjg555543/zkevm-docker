@@ -189,6 +189,7 @@ services:
     ports:
       - 8123:8123
       - 61090:61090
+      - 50081:50081
     environment:
       - ZKEVM_NODE_STATE_DB_HOST=zkevm-state-db
       - ZKEVM_NODE_POOL_HOST=zkevm-pool-db
