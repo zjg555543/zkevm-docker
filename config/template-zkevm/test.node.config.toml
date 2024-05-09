@@ -115,7 +115,7 @@ StateConsistencyCheckInterval = "5s"
 		BatchMaxDeltaTimestamp = "300s"
 		L2BlockMaxDeltaTimestamp = "4s"
 		ResourceExhaustedMarginPct = 10
-		HaltOnBatchNumber = 0
+		HaltOnBatchNumber = 10
 		SequentialBatchSanityCheck = false
 		SequentialProcessL2Block = true
 	[Sequencer.Finalizer.Metrics]
