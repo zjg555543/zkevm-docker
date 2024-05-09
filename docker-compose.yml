@@ -105,7 +105,7 @@ services:
         condition: service_healthy
 
   erigon-approve:
-    container_name: zkevm-approve
+    container_name: erigon-approve
     image: hermeznetwork/zkevm-node:v0.6.6
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
