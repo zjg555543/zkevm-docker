@@ -102,6 +102,10 @@ if __name__ == '__main__':
     shutil.copy('./config/template/test.node.config.toml', './config/erigon')
     shutil.copy('./config/template/test.prover.config.json', './config/erigon')
     shutil.copy('./config/template/test.stateless_executor.config.json', './config/erigon')
+
+    shutil.copy('./config/template-zkevm/test.genesis.config.json', './config/zkevm')
+    shutil.copy('./config/template-zkevm/test.node.config.toml', './config/zkevm')
+    shutil.copy('./config/template-zkevm/test.prover.config.json', './config/zkevm')
     
     file_list = [
         "./config/erigon/test.genesis.config.json", 
@@ -109,7 +113,9 @@ if __name__ == '__main__':
         "./config/erigon/seqsender.node.config.toml", 
         "./config/erigon/test.erigon.seq.config.yaml",
         "./config/erigon/dynamic-mynetwork-conf.json",
-        "./config/erigon/dynamic-mynetwork-allocs.json"
+        "./config/erigon/dynamic-mynetwork-allocs.json",
+        "./config/zkevm/test.genesis.config.json",
+        "./config/zkevm/test.node.config.toml",
     ]
 
     for file in file_list:
