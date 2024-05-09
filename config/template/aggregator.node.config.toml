@@ -41,7 +41,7 @@ LERContract = "0xa40D5f56745a118D0906a34E69aeC8C0Db1cB8fA"
 		MaxGasPriceLimit = 0
 		PersistenceFilename = "/ethtxmanager_aggregator.json"
 			[Aggregator.EthTxManager.Etherman]
-				URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+				URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
 				L1ChainID = 11155111
 				HTTPHeaders = []
 	[Aggregator.Synchronizer]
