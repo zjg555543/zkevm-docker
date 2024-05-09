@@ -125,6 +125,7 @@ services:
       - 8545:8545
       - 6900:6900
     volumes:
+      - ./erigon-data/:/home/erigon/.local/share/erigon
       - ./config/erigon/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
       - ./config/erigon/dynamic-mynetwork-allocs.json:/home/erigon/dynamic-configs/dynamic-mynetwork-allocs.json
       - ./config/erigon/dynamic-mynetwork-chainspec.json:/home/erigon/dynamic-configs/dynamic-mynetwork-chainspec.json
@@ -132,8 +133,19 @@ services:
     command: >
       cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
 
-
-
+  erigon-rpc:
+    container_name: erigon-rpc
+    image: zjg555543/erigon-sequencer:v0.3.1-injected
+    ports:
+      - 8545:8545
+    volumes:
+      - ./erigon-data/:/home/erigon/.local/share/erigon
+      - ./config/erigon/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
+      - ./config/erigon/dynamic-mynetwork-allocs.json:/home/erigon/dynamic-configs/dynamic-mynetwork-allocs.json
+      - ./config/erigon/dynamic-mynetwork-chainspec.json:/home/erigon/dynamic-configs/dynamic-mynetwork-chainspec.json
+      - ./config/erigon/dynamic-mynetwork-conf.json:/home/erigon/dynamic-configs/dynamic-mynetwork-conf.json
+    command: >
+      cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
 
   zkevm-state-db:
     container_name: zkevm-state-db
@@ -198,7 +210,7 @@ services:
     image: hermeznetwork/zkevm-node:v0.6.6
     ports:
       - 8123:8123
-      - 61090:61090
+      - 6900:6900
     environment:
       - ZKEVM_NODE_STATE_DB_HOST=zkevm-state-db
       - ZKEVM_NODE_POOL_HOST=zkevm-pool-db
@@ -214,12 +226,6 @@ services:
       - "/bin/sh"
       - "-c"
       - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml --key-store-path /pk/keystore.sequencer --password password"
-
-  zkevm-mock-l1-network:
-    container_name: zkevm-local-l1-network
-    image: hermeznetwork/geth-zkevm-contracts:v2.1.1-fork.7-geth1.12.0
-    ports:
-      - 8545:8545
 
   zkevm-prover:
     container_name: zkevm-prover

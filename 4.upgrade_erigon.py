@@ -19,6 +19,8 @@ if __name__ == '__main__':
     print('Setup sequencer..')
 
     command = '''
+        docker-compose stop
+        
         docker-compose up -d erigon-aggregator-db
         docker-compose up -d erigon-state-db
         sleep 3
@@ -28,9 +30,9 @@ if __name__ == '__main__':
         sleep 3
         docker-compose up -d erigon-seq
         sleep 3
-        docker-compose up -d erigon-seqsender
+        # docker-compose up -d erigon-seqsender
         sleep 3
-        docker-compose up -d erigon-aggregator
+        # docker-compose up -d erigon-aggregator
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
