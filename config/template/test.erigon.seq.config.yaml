@@ -1,5 +1,5 @@
 datadir: /home/erigon/.local/share/erigon
-chain: xlayer-dev
+chain: dynamic-mynetwork
 http: true
 private.api.addr: localhost:9091
 zkevm.l2-chain-id: 195
@@ -21,7 +21,7 @@ zkevm.l1-query-delay: 100
 zkevm.rpc-ratelimit: 300
 zkevm.datastream-version: 2
 
-zkevm.executor-urls: xlayer-stateless-executor:50071
+zkevm.executor-urls: erigon-stateless-executor:50071
 zkevm.executor-strict: true
 zkevm.witness-full: true
 

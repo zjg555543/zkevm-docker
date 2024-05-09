@@ -95,19 +95,19 @@ if __name__ == '__main__':
     shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
     shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
 
-    shutil.copy('./config/template/aggregator.node.config.toml', './config/fork9')
-    shutil.copy('./config/template/seqsender.node.config.toml', './config/fork9')
-    shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/fork9')
-    shutil.copy('./config/template/test.genesis.config.json', './config/fork9')
-    shutil.copy('./config/template/test.node.config.toml', './config/fork9')
-    shutil.copy('./config/template/test.prover.config.json', './config/fork9')
-    shutil.copy('./config/template/test.stateless_executor.config.json', './config/fork9')
+    shutil.copy('./config/template/aggregator.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/seqsender.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/erigon')
+    shutil.copy('./config/template/test.genesis.config.json', './config/erigon')
+    shutil.copy('./config/template/test.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/test.prover.config.json', './config/erigon')
+    shutil.copy('./config/template/test.stateless_executor.config.json', './config/erigon')
     
     file_list = [
-        "./config/fork9/test.genesis.config.json", 
-        "./config/fork9/aggregator.node.config.toml", 
-        "./config/fork9/seqsender.node.config.toml", 
-        "./config/fork9/test.erigon.seq.config.yaml",
+        "./config/erigon/test.genesis.config.json", 
+        "./config/erigon/aggregator.node.config.toml", 
+        "./config/erigon/seqsender.node.config.toml", 
+        "./config/erigon/test.erigon.seq.config.yaml",
         "./config/erigon/dynamic-mynetwork-conf.json",
         "./config/erigon/dynamic-mynetwork-allocs.json"
     ]
