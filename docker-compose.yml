@@ -236,3 +236,25 @@ services:
       - /data/zkevm/v6.0.0-rc.1-fork.9/config:/app/config
     command: >
       zkProver -c /usr/src/app/config.json
+
+  zkevm-event-db:
+    container_name: zkevm-event-db
+    image: postgres:15
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    ports:
+      - 5435:5432
+    volumes:
+      - ./config/sql/init_event_db.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=event_user
+      - POSTGRES_PASSWORD=event_password
+      - POSTGRES_DB=event_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"

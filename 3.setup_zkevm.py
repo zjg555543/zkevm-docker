@@ -21,6 +21,7 @@ if __name__ == '__main__':
     command = '''
         docker-compose up -d zkevm-state-db
         docker-compose up -d zkevm-pool-db
+        docker-compose up -d zkevm-event-db
         docker-compose up -d zkevm-approve
         sleep 3
         docker-compose up -d zkevm-prover
