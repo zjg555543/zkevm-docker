@@ -193,8 +193,6 @@ services:
       - ZKEVM_NODE_STATE_DB_HOST=zkevm-state-db
       - ZKEVM_NODE_POOL_HOST=zkevm-pool-db
       - ZKEVM_NODE_RPC_DB_HOST=zkevm-rpc-db
-      - ZKEVM_NODE_SEQUENCER_FINALIZER_BATCHMAXDELTATIMESTAMP="4s"
-      - ZKEVM_NODE_SEQUENCER_FINALIZER_L2BLOCKMAXDELTATIMESTAMP="1s"
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
@@ -215,8 +213,6 @@ services:
       - ZKEVM_NODE_STATE_DB_HOST=zkevm-state-db
       - ZKEVM_NODE_POOL_HOST=zkevm-pool-db
       - ZKEVM_NODE_RPC_DB_HOST=zkevm-rpc-db
-      - ZKEVM_NODE_SEQUENCER_FINALIZER_BATCHMAXDELTATIMESTAMP="4s"
-      - ZKEVM_NODE_SEQUENCER_FINALIZER_L2BLOCKMAXDELTATIMESTAMP="1s"
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/aggregator.keystore:/pk/aggregator.keystore
