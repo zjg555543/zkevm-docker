@@ -28,7 +28,7 @@ MaxPendingTx = 1
 		MaxGasPriceLimit = 0
 		PersistenceFilename = "ethtxmanager.json"
 			[SequenceSender.EthTxManager.Etherman]
-				URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+				URL = "https://rpc.eu-central-1.gateway.fm/v4/ethereum/non-archival/sepolia?apikey=IkrTRMPAlsjfgTyKz1Xfa5ldS8XSc0PN.En5aU2Gwdxvf3zk2"
 				MultiGasProvider = false
 				L1ChainID = 11155111
 				HTTPHeaders = []

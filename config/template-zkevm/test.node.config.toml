@@ -60,7 +60,7 @@ GlobalQueue = 1024
 	MaxConns = 200
 
 [Etherman]
-URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+URL = "https://rpc.eu-central-1.gateway.fm/v4/ethereum/non-archival/sepolia?apikey=IkrTRMPAlsjfgTyKz1Xfa5ldS8XSc0PN.En5aU2Gwdxvf3zk2"
 ForkIDChunkSize = 200
 MultiGasProvider = false
 	[Etherscan]

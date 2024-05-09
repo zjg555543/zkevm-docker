@@ -6,7 +6,7 @@ zkevm.l2-chain-id: 195
 zkevm.l2-sequencer-rpc-url: http://zkevm-node:8123
 zkevm.l2-datastreamer-url: zkevm-node:6900
 zkevm.l1-chain-id: 11155111
-zkevm.l1-rpc-url: https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0
+zkevm.l1-rpc-url: https://rpc.eu-central-1.gateway.fm/v4/ethereum/non-archival/sepolia?apikey=IkrTRMPAlsjfgTyKz1Xfa5ldS8XSc0PN.En5aU2Gwdxvf3zk2
 
 zkevm.address-sequencer: "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
 zkevm.address-zkevm: "{polygonZkEVMAddress}"
