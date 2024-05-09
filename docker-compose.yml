@@ -221,7 +221,7 @@ services:
     command: 
       - "/bin/sh"
       - "-c"
-      - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml --key-store-path /pk/keystore.sequencer --password password"
+      - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml --key-store-path /pk/sequencer.keystore --password password"
 
   zkevm-prover:
     container_name: zkevm-prover
