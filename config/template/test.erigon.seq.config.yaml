@@ -1,4 +1,4 @@
-datadir: /home/erigon/.local/share/erigon
+datadir: /root/.local/share/erigon
 chain: dynamic-mynetwork
 http: true
 private.api.addr: localhost:9091
