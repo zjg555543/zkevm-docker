@@ -136,7 +136,7 @@ MaxTxSizeForL1 = 131072
 L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
 PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 	[SequenceSender.StreamClient]
-		Server = "zkevm-sequencer:6900"
+		Server = "zkevm-node:6900"
 
 [Aggregator]
 Host = "0.0.0.0"

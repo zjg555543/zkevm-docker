@@ -4,7 +4,7 @@ http: true
 private.api.addr: localhost:9091
 zkevm.l2-chain-id: 195
 zkevm.l2-sequencer-rpc-url: http://zkevm-node:8123
-zkevm.l2-datastreamer-url: http://zkevm-node:6900
+zkevm.l2-datastreamer-url: zkevm-node:6900
 zkevm.l1-chain-id: 11155111
 zkevm.l1-rpc-url: https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0
 
