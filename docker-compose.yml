@@ -198,6 +198,7 @@ services:
       - ./config/aggregator.keystore:/pk/aggregator.keystore
       - ./config/zkevm/test.node.config.toml:/app/config.toml
       - ./config/zkevm/test.genesis.config.json:/app/genesis.json
+      - ./zkevm-datastreamer:/datastreamer
     command: 
       - "/bin/sh"
       - "-c"
