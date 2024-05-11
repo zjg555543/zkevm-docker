@@ -38,4 +38,4 @@ if __name__ == '__main__':
     logging.info(result.stdout)
     logging.info("docker-compose logs --tail 10 -f")
 
-    logging.info("等待 erigon-seq 同步到第9个batch后，将zkevm.l1-sync-start-block改为0后，再次重启即可")
+    logging.info("等待 erigon-seq 同步到第2个batch后，将zkevm.l1-sync-start-block改为0后，再次重启即可")
