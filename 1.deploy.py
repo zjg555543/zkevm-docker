@@ -118,6 +118,7 @@ if __name__ == '__main__':
     # 替换文件
     dataCommitteeContract = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
     deploymentBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    rollupManagerCreationBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'deploymentRollupManagerBlockNumber')
     polygonZkEVMAddress = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
 
     polygonRollupManagerAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
@@ -131,6 +132,8 @@ if __name__ == '__main__':
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork9/test.genesis.config.json', '{rollupCreationBlockNum}', deploymentBlockNumber)
+    replace_variable('./config/fork9/test.genesis.config.json', '{rollupManagerCreationBlockNumber}', rollupManagerCreationBlockNumber)
     replace_variable('./config/fork9/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork9/test.genesis.config.json', '{genesis}', genesisStr)
     replace_variable('./config/fork9/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
