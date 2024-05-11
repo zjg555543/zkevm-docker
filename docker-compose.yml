@@ -112,7 +112,7 @@ services:
 
   erigon-seq:
     container_name: erigon-seq
-    image: xlayer-erigon
+    image: zjg555543/erigon-sequencer:v0.3.1-injected
     environment:
       - CDK_ERIGON_SEQUENCER=1
     ports:
@@ -129,7 +129,7 @@ services:
 
   erigon-rpc:
     container_name: erigon-rpc
-    image: xlayer-erigon
+    image: zjg555543/erigon-sequencer:v0.3.1-injected
     ports:
       - 8545:8545
     volumes:
