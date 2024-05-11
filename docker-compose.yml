@@ -13,9 +13,6 @@ services:
       - ./config/erigon/test.stateless_executor.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
-    depends_on:
-      erigon-state-db:
-        condition: service_healthy
 
   erigon-state-db:
     container_name: erigon-state-db
@@ -100,9 +97,6 @@ services:
       - ./config/erigon/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
-    depends_on:
-      erigon-state-db:
-        condition: service_healthy
 
   erigon-approve:
     container_name: erigon-approve

@@ -29,11 +29,13 @@ if __name__ == '__main__':
         docker-compose up -d erigon-approve
         sleep 3
         docker-compose up -d erigon-seq
-        sleep 3
+        # sleep 3
         # docker-compose up -d erigon-seqsender
-        sleep 3
+        # sleep 3
         # docker-compose up -d erigon-aggregator
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
     logging.info("docker-compose logs --tail 10 -f")
+
+    logging.info("等待 erigon-seq 同步到第9个batch后，将zkevm.l1-sync-start-block改为0后，再次重启即可")

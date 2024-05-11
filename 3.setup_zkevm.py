@@ -27,8 +27,8 @@ if __name__ == '__main__':
         docker-compose up -d zkevm-prover
         sleep 5
         docker-compose up -d zkevm-node
-        sleep 5
-        docker-compose up -d erigon-rpc
+        # sleep 5
+        # docker-compose up -d erigon-rpc
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
