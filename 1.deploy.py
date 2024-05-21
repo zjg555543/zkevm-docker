@@ -131,7 +131,7 @@ if __name__ == '__main__':
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
     replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork9/test.genesis.config.json', '{rollupCreationBlockNum}', deploymentBlockNumber)
+    replace_variable('./config/fork9/test.genesis.config.json', '{rollupCreationBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork9/test.genesis.config.json', '{rollupManagerCreationBlockNumber}', rollupManagerCreationBlockNumber)
     replace_variable('./config/fork9/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
     replace_variable('./config/fork9/test.genesis.config.json', '{genesis}', genesisStr)
