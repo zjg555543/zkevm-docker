@@ -8,7 +8,7 @@
     "adminZkEVM":"{ADMIN}",
     "forkID": 9,
     "consensusContract": "PolygonValidiumEtrog",
-    "dataAvailabilityProtocol": "PolygonDataCommittee",
+    "dataAvailabilityProtocol": "Celestia",
     "gasTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
     "deployerPvtKey": "",
     "maxFeePerGas":"",
