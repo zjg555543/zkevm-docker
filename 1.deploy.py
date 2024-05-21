@@ -47,13 +47,13 @@ if __name__ == '__main__':
     genPriveKey = account["private_key"]
     genMnemonic = account["mnemonic"]
 
-    command = '''
-    docker stop $(docker ps -aq); 
-    docker rm $(docker ps -aq);
-    docker ps -a;
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # command = '''
+    # docker stop $(docker ps -aq);
+    # docker rm $(docker ps -aq);
+    # docker ps -a;
+    # '''
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
     # 编译合约
     command = '''
@@ -74,10 +74,9 @@ if __name__ == '__main__':
 
     # 部署合约
     command = '''
-    cd ./fork9/xlayer-contracts; 
-    npm i; 
-    npm run deploy:v2:sepolia; 
-    npm run  verify:v2:sepolia; 
+    cd ./fork9/xlayer-contracts;
+    npm i;
+    npm run deploy:v2:localhost;
     cat deployment/v2/create_rollup_output.json;
     cat deployment/v2/deploy_output.json;
     '''
@@ -150,13 +149,13 @@ if __name__ == '__main__':
     replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
 
     # 设置da地址
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
-    command = command.replace("{genAccount}", genAccount)
-    command = command.replace("{genPriveKey}", genPriveKey)
-    command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
-    logging.info(command)
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    # command = command.replace("{genAccount}", genAccount)
+    # command = command.replace("{genPriveKey}", genPriveKey)
+    # command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
+    # logging.info(command)
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
     logging.info("docker-compose logs --tail 50 -f | grep xlayer-sequencer")
     logging.info("Deploy fork9 done.")
