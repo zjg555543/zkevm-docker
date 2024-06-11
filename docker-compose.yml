@@ -96,7 +96,6 @@ services:
     container_name: erigon-prover
     image: hermeznetwork/zkevm-prover:v6.0.1
     volumes:
-      - /data/zkevm/v6.0.0-rc.1-fork.9/config:/app/config
       - ./config/erigon/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
