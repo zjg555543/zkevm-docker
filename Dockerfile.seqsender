@@ -12,10 +12,10 @@ COPY ./xlayer-ethtx-manager/go.sum /src/xlayer-ethtx-manager/
 COPY ./xlayer-synchronizer-l1/go.mod /src/xlayer-synchronizer-l1/
 COPY ./xlayer-synchronizer-l1/go.sum /src/xlayer-synchronizer-l1/
 
-RUN cd /src/xlayer-sequence-sender && go mod download
 
 # BUILD BINARY
-COPY . /src
+COPY . /src/
+RUN cd /src/xlayer-sequence-sender && go mod download
 RUN cd /src/xlayer-sequence-sender && make build
 
 # CONTAINER FOR RUNNING BINARY
