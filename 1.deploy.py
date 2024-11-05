@@ -57,25 +57,25 @@ if __name__ == '__main__':
 
     # 编译合约
     command = '''
-    rm -rf fork9; 
-    mkdir fork9;
-    cd fork9; 
-    git clone https://github.com/0xPolygonHermez/zkevm-contracts.git; 
-    cd ./zkevm-contracts; 
-    git checkout v6.0.0-rc.1-fork.9;
+    rm -rf fork13; 
+    mkdir fork13;
+    cd fork13; 
+    git clone https://github.com/okx/xlayer-contracts.git; 
+    cd ./xlayer-contracts; 
+    git checkout upstream/v8.1.0-rc.1-fork.13;
     cp ../../config/deployment/.env .env;  
     cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
     cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork9/zkevm-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork9/zkevm-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork9/zkevm-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork13/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./fork13/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./fork13/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork9/zkevm-contracts; 
+    cd ./fork13/xlayer-contracts; 
     npm i; 
     npm run deploy:v2:sepolia; 
     npm run  verify:v2:sepolia; 
