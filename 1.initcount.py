@@ -17,7 +17,7 @@ def getBalance():
     logging.info(result.stdout)
 
 def sendEth():
-    command = 'cast send -f 0x14dC79964da2C08b23698B3D3cc7Ca32193d9955 --private-key 0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356 --value 3ether --legacy ' + loadAccount()
+    command = 'cast send -f 0x14dC79964da2C08b23698B3D3cc7Ca32193d9955 --private-key 0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356 --value 3ether --legacy ' + loadAccount()["address"]
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 

@@ -47,25 +47,24 @@ if __name__ == '__main__':
     genPriveKey = account["private_key"]
     genMnemonic = account["mnemonic"]
 
-    command = '''
-    docker stop $(docker ps -aq); 
-    docker rm $(docker ps -aq);
-    docker ps -a;
-    '''
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
-    logging.info(result.stdout)
+    # command = '''
+    # docker stop $(docker ps -aq); 
+    # docker rm $(docker ps -aq);
+    # docker ps -a;
+    # '''
+    # result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    # logging.info(result.stdout)
 
     # 编译合约
     command = '''
-    # rm -rf fork13; 
-    # mkdir fork13;
+    # rm -rf fork13; mkdir fork13;
     cd fork13; 
-    # git clone https://github.com/okx/xlayer-contracts.git; 
+    git clone https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     git checkout upstream/v8.1.0-rc.1-fork.13;
-    cp ../../config/deployment/.env .env;  
-    cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
-    cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
+    cp -rf ../../config/deployment/.env .env;  
+    cp -rf ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
+    cp -rf ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
@@ -77,8 +76,7 @@ if __name__ == '__main__':
     command = '''
     cd ./fork13/xlayer-contracts; 
     npm i; 
-    npm run deploy:v2:sepolia; 
-    # npm run  verify:v2:sepolia; 
+    npm run deploy:v2:localhost; 
     cat deployment/v2/create_rollup_output.json;
     cat deployment/v2/deploy_output.json;
     '''
