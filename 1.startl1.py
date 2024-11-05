@@ -20,7 +20,8 @@ if __name__ == '__main__':
 
     command = '''
         docker-compose up -d zkevm-mock-l1-network
+        sleep 3
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    logging.info("docker-compose logs --tail 10 -f")
+    logging.info("docker-compose logs --tail 10")
