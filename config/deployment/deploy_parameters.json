@@ -9,7 +9,7 @@
     "trustedAggregatorTimeout": 604799,
     "pendingStateTimeout": 604799,
     "emergencyCouncilAddress": "{ADMIN}",
-    "polTokenAddress":"0xe223519d64C0A49e7C08303c2220251be6b70e1d",
+    "polTokenAddress":"0x5FbDB2315678afecb367f032d93F642f64180aa3",
     "zkEVMDeployerAddress":"{ADMIN}",
     "deployerPvtKey": "",
     "maxFeePerGas":"",

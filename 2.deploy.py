@@ -57,8 +57,8 @@ if __name__ == '__main__':
 
     # 编译合约
     command = '''
-    # rm -rf fork13; mkdir fork13;
-    cd fork13; 
+    # rm -rf fork13; 
+    mkdir -p fork13; cd fork13; 
     git clone https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     git checkout upstream/v8.1.0-rc.1-fork.13;
