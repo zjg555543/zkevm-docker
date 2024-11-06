@@ -1,0 +1,113 @@
+[Common]
+IsValidiumMode = true
+ContractVersions = "banana"
+
+[SequenceSender]
+WaitPeriodSendSequence = "15s"
+LastBatchVirtualizationTimeMaxWaitPeriod = "10s"
+L1BlockTimestampMargin = "30s"
+MaxTxSizeForL1 = 131072
+L2Coinbase = "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+PrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
+SequencesTxFileName = "sequencesender.json"
+GasOffset = 80000
+WaitPeriodPurgeTxFile = "60m"
+MaxPendingTx = 1
+RPCURL = "http://erigon-seq:8545"
+GetBatchWaitInterval = "10s"
+	[SequenceSender.EthTxManager]
+		FrequencyToMonitorTxs = "1s"
+		WaitTxToBeMined = "2m"
+		GetReceiptMaxTime = "250ms"
+		GetReceiptWaitInterval = "1s"
+		PrivateKeys = [
+			{Path = "/pk/sequencer.keystore", Password = "password"},
+		]
+		ForcedGas = 0
+		GasPriceMarginFactor = 1
+		MaxGasPriceLimit = 0
+		StoragePath = "ethtxmanager.db"
+		ReadPendingL1Txs = false
+		SafeStatusL1NumberOfBlocks = 5
+		FinalizedStatusL1NumberOfBlocks = 10
+			[SequenceSender.EthTxManager.Etherman]
+				URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+				MultiGasProvider = false
+				L1ChainID = 11155111
+				HTTPHeaders = []
+
+[Aggregator]
+Host = "0.0.0.0"
+Port = 50081
+RetryTime = "5s"
+VerifyProofInterval = "10s"
+TxProfitabilityCheckerType = "acceptall"
+TxProfitabilityMinReward = "1.1"
+ProofStatePollingInterval = "5s"
+SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
+CleanupLockedProofsInterval = "2m"
+GeneratingProofCleanupThreshold = "10m"
+BatchProofSanityCheckEnabled = true
+ForkId = 13
+GasOffset = 0
+RPCURL = "http://erigon-seq:8545"
+WitnessURL = "http://erigon-seq:8545"
+SettlementBackend = "l1"
+AggLayerTxTimeout = "5m"
+AggLayerURL = ""
+SyncModeOnlyEnabled = false
+UseFullWitness = false
+SequencerPrivateKey = {}
+	[Aggregator.DB]
+		Name = "aggregator_db"
+		User = "aggregator_user"
+		Password = "aggregator_password"
+		Host = "erigon-aggregator-db"
+		Port = "5432"
+		EnableLog = false	
+		MaxConns = 200
+	[Aggregator.Log]
+		Environment = "development" # "production" or "development"
+		Level = "info"
+		Outputs = ["stderr"]
+	[Aggregator.EthTxManager]
+		FrequencyToMonitorTxs = "1s"
+		WaitTxToBeMined = "2m"
+		GetReceiptMaxTime = "250ms"
+		GetReceiptWaitInterval = "1s"
+		PrivateKeys = [
+			{Path = "/pk/aggregator.keystore", Password = "password"},
+		]
+		ForcedGas = 0
+		GasPriceMarginFactor = 1
+		MaxGasPriceLimit = 0
+		StoragePath = ""
+		ReadPendingL1Txs = false
+		SafeStatusL1NumberOfBlocks = 0
+		FinalizedStatusL1NumberOfBlocks = 0
+			[Aggregator.EthTxManager.Etherman]
+				URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+				L1ChainID = 11155111
+				HTTPHeaders = []
+	[Aggregator.Synchronizer]
+		[Aggregator.Synchronizer.SQLDB]
+			Name = "state_db"
+			User = "state_user"
+			Password = "state_password"
+			Host = "erigon-state-db"
+			Port = "5432"
+			EnableLog = false
+			MaxConns = 10
+		[Aggregator.Synchronizer.Synchronizer]
+			SyncInterval = "10s"
+			SyncChunkSize = 1000
+			GenesisBlockNumber = {genesisBlockNumber}
+			SyncUpToBlock = "finalized"
+			BlockFinality = "finalized"
+		[Aggregator.Synchronizer.Etherman]
+			[Aggregator.Synchronizer.Etherman.Validium]
+				Enabled = false
+				TrustedSequencerURL = ""
+				DataSourcePriority = ["trusted", "external"]
+				[Aggregator.Synchronizer.Etherman.Validium.Translator]
+					FullMatchRules = []
