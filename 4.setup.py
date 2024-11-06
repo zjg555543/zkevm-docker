@@ -27,10 +27,10 @@ if __name__ == '__main__':
         docker-compose up -d erigon-approve
         sleep 3
         docker-compose up -d erigon-seq
-        sleep 3
-        docker-compose up -d erigon-seqsender
-        sleep 3
-        docker-compose up -d erigon-aggregator
+        # sleep 3
+        # docker-compose up -d erigon-seqsender
+        # sleep 3
+        # docker-compose up -d erigon-aggregator
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)

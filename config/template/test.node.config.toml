@@ -1,5 +1,5 @@
 [Etherman]
-URL = "https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0"
+URL = "http://zkevm-mock-l1-network:8545"
 ForkIDChunkSize = 100
 MultiGasProvider = false
 [Etherscan]

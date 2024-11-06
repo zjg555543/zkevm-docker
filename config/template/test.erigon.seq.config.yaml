@@ -5,13 +5,13 @@ private.api.addr: localhost:9091
 zkevm.l2-chain-id: 195
 zkevm.l2-sequencer-rpc-url:
 zkevm.l2-datastreamer-url:
-zkevm.l1-chain-id: 11155111
-zkevm.l1-rpc-url: https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0
+zkevm.l1-chain-id: 1337
+zkevm.l1-rpc-url: http://zkevm-mock-l1-network:8545
 
-zkevm.address-sequencer: "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+zkevm.address-sequencer: "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 zkevm.address-zkevm: "{polygonZkEVMAddress}"
-zkevm.address-admin: "{polygonRollupManagerAddress}"
-zkevm.address-rollup: "{polygonZkEVMAddress}"
+zkevm.address-admin: "{adminAddress}"
+zkevm.address-rollup: "{polygonRollupManagerAddress}"
 zkevm.address-ger-manager: "{polygonZkEVMGlobalExitRootAddress}"
 
 zkevm.l1-rollup-id: 1
@@ -21,11 +21,11 @@ zkevm.l1-query-delay: 100
 zkevm.rpc-ratelimit: 300
 zkevm.datastream-version: 2
 
-zkevm.executor-urls: erigon-stateless-executor:50071
-zkevm.executor-strict: true
-zkevm.witness-full: true
+zkevm.executor-urls: ""
+zkevm.executor-strict: false
+zkevm.witness-full: false
+zkevm.l1-contract-address-check: true
 
-zkevm.sequencer-initial-fork-id: 9
 zkevm.data-stream-host: "localhost"
 zkevm.data-stream-port: 6900
 zkevm.default-gas-price: 1
@@ -44,3 +44,5 @@ db.read.concurrency: 20000
 txpool.globalslots: 100000
 txpool.globalbasefeeslots: 100000
 txpool.globalqueue: 100000
+
+log.console.verbosity: debug
