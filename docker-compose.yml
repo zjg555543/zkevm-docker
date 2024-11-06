@@ -117,16 +117,16 @@ services:
 
   erigon-seq:
     container_name: erigon-seq
-    image: zjg555543/erigon-sequencer:v0.3.1-injected
+    image: cdk-erigon
     environment:
       - CDK_ERIGON_SEQUENCER=1
     ports:
-      - 8545:8545
+      - 8123:8545
       - 6900:6900
     volumes:
       - ./config/erigon/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
-      - ./config/erigon/dynamic-mynetwork-allocs.json:/home/erigon/dynamic-configs/dynamic-mynetwork-allocs.json
-      - ./config/erigon/dynamic-mynetwork-chainspec.json:/home/erigon/dynamic-configs/dynamic-mynetwork-chainspec.json
-      - ./config/erigon/dynamic-mynetwork-conf.json:/home/erigon/dynamic-configs/dynamic-mynetwork-conf.json
+      - ./config/erigon/dynamic-mynetwork-allocs.json:/usr/src/app/dynamic-mynetwork-allocs.json
+      - ./config/erigon/dynamic-mynetwork-chainspec.json:/usr/src/app/dynamic-mynetwork-chainspec.json
+      - ./config/erigon/dynamic-mynetwork-conf.json:/usr/src/app/dynamic-mynetwork-conf.json
     command: >
       cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml

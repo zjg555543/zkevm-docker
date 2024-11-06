@@ -79,15 +79,16 @@ if __name__ == '__main__':
     print('Config ...')
 
     # 获取变量
-    deploymentBlockNumber = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    polygonZkEVMAddress = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
-    dynamicRoot = get_value('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'genesis')
-    dynamicTimestamp = get_value_second('./fork9/zkevm-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
-    polygonRollupManagerAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork9/zkevm-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
-    dynamicAlloc = get_erigon_genesis('./fork9/zkevm-contracts/deployment/v2/genesis.json')
+    rawDeplymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    deploymentBlockNumber = str(int(rawDeplymentBlockNumber) - 1)
+    polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dynamicRoot = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'genesis')
+    dynamicTimestamp = get_value_second('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
+    polygonRollupManagerAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
+    dynamicAlloc = get_erigon_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
     logging.info(dynamicAlloc)
 
     # 拷贝模版
