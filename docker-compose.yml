@@ -41,6 +41,7 @@ services:
     container_name: xlayer-seqs
     image: cdk
     volumes:
+      - ./data/cdk:/tmp/cdk
       - ./config/sequencer.keystore:/pk/sequencer.keystore
       - ./config/erigon/cdk.config.toml:/app/config.toml
       - ./config/erigon/test.genesis.config.json:/app/genesis.json
