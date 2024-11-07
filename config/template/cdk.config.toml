@@ -166,7 +166,7 @@ SyncBlockChunkSize=10
 BlockFinality="LatestBlock"
 URLRPCL1="http://xlayer-seq:8545"
 WaitForNewBlocksPeriod="100ms"
-InitialBlock=0
+InitialBlock= {genesisBlockNumber}
 
 [AggOracle]
 TargetChainType="EVM"
