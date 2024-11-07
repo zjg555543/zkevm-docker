@@ -110,8 +110,8 @@ if __name__ == '__main__':
         "./config/erigon/cdk.config.toml", 
         "./config/erigon/test.erigon.seq.config.yaml",
         "./config/erigon/dynamic-mynetwork-conf.json",
-        "./config/erigon/dynamic-mynetwork-allocs.json"
-        "./config/erigon/config/template/test.da.toml"
+        "./config/erigon/dynamic-mynetwork-allocs.json",
+        "./config/erigon/test.da.toml"
     ]
 
     for file in file_list:
@@ -125,6 +125,8 @@ if __name__ == '__main__':
         replace_variable(file, '{dynamicRoot}', dynamicRoot)
         replace_variable(file, '{dynamicTimestamp}', dynamicTimestamp)
         replace_variable(file, '{dataCommitteeContract}', dataCommitteeContract)
+        replace_variable(file, '{polygonValidiumAddress}', polygonZkEVMAddress)
+        replace_variable(file, '{dataCommitteeAddress}', dataCommitteeContract)
 
     logging.info("Config done.")
 

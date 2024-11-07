@@ -1,3 +1,15 @@
+[Etherman]
+	URL="https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+	ForkIDChunkSize=100
+	[Etherman.EthermanConfig]
+		URL="https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+		MultiGasProvider=false
+		L1ChainID=11155111
+		HTTPHeaders=[]
+		[Etherman.EthermanConfig.Etherscan]
+			ApiKey=""
+			Url="https://api.etherscan.io/api?module=gastracker&action=gasoracle&apikey="
+
 [Common]
 IsValidiumMode = true
 ContractVersions = "banana"
@@ -111,3 +123,31 @@ SequencerPrivateKey = {}
 				DataSourcePriority = ["trusted", "external"]
 				[Aggregator.Synchronizer.Etherman.Validium.Translator]
 					FullMatchRules = []
+
+[L1InfoTreeSync]
+	DBPath = "/tmp/cdk/L1InfoTreeSync.sqlite"
+	GlobalExitRootAddr="0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
+	RollupManagerAddr = "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
+	SyncBlockChunkSize=10
+	BlockFinality="LatestBlock"
+	URLRPCL1="http://erigon-seq:8545"
+	WaitForNewBlocksPeriod="100ms"
+	InitialBlock=0
+
+[LastGERSync]
+	# MDBX database path
+	DBPath = "/tmp/cdk/lastgersync.sqlite"
+	BlockFinality = "LatestBlock"
+	InitialBlockNum = 0
+	GlobalExitRootL2Addr = "{{L2Config.GlobalExitRootAddr}}"
+	RetryAfterErrorPeriod = "1s"
+	MaxRetryAttemptsAfterError = -1
+	WaitForNewBlocksPeriod = "1s"
+	DownloadBufferSize = 100
+
+[NetworkConfig.L1]
+	L1ChainID = 11155111
+	PolAddr = "0xe223519d64C0A49e7C08303c2220251be6b70e1d"
+	ZkEVMAddr = "0x45511B6E5FAB7668eA3eCf14e9E9893833392844"
+	RollupManagerAddr = "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
+	GlobalExitRootManagerAddr = "0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
