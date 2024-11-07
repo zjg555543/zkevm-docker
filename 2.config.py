@@ -127,6 +127,7 @@ if __name__ == '__main__':
         replace_variable(file, '{dataCommitteeContract}', dataCommitteeContract)
         replace_variable(file, '{polygonValidiumAddress}', polygonZkEVMAddress)
         replace_variable(file, '{dataCommitteeAddress}', dataCommitteeContract)
+        replace_variable(file, '{polygonZkEVMBridgeAddress}', polygonZkEVMBridgeAddress)
 
     logging.info("Config done.")
 
