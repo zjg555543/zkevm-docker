@@ -81,8 +81,7 @@ if __name__ == '__main__':
     # 获取变量
     adminAccount = loadAccount()["address"]
     dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    rawDeplymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    deploymentBlockNumber = str(int(rawDeplymentBlockNumber) - 1000)
+    deplymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'deploymentRollupManagerBlockNumber')
     polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
     dynamicRoot = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'genesis')
     dynamicTimestamp = get_value_second('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
@@ -121,7 +120,7 @@ if __name__ == '__main__':
         replace_variable(file, '{polygonZkEVMAddress}', polygonZkEVMAddress)
         replace_variable(file, '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
         replace_variable(file, '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-        replace_variable(file, '{genesisBlockNumber}', deploymentBlockNumber)
+        replace_variable(file, '{genesisBlockNumber}', deplymentBlockNumber)
         replace_variable(file, '{genesis}', genesisStr)
         replace_variable(file, '{dynamicAlloc}', dynamicAlloc)
         replace_variable(file, '{dynamicRoot}', dynamicRoot)
