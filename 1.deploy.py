@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     # 设置da地址
     dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-da:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     command = command.replace("{genAccount}", genAccount)
     command = command.replace("{genPriveKey}", genPriveKey)
     command = command.replace("{dataCommitteeContract}", dataCommitteeContract)

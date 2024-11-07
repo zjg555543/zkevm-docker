@@ -19,18 +19,18 @@ if __name__ == '__main__':
     print('Setup sequencer..')
 
     command = '''
-        docker-compose up -d erigon-aggregator-db
-        docker-compose up -d erigon-state-db
+        docker-compose up -d xlayer-agg-db
+        docker-compose up -d xlayer-state-db
         sleep 3
-        docker-compose up -d erigon-stateless-executor
-        docker-compose up -d erigon-prover
-        docker-compose up -d erigon-approve
+        docker-compose up -d xlayer-executor
+        docker-compose up -d xlayer-prover
+        docker-compose up -d xlayer-approve
         sleep 3
-        docker-compose up -d erigon-seq
+        docker-compose up -d xlayer-seq
         sleep 3
-        docker-compose up -d erigon-seqsender
+        docker-compose up -d xlayer-seqs
         sleep 3
-        docker-compose up -d erigon-aggregator
+        docker-compose up -d xlayer-agg
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)

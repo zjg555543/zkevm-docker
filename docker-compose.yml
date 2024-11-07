@@ -14,7 +14,7 @@ services:
     command: >
       zkProver -c /usr/src/app/config.json
     depends_on:
-      erigon-state-db:
+      xlayer-state-db:
         condition: service_healthy
 
   xlayer-state-db:
@@ -63,8 +63,8 @@ services:
       - "-c"
       - "/usr/local/bin/cdk-node run --cfg /app/config.toml --network custom --custom-network-file /app/genesis.json  --components aggregator"
 
-  xlayer-aggregator-db:
-    container_name: erigon-aggregator-db
+  xlayer-agg-db:
+    container_name: xlayer-agg-db
     image: postgres:15
     deploy:
       resources:
@@ -90,14 +90,14 @@ services:
       start_period: 5s
 
   xlayer-prover:
-    container_name: erigon-prover
+    container_name: xlayer-prover
     image: hermeznetwork/zkevm-prover:v9.0.0-RC1-fork.13
     volumes:
       - ./config/erigon/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
     depends_on:
-      erigon-state-db:
+      xlayer-state-db:
         condition: service_healthy
 
   xlayer-approve:
@@ -112,8 +112,8 @@ services:
       - "-c"
       - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw password --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml"
 
-  erigon-seq:
-    container_name: erigon-seq
+  xlayer-seq:
+    container_name: xlayer-seq
     image: cdk-erigon
     environment:
       - CDK_ERIGON_SEQUENCER=1
@@ -128,8 +128,8 @@ services:
     command: >
       cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
 
-  xlayer-data-availability:
-    container_name: xlayer-data-availability
+  xlayer-da:
+    container_name: xlayer-da
     image: okexchain/xlayer-data-availability:origin_release_v0.3.1_20240411102017_f84bdab
     ports:
       - 8444:8444
@@ -141,8 +141,8 @@ services:
       - "-c"
       - "/app/xlayer-data-availability run --cfg /app/config.toml"
 
-  xlayer-data-availability-db:
-    container_name: xlayer-data-availability-db
+  xlayer-da-db:
+    container_name: xlayer-da-db
     image: postgres
     ports:
       - 5437:5432
