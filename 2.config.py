@@ -80,6 +80,7 @@ if __name__ == '__main__':
 
     # 获取变量
     adminAccount = loadAccount()["address"]
+    dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
     rawDeplymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
     deploymentBlockNumber = str(int(rawDeplymentBlockNumber) - 1)
     polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
@@ -96,24 +97,21 @@ if __name__ == '__main__':
     shutil.copy('./config/template/dynamic-mynetwork-allocs.json', './config/erigon')
     shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
     shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
-
-    # shutil.copy('./config/template/aggregator.node.config.toml', './config/erigon')
-    # shutil.copy('./config/template/seqsender.node.config.toml', './config/erigon')
     shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/erigon')
     shutil.copy('./config/template/test.genesis.config.json', './config/erigon')
     shutil.copy('./config/template/test.node.config.toml', './config/erigon')
     shutil.copy('./config/template/test.prover.config.json', './config/erigon')
     shutil.copy('./config/template/test.stateless_executor.config.json', './config/erigon')
     shutil.copy('./config/template/cdk.config.toml', './config/erigon')
+    shutil.copy('./config/template/test.da.toml', './config/erigon')
     
     file_list = [
         "./config/erigon/test.genesis.config.json", 
-        # "./config/erigon/aggregator.node.config.toml", 
-        # "./config/erigon/seqsender.node.config.toml", 
         "./config/erigon/cdk.config.toml", 
         "./config/erigon/test.erigon.seq.config.yaml",
         "./config/erigon/dynamic-mynetwork-conf.json",
         "./config/erigon/dynamic-mynetwork-allocs.json"
+        "./config/erigon/config/template/test.da.toml"
     ]
 
     for file in file_list:
@@ -126,7 +124,7 @@ if __name__ == '__main__':
         replace_variable(file, '{dynamicAlloc}', dynamicAlloc)
         replace_variable(file, '{dynamicRoot}', dynamicRoot)
         replace_variable(file, '{dynamicTimestamp}', dynamicTimestamp)
-
+        replace_variable(file, '{dataCommitteeContract}', dataCommitteeContract)
 
     logging.info("Config done.")
 

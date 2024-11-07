@@ -3,9 +3,9 @@ networks:
   default:
     name: xlayer
 services:
-  erigon-stateless-executor:
-    container_name: erigon-stateless-executor
-    image: hermeznetwork/zkevm-prover:v6.0.2-RC3
+  xlayer-executor:
+    container_name: xlayer-executor
+    image: hermeznetwork/zkevm-prover:v9.0.0-RC1-fork.13
     ports:
       - 0.0.0.0:50061:50061 # MT
       - 0.0.0.0:50071:50071 # Executor
@@ -17,8 +17,8 @@ services:
       erigon-state-db:
         condition: service_healthy
 
-  erigon-state-db:
-    container_name: erigon-state-db
+  xlayer-state-db:
+    container_name: xlayer-state-db
     image: postgres
     ports:
       - 5432:5432
@@ -37,8 +37,8 @@ services:
       retries: 5
       start_period: 5s
       
-  erigon-seqsender:
-    container_name: erigon-seqsender
+  xlayer-seqs:
+    container_name: xlayer-seqs
     image: cdk
     volumes:
       - ./config/sequencer.keystore:/pk/sequencer.keystore
@@ -49,8 +49,8 @@ services:
       - "-c"
       - "/usr/local/bin/cdk-node run --cfg /app/config.toml --custom-network-file /app/genesis.json --components sequence-sender"
 
-  erigon-aggregator:
-    container_name: erigon-aggregator
+  xlayer-agg:
+    container_name: xlayer-agg
     image: cdk
     ports:
       - 50081:50081
@@ -61,9 +61,9 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/cdk run --cfg /app/config.toml --network custom --custom-network-file /app/genesis.json  --components aggregator"
+      - "/usr/local/bin/cdk-node run --cfg /app/config.toml --network custom --custom-network-file /app/genesis.json  --components aggregator"
 
-  erigon-aggregator-db:
+  xlayer-aggregator-db:
     container_name: erigon-aggregator-db
     image: postgres:15
     deploy:
@@ -89,9 +89,9 @@ services:
       retries: 5
       start_period: 5s
 
-  erigon-prover:
+  xlayer-prover:
     container_name: erigon-prover
-    image: hermeznetwork/zkevm-prover:v6.0.1
+    image: hermeznetwork/zkevm-prover:v9.0.0-RC1-fork.13
     volumes:
       - ./config/erigon/test.prover.config.json:/usr/src/app/config.json
     command: >
@@ -100,8 +100,8 @@ services:
       erigon-state-db:
         condition: service_healthy
 
-  erigon-approve:
-    container_name: erigon-approve
+  xlayer-approve:
+    container_name: xlayer-approve
     image: hermeznetwork/zkevm-node:v0.6.6
     volumes:
       - ./config/sequencer.keystore:/pk/keystore
@@ -127,3 +127,30 @@ services:
       - ./config/erigon/dynamic-mynetwork-conf.json:/usr/src/app/dynamic-mynetwork-conf.json
     command: >
       cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
+
+  xlayer-data-availability:
+    container_name: xlayer-data-availability
+    image: okexchain/xlayer-data-availability:origin_release_v0.3.1_20240411102017_f84bdab
+    ports:
+      - 8444:8444
+    volumes:
+      - ./config/erigon/test.da.toml:/app/config.toml
+      - ./config/test-member.keystore:/pk/test-member.keystore
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/xlayer-data-availability run --cfg /app/config.toml"
+
+  xlayer-data-availability-db:
+    container_name: xlayer-data-availability-db
+    image: postgres
+    ports:
+      - 5437:5432
+    environment:
+      - POSTGRES_USER=committee_user
+      - POSTGRES_PASSWORD=committee_password
+      - POSTGRES_DB=committee_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
