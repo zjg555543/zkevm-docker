@@ -82,7 +82,7 @@ if __name__ == '__main__':
     adminAccount = loadAccount()["address"]
     dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
     rawDeplymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    deploymentBlockNumber = str(int(rawDeplymentBlockNumber) - 1)
+    deploymentBlockNumber = str(int(rawDeplymentBlockNumber) - 1000)
     polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
     dynamicRoot = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'genesis')
     dynamicTimestamp = get_value_second('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
