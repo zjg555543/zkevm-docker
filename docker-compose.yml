@@ -156,7 +156,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/app/xlayer-data-availability run --cfg /app/config.toml"
+      - "/app/cdk-data-availability run --cfg /app/config.toml"
 
   xlayer-da-db:
     container_name: xlayer-da-db
