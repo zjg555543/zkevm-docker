@@ -147,7 +147,7 @@ services:
 
   xlayer-da:
     container_name: xlayer-da
-    image: okexchain/xlayer-data-availability:origin_release_v0.3.1_20240411102017_f84bdab
+    image: 0xpolygon/cdk-data-availability:0.0.10
     ports:
       - 8444:8444
     volumes:
