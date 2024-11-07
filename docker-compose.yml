@@ -62,7 +62,7 @@ services:
     command:
       - "/bin/sh"
       - "-c"
-      - "/usr/local/bin/cdk-node run --cfg /app/config.toml --network custom --custom-network-file /app/genesis.json  --components aggregator"
+      - "/usr/local/bin/cdk-node run --cfg /app/config.toml --custom-network-file /app/genesis.json  --components aggregator"
 
   xlayer-agg-db:
     container_name: xlayer-agg-db
