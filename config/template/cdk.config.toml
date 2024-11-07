@@ -36,7 +36,7 @@ WaitPeriodPurgeTxFile = "60m"
 MaxPendingTx = 1
 MaxBatchesForL1 = 300
 BlockFinality = "FinalizedBlock"
-RPCURL = "http://xlayer-seq:8545"
+RPCURL = "http://xlayer-rpc:8545"
 GetBatchWaitInterval = "10s"
 	[SequenceSender.EthTxManager]
 		FrequencyToMonitorTxs = "1s"
@@ -76,8 +76,8 @@ SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 GasOffset = 0
-RPCURL = "http://xlayer-seq:8545"
-WitnessURL = "http://xlayer-seq:8545"
+RPCURL = "http://xlayer-rpc:8545"
+WitnessURL = "http://xlayer-rpc:8545"
 UseFullWitness = false
 SettlementBackend = "l1"
 AggLayerTxTimeout = "5m"
@@ -164,7 +164,7 @@ GlobalExitRootAddr="0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
 RollupManagerAddr = "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
 SyncBlockChunkSize=10
 BlockFinality="LatestBlock"
-URLRPCL1="http://xlayer-seq:8545"
+URLRPCL1="http://xlayer-rpc:8545"
 WaitForNewBlocksPeriod="100ms"
 InitialBlock= {genesisBlockNumber}
 
@@ -285,6 +285,6 @@ StoragePath = "/tmp/cdk/aggsender.sqlite"
 AggLayerURL = ""
 AggsenderPrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 BlockGetInterval = "2s"
-URLRPCL2="http://xlayer-seq:8545"
+URLRPCL2="http://xlayer-rpc:8545"
 CheckSettledInterval = "2s"
 SaveCertificatesToFiles = false

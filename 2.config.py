@@ -98,6 +98,7 @@ if __name__ == '__main__':
     shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
     shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
     shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/erigon')
+    shutil.copy('./config/template/test.erigon.rpc.config.yaml', './config/erigon')
     shutil.copy('./config/template/test.genesis.config.json', './config/erigon')
     shutil.copy('./config/template/test.node.config.toml', './config/erigon')
     shutil.copy('./config/template/test.prover.config.json', './config/erigon')
@@ -109,6 +110,7 @@ if __name__ == '__main__':
         "./config/erigon/test.genesis.config.json", 
         "./config/erigon/cdk.config.toml", 
         "./config/erigon/test.erigon.seq.config.yaml",
+        "./config/erigon/test.erigon.rpc.config.yaml",
         "./config/erigon/dynamic-mynetwork-conf.json",
         "./config/erigon/dynamic-mynetwork-allocs.json",
         "./config/erigon/test.da.toml"
