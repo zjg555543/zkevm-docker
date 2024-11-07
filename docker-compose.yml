@@ -138,7 +138,6 @@ services:
       - 6901:6900
     volumes:
       - ./config/erigon/test.erigon.rpc.config.yaml:/usr/src/app/config.yaml
-      - ./data/seq:/home/erigon/.local/share/erigon
       - ./data/rpc:/home/erigon/.local/share/erigon
       - ./config/erigon/dynamic-mynetwork-allocs.json:/usr/src/app/dynamic-mynetwork-allocs.json
       - ./config/erigon/dynamic-mynetwork-chainspec.json:/usr/src/app/dynamic-mynetwork-chainspec.json
