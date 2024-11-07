@@ -1,0 +1,45 @@
+datadir: /home/erigon/.local/share/erigon
+chain: dynamic-mynetwork
+http: true
+private.api.addr: localhost:9091
+zkevm.l2-chain-id: 195
+zkevm.l2-sequencer-rpc-url:
+zkevm.l2-datastreamer-url:
+zkevm.l1-chain-id: 11155111
+zkevm.l1-rpc-url: https://sepolia.infura.io/v3/563f6332bff84704b14989b8b74e14c0
+
+zkevm.address-sequencer: "0x4820E45eB6Cf99074389544F83FE1F30084bdAb7"
+zkevm.address-zkevm: "0x45511B6E5FAB7668eA3eCf14e9E9893833392844"
+zkevm.address-admin: "0x681de92a9639c30bc564956C3259F97b3Ee00c1a"
+zkevm.address-rollup: "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
+zkevm.address-ger-manager: "0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
+
+zkevm.l1-rollup-id: 1
+zkevm.l1-first-block: 7022280
+zkevm.l1-block-range: 10
+zkevm.l1-query-delay: 100
+zkevm.rpc-ratelimit: 300
+zkevm.datastream-version: 2
+
+zkevm.executor-urls: 
+zkevm.executor-strict: false
+zkevm.witness-full: true
+
+zkevm.data-stream-host: "localhost"
+zkevm.data-stream-port: 6900
+zkevm.default-gas-price: 1
+zkevm.max-gas-price: 0
+zkevm.gas-price-factor: 0.000001
+
+externalcl: true
+http.api: [eth, debug, net, trace, web3, erigon, txpool, zkevm]
+http.addr: 0.0.0.0
+http.port: 8545
+http.vhosts: any
+http.corsdomain: any
+ws: true
+
+db.read.concurrency: 20000
+txpool.globalslots: 100000
+txpool.globalbasefeeslots: 100000
+txpool.globalqueue: 100000
