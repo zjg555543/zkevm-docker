@@ -154,3 +154,25 @@ services:
       - "postgres"
       - "-N"
       - "500"
+
+  xlayer-permissionless-db:
+    container_name: xlayer-permissionless-db
+    image: postgres:15
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    ports:
+      - 5444:5432
+    volumes:
+      - ./config/sql/single_db_server.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+      - POSTGRES_DB=test_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"

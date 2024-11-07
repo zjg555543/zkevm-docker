@@ -19,8 +19,11 @@ if __name__ == '__main__':
     print('Setup sequencer..')
 
     command = '''
+        docker-compose up -d xlayer-da-db
+        docker-compose up -d xlayer-da
         docker-compose up -d xlayer-agg-db
         docker-compose up -d xlayer-state-db
+        docker-compose up -d xlayer-permissionless-db
         sleep 3
         docker-compose up -d xlayer-executor
         docker-compose up -d xlayer-prover
