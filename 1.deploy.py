@@ -94,3 +94,14 @@ if __name__ == '__main__':
     logging.info(command)
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
+
+    # # 发送跨链
+    polygonZkEVMBridgeAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {polygonZkEVMBridgeAddress} 'function bridgeAsset(uint32 destinationNetwork, address destinationAddress, uint256 amount, address token, bool forceUpdateGlobalExitRoot, bytes permitData)  returns()' 7 0x0000000000000000000000000000000000000000 0 0x0000000000000000000000000000000000000000 true 0x"
+    command = command.replace("{genAccount}", genAccount)
+    command = command.replace("{genPriveKey}", genPriveKey)
+    command = command.replace("{polygonZkEVMBridgeAddress}", polygonZkEVMBridgeAddress)
+    logging.info(command)
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+
