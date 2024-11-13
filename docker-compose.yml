@@ -40,8 +40,8 @@ services:
       - 9092:9091 # needed if metrics enabled
       - 6060:6060
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
+      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db-fork9
     volumes:
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
@@ -58,8 +58,8 @@ services:
       - 8133:8133 # needed if WebSockets enabled
       - 9091:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
+      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db-fork9
     volumes:
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
@@ -75,7 +75,7 @@ services:
       - 50081:50081
       - 9093:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
       - ZKEVM_NODE_AGGREGATOR_SENDER_ADDRESS=0xBAF25C3f0e7B21818Ed922a6e01bf25CA31dE19E
     volumes:
       - ./config/fork9/test.node.config.toml:/app/config.toml
@@ -91,7 +91,7 @@ services:
     ports:
       - 9095:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
     volumes:
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
@@ -125,10 +125,10 @@ services:
     ports:
       - 9094:9091 # needed if metrics enabled
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
     volumes:
-      - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/aggregator.keystore:/pk/aggregator.keystore
+      - ./keys/sequencer.keystore:/pk/sequencer.keystore
+      - ./keys/aggregator.keystore:/pk/aggregator.keystore
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
@@ -140,11 +140,11 @@ services:
     container_name: xlayer-seqs-fork9
     image: okexchain/xlayer-node:origin_release_v0.3.1_20240327061357_a142778c
     environment:
-      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db
-      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
+      - ZKEVM_NODE_STATEDB_HOST=xlayer-state-db-fork9
+      - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db-fork9
       - ZKEVM_NODE_SEQUENCER_SENDER_ADDRESS=0x28E803c70B44BA4ec2b27fa8b53DFd33d1b9c9b1
     volumes:
-      - ./config/sequencer.keystore:/pk/sequencer.keystore
+      - ./keys/sequencer.keystore:/pk/sequencer.keystore
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
@@ -158,7 +158,7 @@ services:
     environment:
       - ZKEVM_NODE_POOL_DB_HOST=xlayer-pool-db
     volumes:
-      - ./config/sequencer.keystore:/pk/keystore
+      - ./keys/sequencer.keystore:/pk/keystore
       - ./config/fork9/test.node.config.toml:/app/config.toml
       - ./config/fork9/test.genesis.config.json:/app/genesis.json
     command:
@@ -179,27 +179,13 @@ services:
       - "-c"
       - "/app/xlayer-data-availability run --cfg /app/config.toml"
 
-  xlayer-da-db-fork9:
-    container_name: xlayer-da-db-fork9
-    image: postgres
-    ports:
-      - 5437:5432
-    environment:
-      - POSTGRES_USER=committee_user
-      - POSTGRES_PASSWORD=committee_password
-      - POSTGRES_DB=committee_db
-    command:
-      - "postgres"
-      - "-N"
-      - "500"
-
   xlayer-state-db-fork9:
     container_name: xlayer-state-db-fork9
     image: postgres
     ports:
       - 5432:5432
     volumes:
-      - ./config/sql/init_prover_db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/init_prover_db.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_USER=state_user
       - POSTGRES_PASSWORD=state_password
@@ -229,11 +215,164 @@ services:
     ports:
       - 5435:5432
     volumes:
-      - ./config/sql/init_event_db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/init_event_db.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_USER=event_user
       - POSTGRES_PASSWORD=event_password
       - POSTGRES_DB=event_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
+  
+  xlayer-seq-fork13:
+    container_name: xlayer-seq-fork13
+    image: cdk-erigon
+    environment:
+      - CDK_ERIGON_SEQUENCER=1
+    ports:
+      - 8123:8545
+      - 6900:6900
+    volumes:
+      - ./config/fork13/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
+      - ./config/fork13/dynamic-mynetwork-allocs.json:/usr/src/app/dynamic-mynetwork-allocs.json
+      - ./config/fork13/dynamic-mynetwork-chainspec.json:/usr/src/app/dynamic-mynetwork-chainspec.json
+      - ./config/fork13/dynamic-mynetwork-conf.json:/usr/src/app/dynamic-mynetwork-conf.json
+    command: >
+      cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
+
+  xlayer-rpc-fork13:
+    container_name: xlayer-rpc-fork13
+    image: cdk-erigon
+    environment:
+      - CDK_ERIGON_SEQUENCER=0
+    ports:
+      - 8124:8545
+      - 6901:6900
+      - 9091:9095
+    volumes:
+      - ./config/fork13/test.erigon.rpc.config.yaml:/usr/src/app/config.yaml
+      - ./config/fork13/dynamic-mynetwork-allocs.json:/usr/src/app/dynamic-mynetwork-allocs.json
+      - ./config/fork13/dynamic-mynetwork-chainspec.json:/usr/src/app/dynamic-mynetwork-chainspec.json
+      - ./config/fork13/dynamic-mynetwork-conf.json:/usr/src/app/dynamic-mynetwork-conf.json
+    command: >
+      cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml
+
+  xlayer-executor-fork13:
+    container_name: xlayer-executor-fork13
+    image: hermeznetwork/zkevm-prover:v6.0.2-RC3
+    ports:
+      - 0.0.0.0:50061:50061 # MT
+      - 0.0.0.0:50071:50071 # Executor
+    volumes:
+      - ./config/fork13/test.stateless_executor.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  xlayer-state-db-fork13:
+    container_name: xlayer-state-db-fork13
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./sql/init_prover_db.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=state_user
+      - POSTGRES_PASSWORD=state_password
+      - POSTGRES_DB=state_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U state_user -d state_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+      
+  xlayer-seqs-fork13:
+    container_name: xlayer-seqs-fork13
+    image: zjg555543/cdk:v0.4.0-beta5
+    volumes:
+      - ./keys/test-member.keystore:/pk/test-member.keystore
+      - ./keys/sequencer.keystore:/pk/sequencer.keystore
+      - ./config/fork13/cdk.config.toml:/app/config.toml
+      - ./config/fork13/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/usr/local/bin/cdk-node run --cfg /app/config.toml --custom-network-file /app/genesis.json --components sequence-sender"
+
+  xlayer-agg-fork13:
+    container_name: xlayer-agg
+    image: zjg555543/cdk:v0.4.0-beta5
+    ports:
+      - 50081:50081
+    volumes:
+      - ./keys/aggregator.keystore:/pk/aggregator.keystore
+      - ./config/fork13/cdk.config.toml:/app/config.toml
+      - ./config/fork13/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/usr/local/bin/cdk-node run --cfg /app/config.toml --custom-network-file /app/genesis.json  --components aggregator"
+
+  xlayer-agg-db-fork13:
+    container_name: xlayer-agg-db-fork13
+    image: postgres:15
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+        reservations:
+          memory: 1G
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=aggregator_user
+      - POSTGRES_PASSWORD=aggregator_password
+      - POSTGRES_DB=aggregator_db
+    command:
+      - "postgres"
+      - "-N"
+      - "500"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aggregator_user -d aggregator_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+
+  xlayer-prover-fork13:
+    container_name: xlayer-prover-fork13
+    image: hermeznetwork/zkevm-prover:v6.0.1
+    volumes:
+      - ./config/fork13/test.prover.config.json:/usr/src/app/config.json
+    command: >
+      zkProver -c /usr/src/app/config.json
+
+  xlayer-approve:
+    container_name: xlayer-approve
+    image: hermeznetwork/zkevm-node:v0.6.6
+    volumes:
+      - ./keys/sequencer.keystore:/pk/keystore
+      - ./config/fork9/test.node.config.toml:/app/config.toml
+      - ./config/fork9/test.genesis.config.json:/app/genesis.json
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw password --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml"
+
+  xlayer-da-db:
+    container_name: xlayer-da-db
+    image: postgres
+    ports:
+      - 5437:5432
+    environment:
+      - POSTGRES_USER=committee_user
+      - POSTGRES_PASSWORD=committee_password
+      - POSTGRES_DB=committee_db
     command:
       - "postgres"
       - "-N"
@@ -252,7 +391,7 @@ services:
       - ZKEVM_BRIDGE_DATABASE_HOST=xlayer-bridge-db
       - ZKEVM_BRIDGE_DATABASE_PORT=5432
     volumes:
-      - ./config/test.keystore.claimtx:/pk/keystore.claimtxmanager
+      - ./keys/test.keystore.claimtx:/pk/keystore.claimtxmanager
       - ./config/fork9/config.bridge.toml:/app/config.toml
       - ./config/root-ca-cert:/app/root-ca-cert
     command:
@@ -293,21 +432,21 @@ services:
 
   xlayer-bridge-ui:
     container_name: xlayer-bridge-ui
-    image: hermeznetwork/zkevm-bridge-ui:etrog-v2
+    image: hermeznetwork/zkevm-bridge-ui:latest
     ports:
       - 8090:80
     environment:
-      - ETHEREUM_RPC_URL=https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662
-      - ETHEREUM_EXPLORER_URL=http://16.162.168.223:4000
-      - ETHEREUM_ROLLUP_MANAGER_ADDRESS={ETHEREUM_ROLLUP_MANAGER_ADDRESS}
-      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS={ETHEREUM_BRIDGE_CONTRACT_ADDRESS}
+      - ETHEREUM_RPC_URL=http://127.0.0.1:8545
+      - ETHEREUM_EXPLORER_URL=http://127.0.0.1:4000
+      - ETHEREUM_ROLLUP_MANAGER_ADDRESS="XXX"
+      - ETHEREUM_BRIDGE_CONTRACT_ADDRESS="XXX"
       - ETHEREUM_FORCE_UPDATE_GLOBAL_EXIT_ROOT=true
-      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS={ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS}
-      - POLYGON_ZK_EVM_RPC_URL=http://16.162.168.223:8123
-      - POLYGON_ZK_EVM_EXPLORER_URL=http://16.162.168.223:4001
-      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS={POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS}
+      - ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS="XXX"
+      - POLYGON_ZK_EVM_RPC_URL=http://127.0.0.1:8123
+      - POLYGON_ZK_EVM_EXPLORER_URL=http://127.0.0.1:4001
+      - POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS="XXX"
       - POLYGON_ZK_EVM_NETWORK_ID=1
-      - BRIDGE_API_URL=http://16.162.168.223:8080
+      - BRIDGE_API_URL=http://127.0.0.1:8080
       - ENABLE_FIAT_EXCHANGE_RATES=false
       - ENABLE_OUTDATED_NETWORK_MODAL=false
       - ENABLE_DEPOSIT_WARNING=true
@@ -335,125 +474,3 @@ services:
       - "2181:2181"
     expose:
       - 2181
-
-  xlayer-executor-fork13:
-    container_name: xlayer-executor-fork13
-    image: hermeznetwork/zkevm-prover:v6.0.2-RC3
-    ports:
-      - 0.0.0.0:50061:50061 # MT
-      - 0.0.0.0:50071:50071 # Executor
-    volumes:
-      - ./config/erigon/test.stateless_executor.config.json:/usr/src/app/config.json
-    command: >
-      zkProver -c /usr/src/app/config.json
-
-  xlayer-state-db-fork13:
-    container_name: xlayer-state-db-fork13
-    image: postgres
-    ports:
-      - 5432:5432
-    volumes:
-      - ./config/sql/init_prover_db.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      - POSTGRES_USER=state_user
-      - POSTGRES_PASSWORD=state_password
-      - POSTGRES_DB=state_db
-    command:
-      - "postgres"
-      - "-N"
-      - "500"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U state_user -d state_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-      
-  xlayer-seqs-fork13:
-    container_name: xlayer-seqs-fork13
-    image: hermeznetwork/zkevm-seqsender:v0.1.1-RC1
-    volumes:
-      - ./config/sequencer.keystore:/pk/sequencer.keystore
-      - ./config/erigon/seqsender.node.config.toml:/app/config.toml
-      - ./config/erigon/test.genesis.config.json:/app/genesis.json
-    restart: always
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/zkevm-seqsender run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml --components sequence-sender"
-
-  xlayer-agg-fork13:
-    container_name: xlayer-agg-fork13
-    image: zjg555543/erigon-aggregator:v0.0.1-RC7
-    ports:
-      - 50081:50081
-    volumes:
-      - ./config/aggregator.keystore:/pk/aggregator.keystore
-      - ./config/erigon/aggregator.node.config.toml:/app/config.toml
-      - ./config/erigon/test.genesis.config.json:/app/genesis.json
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/zkevm-aggregator run --network custom --custom-network-file /app/genesis.json --cfg /app/config.toml"
-
-  xlayer-agg-db-fork13:
-    container_name: xlayer-agg-db-fork13
-    image: postgres:15
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-        reservations:
-          memory: 1G
-    ports:
-      - 5434:5432
-    environment:
-      - POSTGRES_USER=aggregator_user
-      - POSTGRES_PASSWORD=aggregator_password
-      - POSTGRES_DB=aggregator_db
-    command:
-      - "postgres"
-      - "-N"
-      - "500"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aggregator_user -d aggregator_db"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 5s
-
-  xlayer-prover-fork13:
-    container_name: xlayer-prover-fork13
-    image: hermeznetwork/zkevm-prover:v6.0.1
-    volumes:
-      - ./config/erigon/test.prover.config.json:/usr/src/app/config.json
-    command: >
-      zkProver -c /usr/src/app/config.json
-
-  xlayer-approve:
-    container_name: xlayer-approve
-    image: hermeznetwork/zkevm-node:v0.6.6
-    volumes:
-      - ./config/sequencer.keystore:/pk/keystore
-      - ./config/erigon/test.node.config.toml:/app/config.toml
-      - ./config/erigon/test.genesis.config.json:/app/genesis.json
-    command:
-      - "/bin/sh"
-      - "-c"
-      - "/app/zkevm-node approve --network custom --custom-network-file /app/genesis.json --key-store-path /pk/keystore --pw password --am 115792089237316195423570985008687907853269984665640564039457584007913129639935 -y --cfg /app/config.toml"
-
-  xlayer-seq-fork13:
-    container_name: xlayer-seq-fork13
-    image: cdk-erigon
-    environment:
-      - CDK_ERIGON_SEQUENCER=1
-    ports:
-      - 8123:8545
-      - 6900:6900
-    volumes:
-      - ./config/erigon/test.erigon.seq.config.yaml:/usr/src/app/config.yaml
-      - ./config/erigon/dynamic-mynetwork-allocs.json:/usr/src/app/dynamic-mynetwork-allocs.json
-      - ./config/erigon/dynamic-mynetwork-chainspec.json:/usr/src/app/dynamic-mynetwork-chainspec.json
-      - ./config/erigon/dynamic-mynetwork-conf.json:/usr/src/app/dynamic-mynetwork-conf.json
-    command: >
-      cdk-erigon --http.vhosts=* --http.corsdomain=* --ws --config=/usr/src/app/config.yaml

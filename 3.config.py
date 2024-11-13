@@ -117,7 +117,7 @@ if __name__ == '__main__':
         replace_variable(file, '{polygonZkEVMAddress}', polygonZkEVMAddress)
         replace_variable(file, '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
         replace_variable(file, '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-        replace_variable(file, '{genesisBlockNumber}', deploymentBlockNumber)
+        replace_variable(file, '{deploymentBlockNumber}', deploymentBlockNumber)
         replace_variable(file, '{genesis}', genesisStr)
         replace_variable(file, '{dynamicAlloc}', dynamicAlloc)
         replace_variable(file, '{dynamicRoot}', dynamicRoot)

@@ -1,0 +1,99 @@
+[Log]
+Level = "debug"
+Outputs = ["stdout"]
+
+[Apollo]
+Enabled = false
+AppID = "xlayer-bridge-service"
+Cluster = "default"
+MetaAddress = "http://127.0.0.1:8080"
+Namespaces = ["application"]
+Secret = ""
+IsBackupConfig = true
+
+[SyncDB]
+Database = "postgres"
+User = "test_user"
+Password = "test_password"
+Name = "test_db"
+Host = "xlayer-bridge-db"
+Port = "5432"
+MaxConns = 20
+
+[ClaimTxManager]
+Enabled = true
+FrequencyToMonitorTxs = "1s"
+PrivateKey = {Path = "/pk/keystore.claimtxmanager", Password = "testonly"}
+RetryInterval = "1s"
+RetryNumber = 10
+FreeGas = true
+AuthorizedClaimMessageAddresses = ["0x90F79bf6EB2c4f870365E785982E1f101E93b906"]
+
+[Etherman]
+L1URL = "http://xlayer-l1:8545"
+L2URLs = ["http://xlayer-rpc-fork13:8545"]
+L1ChainId = 1337
+L2ChainIds = [195]
+
+[Synchronizer]
+SyncInterval = "1s"
+SyncChunkSize = 100
+
+[BridgeController]
+Store = "postgres"
+Height = 32
+
+[BridgeServer]
+GRPCPort = "9090"
+HTTPPort = "8080"
+CacheSize = 100000
+DefaultPageLimit = 25
+MaxPageLimit = 100
+BridgeVersion = "v1"
+SentinelConfigFilePath = "/app/sentinel_config.json"
+[BridgeServer.DB]
+Database = "postgres"
+User = "test_user"
+Password = "test_password"
+Name = "test_db"
+Host = "xlayer-bridge-db"
+Port = "5432"
+MaxConns = 20
+TableSuffix = ""
+[BridgeServer.Redis]
+IsClusterMode = false
+Addrs = ["xlayer-bridge-redis:6379"]
+Username = ""
+Password = ""
+DB = 0
+MockPrice = true
+
+[CoinKafkaConsumer]
+Brokers = ["xlayer-bridge-coin-kafka:9092"]
+Topics = ["explorer_chainAddressPrice_push"]
+ConsumerGroupID = "xlayer-bridge-service"
+InitialOffset = -1
+Username = ""
+Password = ""
+RootCAPath = "/app/root-ca-cert"
+
+[MessagePushProducer]
+Enabled = false
+
+[NetworkConfig]
+GenBlockNumber = {deploymentBlockNumber}
+PolygonBridgeAddress = "{polygonZkEVMBridgeAddress}"
+PolygonZkEVMGlobalExitRootAddress = "{polygonZkEVMGlobalExitRootAddress}"
+PolygonRollupManagerAddress = "{polygonRollupManagerAddress}"
+PolygonZkEvmAddress = "{polygonZkEVMAddress}"
+L2PolygonBridgeAddresses = ["{polygonZkEVMBridgeAddress}"]
+
+[NacosConfig]
+NacosUrls = ""
+NamespaceId = "public"
+ApplicationName = ""
+ExternalListenAddr = "127.0.0.1:26659"
+
+[BusinessConfig]
+StandardChainIds = [195]
+InnerChainIds = [19500]

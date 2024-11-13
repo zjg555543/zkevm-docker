@@ -1,10 +1,10 @@
 PrivateKey = {Path = "/pk/test-member.keystore", Password = "testonly"}
 
 [L1]
-WsURL = "wss://sepolia.infura.io/ws/v3/6d3d0adfe7c74dcb87642b37f1477aec"
-RpcURL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
-PolygonValidiumAddress = "{PolygonValidiumAddress}"
-DataCommitteeAddress = "{DataCommitteeAddress}"
+WsURL = "ws://xlayer-l1:8546"
+RpcURL = "http://xlayer-l1:8545"
+polygonZkEVMAddress = "{polygonZkEVMAddress}"
+dataCommitteeContract = "{dataCommitteeContract}"
 Timeout = "3m"
 RetryPeriod = "5s"
 BlockBatchSize = 32
@@ -18,7 +18,7 @@ Outputs = ["stderr"]
 User = "committee_user"
 Password = "committee_password"
 Name = "committee_db"
-Host = "xlayer-data-availability-db"
+Host = "xlayer-da-db"
 Port = "5432"
 EnableLog = false
 MaxConns = 200

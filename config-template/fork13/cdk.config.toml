@@ -7,12 +7,12 @@ Level = "info"
 Outputs = ["stderr"]
 
 [Etherman]
-	URL="https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+	URL="http://xlayer-l1:8545"
 	ForkIDChunkSize=100
 	[Etherman.EthermanConfig]
-		URL="https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+		URL="http://xlayer-l1:8545"
 		MultiGasProvider=false
-		L1ChainID=11155111
+		L1ChainID=1337
 		HTTPHeaders=[]
 		[Etherman.EthermanConfig.Etherscan]
 			ApiKey=""
@@ -36,7 +36,7 @@ WaitPeriodPurgeTxFile = "60m"
 MaxPendingTx = 1
 MaxBatchesForL1 = 300
 BlockFinality = "FinalizedBlock"
-RPCURL = "http://xlayer-rpc:8545"
+RPCURL = "http://xlayer-rpc-fork13:8545"
 GetBatchWaitInterval = "10s"
 	[SequenceSender.EthTxManager]
 		FrequencyToMonitorTxs = "1s"
@@ -54,9 +54,9 @@ GetBatchWaitInterval = "10s"
 		SafeStatusL1NumberOfBlocks = 0
 		FinalizedStatusL1NumberOfBlocks = 0
 			[SequenceSender.EthTxManager.Etherman]
-				URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+				URL = "http://xlayer-l1:8545"
 				MultiGasProvider = false
-				L1ChainID = 11155111
+				L1ChainID = 1337
 [Aggregator]
 # GRPC server host
 Host = "0.0.0.0"
@@ -76,8 +76,8 @@ SenderAddress = "0x694D3f1487e17A96edA98Ced6ae3eC751a08E9Fe"
 CleanupLockedProofsInterval = "2m"
 GeneratingProofCleanupThreshold = "10m"
 GasOffset = 0
-RPCURL = "http://xlayer-rpc:8545"
-WitnessURL = "http://xlayer-rpc:8545"
+RPCURL = "http://xlayer-rpc-fork13:8545"
+WitnessURL = "http://xlayer-rpc-fork13:8545"
 UseFullWitness = false
 SettlementBackend = "l1"
 AggLayerTxTimeout = "5m"
@@ -114,8 +114,8 @@ SyncModeOnlyEnabled = false
 		SafeStatusL1NumberOfBlocks = 0
 		FinalizedStatusL1NumberOfBlocks = 0
 			[Aggregator.EthTxManager.Etherman]
-				URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
-				L1ChainID = 11155111
+				URL = "http://xlayer-l1:8545"
+				L1ChainID = 1337
 				HTTPHeaders = []
 	[Aggregator.Synchronizer]
 		[Aggregator.Synchronizer.Log]
@@ -128,14 +128,14 @@ SyncModeOnlyEnabled = false
 		[Aggregator.Synchronizer.Synchronizer]
 			SyncInterval = "10s"
 			SyncChunkSize = 1000
-			GenesisBlockNumber = {genesisBlockNumber}
+			GenesisBlockNumber = {deploymentBlockNumber}
 			SyncUpToBlock = "finalized"
 			BlockFinality = "finalized"
 			OverrideStorageCheck = false
 		[Aggregator.Synchronizer.Etherman]
-			L1URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+			L1URL = "http://xlayer-l1:8545"
 			ForkIDChunkSize = 100
-			L1ChainID = 11155111
+			L1ChainID = 1337
 			PararellBlockRequest = false
 			[Aggregator.Synchronizer.Etherman.Contracts]
 				GlobalExitRootManagerAddr = "{polygonZkEVMGlobalExitRootAddress}"
@@ -164,9 +164,9 @@ GlobalExitRootAddr="0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
 RollupManagerAddr = "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
 SyncBlockChunkSize=10
 BlockFinality="LatestBlock"
-URLRPCL1="http://xlayer-rpc:8545"
+URLRPCL1="http://xlayer-rpc-fork13:8545"
 WaitForNewBlocksPeriod="100ms"
-InitialBlock= {genesisBlockNumber}
+InitialBlock= {deploymentBlockNumber}
 
 [AggOracle]
 TargetChainType="EVM"
@@ -196,9 +196,9 @@ WaitPeriodNextGER="100ms"
 				SafeStatusL1NumberOfBlocks = 5
 				FinalizedStatusL1NumberOfBlocks = 10
 					[AggOracle.EVMSender.EthTxManager.Etherman]
-						URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+						URL = "http://xlayer-l1:8545"
 						MultiGasProvider = false
-						L1ChainID = 11155111
+						L1ChainID = 1337
 						HTTPHeaders = []
 
 [RPC]
@@ -212,7 +212,7 @@ MaxRequestsPerIPAndSecond = 10
 DBPath = "/tmp/cdk/claimsopnsor.sqlite"
 Enabled = true
 SenderAddr = "0xfa3b44587990f97ba8b6ba7e230a5f0e95d14b3d"
-BridgeAddrL2 = "0xB7098a13a48EcE087d3DA15b2D28eCE0f89819B8"
+BridgeAddrL2 = "{polygonZkEVMBridgeAddress}"
 MaxGas = 200000
 RetryAfterErrorPeriod = "1s"
 MaxRetryAttemptsAfterError = -1
@@ -235,9 +235,9 @@ GasOffset = 0
 		SafeStatusL1NumberOfBlocks = 5
 		FinalizedStatusL1NumberOfBlocks = 10
 			[ClaimSponsor.EthTxManager.Etherman]
-				URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+				URL = "http://xlayer-l1:8545"
 				MultiGasProvider = false
-				L1ChainID = 11155111
+				L1ChainID = 1337
 				HTTPHeaders = []
 
 [BridgeL1Sync]
@@ -274,17 +274,17 @@ WaitForNewBlocksPeriod = "1s"
 DownloadBufferSize = 100
 
 [NetworkConfig.L1]
-L1ChainID = 11155111
-PolAddr = "0xe223519d64C0A49e7C08303c2220251be6b70e1d"
-ZkEVMAddr = "0x45511B6E5FAB7668eA3eCf14e9E9893833392844"
-RollupManagerAddr = "0x3ff239788ea041B2FeAEa01F0Fc160103907c1Ef"
-GlobalExitRootManagerAddr = "0xcdBDBd809e75123f36c6Eb90845050a02d5C91D9"
+L1ChainID = 1337
+PolAddr = "{polTokenAddress}"
+ZkEVMAddr = "{polygonZkEVMAddress}"
+RollupManagerAddr = "{polygonRollupManagerAddress}"
+GlobalExitRootManagerAddr = "{polygonZkEVMGlobalExitRootAddress}"
 
 [AggSender]
 StoragePath = "/tmp/cdk/aggsender.sqlite"
 AggLayerURL = ""
 AggsenderPrivateKey = {Path = "/pk/sequencer.keystore", Password = "password"}
 BlockGetInterval = "2s"
-URLRPCL2="http://xlayer-rpc:8545"
+URLRPCL2="http://xlayer-rpc-fork13:8545"
 CheckSettledInterval = "2s"
 SaveCertificatesToFiles = false

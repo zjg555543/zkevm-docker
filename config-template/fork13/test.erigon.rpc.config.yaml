@@ -3,8 +3,8 @@ chain: dynamic-mynetwork
 http: true
 private.api.addr: localhost:9091
 zkevm.l2-chain-id: 195
-zkevm.l2-sequencer-rpc-url:
-zkevm.l2-datastreamer-url:
+zkevm.l2-sequencer-rpc-url: http://xlayer-seq-fork13:8545
+zkevm.l2-datastreamer-url: xlayer-seq-fork13:6900
 zkevm.l1-chain-id: 1337
 zkevm.l1-rpc-url: http://xlayer-l1:8545
 
@@ -21,9 +21,9 @@ zkevm.l1-query-delay: 100
 zkevm.rpc-ratelimit: 300
 zkevm.datastream-version: 2
 
-zkevm.executor-urls: "xlayer-executor-fork13:50071"
-zkevm.executor-strict: true
-zkevm.witness-full: true
+zkevm.executor-urls: ""
+zkevm.executor-strict: false
+zkevm.witness-full: false
 zkevm.l1-contract-address-check: true
 
 zkevm.data-stream-host: "localhost"
@@ -31,6 +31,8 @@ zkevm.data-stream-port: 6900
 zkevm.default-gas-price: 1
 zkevm.max-gas-price: 0
 zkevm.gas-price-factor: 0.000001
+
+zkevm.allow-internal-transactions: true
 
 externalcl: true
 http.api: [eth, debug, net, trace, web3, erigon, txpool, zkevm]

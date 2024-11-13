@@ -10,7 +10,7 @@ Outputs = ["stderr"]
 	User = "state_user"
 	Password = "state_password"
 	Name = "state_db"
-	Host = "xlayer-state-db"
+	Host = "xlayer-state-db-fork9"
 	Port = "5432"
 	EnableLog = false	
 	MaxConns = 200
@@ -60,7 +60,7 @@ GlobalQueue = 1024
 	MaxConns = 200
 
 [Etherman]
-URL = "https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662"
+URL = "http://xlayer-l1:8545"
 ForkIDChunkSize = 20000
 MultiGasProvider = false
 	[Etherscan]
@@ -83,7 +83,7 @@ DisableAPIs = []
 [Synchronizer]
 SyncInterval = "1s"
 SyncChunkSize = 100
-TrustedSequencerURL = "http://xlayer-json-rpc:8123" # If it is empty or not specified, then the value is read from the smc.
+TrustedSequencerURL = "http://xlayer-rpc-fork9:8123" # If it is empty or not specified, then the value is read from the smc.
 L1SynchronizationMode = "sequential"
 	[Synchronizer.L1ParallelSynchronization]
 		MaxClients = 10
@@ -200,7 +200,7 @@ ProfilingEnabled = true
 User = "prover_user"
 Password = "prover_pass"
 Name = "prover_db"
-Host = "xlayer-state-db"
+Host = "xlayer-state-db-fork9"
 Port = "5432"
 EnableLog = false
 MaxConns = 200

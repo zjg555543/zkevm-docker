@@ -1,12 +1,14 @@
 {
     "l1Config": {
-        "chainId": 11155111,
+        "chainId": 1337,
         "polygonZkEVMAddress": "{polygonZkEVMAddress}",
         "polygonRollupManagerAddress": "{polygonRollupManagerAddress}",
-        "polTokenAddress": "0xe223519d64C0A49e7C08303c2220251be6b70e1d",
+        "polTokenAddress": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
         "polygonZkEVMGlobalExitRootAddress": "{polygonZkEVMGlobalExitRootAddress}"
     },
-    "rollupCreationBlockNum":  {rollupCreationBlockNum},
-    "rollupManagerCreationBlockNumber":  {rollupManagerCreationBlockNumber},
+    "genesisBlockNumber":  {deploymentBlockNumber},
+    "rollupManagerCreationBlockNumber":  {deploymentBlockNumber},
+    "rollupCreationBlockNum":  {createRollupBlockNumber},
+    "rollupCreationBlockNumber": {createRollupBlockNumber},
     {genesis}
 }

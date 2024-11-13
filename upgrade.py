@@ -62,7 +62,9 @@ def replace_file(file_path, key, value):
     logging.info("两个新字段已添加并保存到文件.")
 
 def replace_variable(file_path, variable_name, new_value):
-    # logging.info("file_path: " + file_path + " variable_name: " + variable_name + " new_value: " + new_value)
+    if ".DS_Store" in file_path:
+        return
+    logging.info("file_path: " + file_path + " variable_name: " + variable_name + " new_value: " + new_value)
     with open(file_path, 'r') as file:
         file_content = file.read()
 
@@ -162,7 +164,7 @@ def zkevm_verifiedBatchNumber():
 def copy_all_files(src_folder, dest_folder):
     if not os.path.exists(dest_folder):
         os.makedirs(dest_folder)
-    
+    logging.info('Copy all files from ' + src_folder + ' to ' + dest_folder)
     for item in os.listdir(src_folder):
         src_path = os.path.join(src_folder, item)
         dest_path = os.path.join(dest_folder, item)
@@ -178,17 +180,18 @@ def send_tx(form, fromkey, to, value, url):
     command = command.replace("{url}", url)
     command = command.replace("{to}", to)
     command = command.replace("{value}", value)
-
+    logging.info(command)
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
 def deploy_fork9():
-    create_account()
-    logging.info('Deploying fork9...')
+    # logging.info('Deploying fork9...')
     account = loadAccount()
     genAccount = account["address"]
     genPriveKey = account["private_key"]
     genMnemonic = account["mnemonic"]
+
+    # 停止所有节点
     command = "docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker ps -a;"
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
@@ -197,30 +200,28 @@ def deploy_fork9():
     docker-compose up -d xlayer-l1
     sleep 10
     '''
-
-    return
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
     logging.info("docker-compose logs --tail 10 -f")
-    send_tx(L1Account, L1AccountPrivate, genAccount, "10eth", L1URL)
+    send_tx(L1Account, L1AccountPrivate, genAccount, "10ether", L1URL)
 
     # 编译合约
     command = '''
-    rm -rf contracts; 
-    mkdir contracts;
+    # rm -rf contracts; 
+    # mkdir contracts;
     cd contracts; 
-    git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
-    mv xlayer-contracts fork9;
+    # git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
+    # mv xlayer-contracts fork9;
     cd ./fork9; 
-    cp ../deployment/.env .env;  
-    cp ../deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
-    cp ../deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
+    cp ../../deployment/.env .env;  
+    cp ../../deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
+    cp ../../deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./contracts/fork9/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./contracts/fork9/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./contracts/fork9/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('contracts/fork9/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('contracts/fork9/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('contracts/fork9/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
@@ -236,14 +237,16 @@ def deploy_fork9():
 
     # 替换文件
     adminAddress = loadAccount()["address"]
-    dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    deploymentBlockNumber = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'deploymentRollupManagerBlockNumber')
+    dataCommitteeContract = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
     polygonZkEVMAddress = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'rollupAddress')
     dynamicRoot = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'genesis')
+    createRollupBlockNumber = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
     dynamicTimestamp = get_value_second('./contracts/fork9/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
     polygonRollupManagerAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
     polygonZkEVMGlobalExitRootAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
     polygonZkEVMBridgeAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    deploymentBlockNumber = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'deploymentRollupManagerBlockNumber')
+    polTokenAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polTokenAddress')
     genesisStr = get_genesis('./contracts/fork9/deployment/v2/genesis.json')
     dynamicAlloc = get_erigon_genesis('./contracts/fork9/deployment/v2/genesis.json')
     logging.info(dynamicAlloc)
@@ -257,21 +260,26 @@ def deploy_fork9():
         replace_variable(file, '{polygonZkEVMAddress}', polygonZkEVMAddress)
         replace_variable(file, '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
         replace_variable(file, '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-        replace_variable(file, '{genesisBlockNumber}', deploymentBlockNumber)
+        replace_variable(file, '{deploymentBlockNumber}', deploymentBlockNumber)
+        replace_variable(file, '{createRollupBlockNumber}', createRollupBlockNumber)
         replace_variable(file, '{genesis}', genesisStr)
         replace_variable(file, '{dynamicAlloc}', dynamicAlloc)
         replace_variable(file, '{dynamicRoot}', dynamicRoot)
         replace_variable(file, '{dynamicTimestamp}', dynamicTimestamp)
         replace_variable(file, '{adminAddress}', adminAddress)
+        replace_variable(file, '{dataCommitteeContract}', dataCommitteeContract)
+        replace_variable(file, '{polTokenAddress}', polTokenAddress)
+        replace_variable(file, '{polygonZkEVMBridgeAddress}', polygonZkEVMBridgeAddress)
 
 
     logging.info("Config done.")
 
     # 设置da地址
-    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
+    command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url {l1URL} {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
     command = command.replace("{genAccount}", genAccount)
     command = command.replace("{genPriveKey}", genPriveKey)
     command = command.replace("{dataCommitteeContract}", dataCommitteeContract)
+    command = command.replace("{l1URL}", L1URL)
     logging.info(command)
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
@@ -281,50 +289,118 @@ def deploy_fork9():
 
 
 def start_fork9():
-    logging.info('Deploying fork6...')
+    logging.info('Deploying fork9...')
 
     command = '''
-    docker-compose up -d xlayer-state-db
-    docker-compose up -d xlayer-pool-db
-    docker-compose up -d xlayer-event-db
-    docker-compose up -d xlayer-data-availability-db
+    docker-compose up -d xlayer-state-db-fork9
+    docker-compose up -d xlayer-pool-db-fork9
+    docker-compose up -d xlayer-event-db-fork9
+    docker-compose up -d xlayer-da-db
     docker-compose up -d xlayer-bridge-db
     docker-compose up -d xlayer-bridge-redis
 
-    docker-compose up -d xlayer-data-availability-fork6
-    docker-compose up -d xlayer-executor-fork6
-    docker-compose up -d xlayer-prover-fork6
+    docker-compose up -d xlayer-da-fork9
+    docker-compose up -d xlayer-executor-fork9
+    docker-compose up -d xlayer-prover-fork9
     sleep 3
-    docker-compose up -d xlayer-sync-fork6
+    docker-compose up -d xlayer-sync-fork9
     sleep 1
-    docker-compose up -d xlayer-sequencer-fork6
+    docker-compose up -d xlayer-seq-fork9
     sleep 1
-    docker-compose up -d xlayer-eth-tx-manager-fork6
-    docker-compose up -d xlayer-sequence-sender-fork6
-    docker-compose up -d xlayer-l2gaspricer-fork6
-    docker-compose up -d xlayer-aggregator-fork6
-    docker-compose up -d xlayer-json-rpc-fork6
+    docker-compose up -d xlayer-tm-fork9
+    docker-compose up -d xlayer-seqs-fork9
+    docker-compose up -d xlayer-gp-fork9
+    docker-compose up -d xlayer-agg-fork9
+    docker-compose up -d xlayer-rpc-fork9
     sleep 1
     docker-compose up -d kafka-zookeeper
-    docker-compose up -d xlayer-bridge-coin-kafka
-    docker-compose up -d xlayer-bridge-service-fork6
-    docker-compose up -d xlayer-bridge-ui-fork6
+    docker-compose up -d xlayer-bridge-kafka
+    docker-compose up -d xlayer-bridge
+    docker-compose up -d xlayer-bridge-ui
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
     logging.info("docker-compose logs --tail 10 -f")
 
+def upgrade_fork13():
+    logging.info('Upgrade fork13...')
+
+    # 编译合约
+    command = '''
+    cd contract; 
+    rm -rf fork13;
+    mkdir fork13;
+    git clone -b upstream/v8.1.0-rc.1-fork.13 https://github.com/okx/xlayer-contracts.git;
+    mv xlayer-contracts fork13;
+    cd ./fork13;
+    cp ../../fork9/deployment/v2/deploy_parameters.json upgrade/upgradeToV2/;
+    cp ../../fork9/deployment/v2/deploy_output.json upgrade/upgradeToV2/;
+    cp -rf ../../fork9/.openzeppelin .;
+    cp ../../fork9/.env .;
+    cd upgrade/upgradeToV2/;
+    cp upgrade_parameters.json.example upgrade_parameters.json;
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'consensusContract', "PolygonValidiumEtrogIsolated")
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_parameters.json', 'dataAvailabilityProtocol', "PolygonDataCommittee")
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/deploy_output.json', 'gasTokenAddress', OKBAddress)
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'realVerifier', True)
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockDelay', 125)
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'timelockSalt', "0x0000000000000000000000000000000000000000000000000000000000000000")
+    replace_file('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_parameters.json', 'polTokenAddress', OKBAddress)
+
+    # 部署合约
+    command = '''
+    cd fork8/xlayer-contracts;
+    npm i;
+    npm run upgradev2:timelock:sepolia;
+    cat upgrade/upgradeToV2/upgrade_output.json
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+
+    # 配置节点
+    rollupmgr = get_value('./fork6/xlayer-contracts/deployment/deploy_output.json', 'polygonZkEVMAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork6/xlayer-contracts/deployment/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    deploymentBlockNumber = get_value('./fork6/xlayer-contracts/deployment/deploy_output.json', 'deploymentBlockNumber')
+    polygonZkEVMBridgeAddress = get_value('./fork6/xlayer-contracts/deployment/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork6/xlayer-contracts/deployment/genesis.json')
+
+    dataCommitteeContract = get_value('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_output.json', 'polygonDataCommittee')
+    newPolygonZKEVM = get_value('./fork8/xlayer-contracts/upgrade/upgradeToV2/upgrade_output.json', 'newPolygonZKEVM')
+
+    replace_variable('./config/fork8/test.da.toml', '{PolygonValidiumAddress}', newPolygonZKEVM)
+    replace_variable('./config/fork8/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMAddress}', newPolygonZKEVM)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonRollupManagerAddress}', rollupmgr)
+    replace_variable('./config/fork8/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork8/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork8/test.genesis.config.json', '{genesis}', genesisStr)
+
+    replace_variable('./config/fork8/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonRollupManagerAddress}', rollupmgr)
+    replace_variable('./config/fork8/config.bridge.toml', '{PolygonZkEvmAddress}', newPolygonZKEVM)
+
+    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS_FORK8}', rollupmgr)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
+    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS_FORK8}', newPolygonZKEVM)
+    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS_FORK8}', polygonZkEVMBridgeAddress)
+
+
 if __name__ == '__main__':
     # deploy fork9
+    create_account()
     deploy_fork9()
-    exit(0)
     start_fork9()
     for i in range(0, 10):
         logging.info("Waiting for 2s...")
         time.sleep(1)
         
-
-    # upgrade fork8
+    # upgrade fork13
     upgrade_fork13()
     schedule_fork13()
     logging.info("Waiting for 180s...")
