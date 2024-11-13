@@ -3,8 +3,30 @@ import logging
 import json
 import time
 import psycopg2
+import subprocess
+import logging
+import json
+import shutil
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
+
+def loadAccount():
+    # 读取JSON文件
+    with open("account_info.json", 'r') as json_file:
+        account_info = json.load(json_file)
+    return account_info
+
+def replace_file(file_path, key, value):
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+    
+    data[key] = value
+
+    # 保存更新后的数据回文件
+    with open(file_path, 'w') as file:
+        json.dump(data, file, indent=2)
+
+    logging.info("两个新字段已添加并保存到文件.")
 
 def replace_variable(file_path, variable_name, new_value):
     # logging.info("file_path: " + file_path + " variable_name: " + variable_name + " new_value: " + new_value)
@@ -25,6 +47,15 @@ def get_value(file_path, key):
     value = data.get(key, None)
     return str(value)
 
+def get_value_second(file_path, key1, key2):
+    # 读取JSON文件
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    value = data.get(key1, None)
+    value2 = value.get(key2, None)
+    return str(value2)
+
 def get_genesis(file_path):
     # 读取JSON文件
     lines = []
@@ -37,23 +68,29 @@ def get_genesis(file_path):
 
     return str(new_json_data)
 
-def loadAccount():
-    # 读取JSON文件
-    with open("account_info.json", 'r') as json_file:
-        account_info = json.load(json_file)
-    return account_info
-
-def replace_file(file_path, key, value):
+def get_erigon_genesis(file_path):
     with open(file_path, 'r') as file:
         data = json.load(file)
-    
-    data[key] = value
 
-    # 保存更新后的数据回文件
-    with open(file_path, 'w') as file:
-        json.dump(data, file, indent=2)
+    new_json_obj = {}
+    temp_array = data.get("genesis", None)
+    for item in temp_array:
+        add = str(item["address"])
+        new_item = item
+        if "bytecode" in item:
+            new_item["code"] = item["bytecode"]
+            del new_item["bytecode"] 
+        else:
+            new_item["code"] = None
 
-    logging.info("两个新字段已添加并保存到文件.")
+        if "storage" not in item:
+            new_item["storage"] = None
+
+        del new_item["address"]
+        
+        new_json_obj[add] = new_item
+
+    return json.dumps(new_json_obj, indent=4)
 
 def zkevm_batchNumber():
     command = '''
@@ -106,9 +143,9 @@ def deploy_fork9():
 
     # 编译合约
     command = '''
-    rm -rf fork9; 
-    mkdir fork9;
-    cd fork9; 
+    rm -rf contracts; 
+    mkdir contracts;
+    cd contracts; 
     git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
     cd ./xlayer-contracts; 
     cp ../../config/deployment/.env .env;  
@@ -134,38 +171,53 @@ def deploy_fork9():
     logging.info(result.stdout)
 
     # 替换文件
-    dataCommitteeContract = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
-    deploymentBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    rollupManagerCreationBlockNumber = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'deploymentRollupManagerBlockNumber')
-    polygonZkEVMAddress = get_value('./fork9/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    adminAddress = loadAccount()["address"]
+    deploymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
+    polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dynamicRoot = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'genesis')
+    dynamicTimestamp = get_value_second('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
+    polygonRollupManagerAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
+    dynamicAlloc = get_erigon_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
+    logging.info(dynamicAlloc)
 
-    polygonRollupManagerAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork9/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork9/xlayer-contracts/deployment/v2/genesis.json')
+    # 拷贝模版
+    shutil.copy('./config/template/dynamic-mynetwork-allocs.json', './config/erigon')
+    shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
+    shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
 
-    replace_variable('./config/fork9/test.da.toml', '{PolygonValidiumAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork9/test.da.toml', '{DataCommitteeAddress}', dataCommitteeContract)
+    shutil.copy('./config/template/aggregator.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/seqsender.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/erigon')
+    shutil.copy('./config/template/test.genesis.config.json', './config/erigon')
+    shutil.copy('./config/template/test.node.config.toml', './config/erigon')
+    shutil.copy('./config/template/test.prover.config.json', './config/erigon')
+    shutil.copy('./config/template/test.stateless_executor.config.json', './config/erigon')
+    
+    file_list = [
+        "./config/erigon/test.genesis.config.json", 
+        "./config/erigon/aggregator.node.config.toml", 
+        "./config/erigon/seqsender.node.config.toml", 
+        "./config/erigon/test.erigon.seq.config.yaml",
+        "./config/erigon/dynamic-mynetwork-conf.json",
+        "./config/erigon/dynamic-mynetwork-allocs.json"
+    ]
 
-    replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMAddress}', polygonZkEVMAddress)
-    replace_variable('./config/fork9/test.genesis.config.json', '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
-    replace_variable('./config/fork9/test.genesis.config.json', '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork9/test.genesis.config.json', '{rollupCreationBlockNum}', deploymentBlockNumber)
-    replace_variable('./config/fork9/test.genesis.config.json', '{rollupManagerCreationBlockNumber}', rollupManagerCreationBlockNumber)
-    replace_variable('./config/fork9/test.genesis.config.json', '{genesisBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork9/test.genesis.config.json', '{genesis}', genesisStr)
-    replace_variable('./config/fork9/test.genesis.config.json', '{dataCommitteeContract}', dataCommitteeContract)
+    for file in file_list:
+        replace_variable(file, '{polygonZkEVMAddress}', polygonZkEVMAddress)
+        replace_variable(file, '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
+        replace_variable(file, '{polygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
+        replace_variable(file, '{genesisBlockNumber}', deploymentBlockNumber)
+        replace_variable(file, '{genesis}', genesisStr)
+        replace_variable(file, '{dynamicAlloc}', dynamicAlloc)
+        replace_variable(file, '{dynamicRoot}', dynamicRoot)
+        replace_variable(file, '{dynamicTimestamp}', dynamicTimestamp)
+        replace_variable(file, '{adminAddress}', adminAddress)
 
-    replace_variable('./config/fork9/config.bridge.toml', '{GenBlockNumber}', deploymentBlockNumber)
-    replace_variable('./config/fork9/config.bridge.toml', '{PolygonBridgeAddress}', polygonZkEVMBridgeAddress)
-    replace_variable('./config/fork9/config.bridge.toml', '{PolygonZkEVMGlobalExitRootAddress}', polygonZkEVMGlobalExitRootAddress)
-    replace_variable('./config/fork9/config.bridge.toml', '{PolygonRollupManagerAddress}', polygonRollupManagerAddress)
-    replace_variable('./config/fork9/config.bridge.toml', '{PolygonZkEvmAddress}', polygonZkEVMAddress)
 
-    replace_variable('./docker-compose.yml', '{ETHEREUM_ROLLUP_MANAGER_ADDRESS}', polygonRollupManagerAddress)
-    replace_variable('./docker-compose.yml', '{ETHEREUM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
-    replace_variable('./docker-compose.yml', '{ETHEREUM_PROOF_OF_EFFICIENCY_CONTRACT_ADDRESS}', polygonZkEVMAddress)
-    replace_variable('./docker-compose.yml', '{POLYGON_ZK_EVM_BRIDGE_CONTRACT_ADDRESS}', polygonZkEVMBridgeAddress)
+    logging.info("Config done.")
 
     # 设置da地址
     command = "cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url https://rpc.ankr.com/eth_sepolia/578c95407e7831f0ac1ef79cacae294dc9bf8307121ca9fffaf1e556a5cca662 {dataCommitteeContract} 'function setupCommittee(uint256 _requiredAmountOfSignatures, string[] urls, bytes addrsBytes) returns()' 1 [http://xlayer-data-availability:8444] 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
