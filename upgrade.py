@@ -2,13 +2,46 @@ import subprocess
 import logging
 import json
 import time
-import psycopg2
+import os
 import subprocess
 import logging
-import json
 import shutil
+from eth_account import Account
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s] %(lineno)d: %(message)s', level=logging.DEBUG)
+
+L1Account = "0x14dC79964da2C08b23698B3D3cc7Ca32193d9955";
+L1AccountPrivate = "0x4bbbf85ce3377467afe5d46f804f221813b2bb87f24d81f60f1fcdbf7cbf4356"
+L1URL = "http://127.0.0.1:8545"
+
+def create_account():
+    Account.enable_unaudited_hdwallet_features()
+    account, mnemonic = Account.create_with_mnemonic()
+
+    # 获取账户地址
+    address = account.address
+
+    # 获取账户的私钥（注意：私钥非常敏感，请妥善保管）
+    private_key = account._private_key.hex()
+
+    # 打印结果
+    print("\n")
+    print(f"Address:        {address}")
+    print(f"Private Key:    {private_key}")
+    print(f"Mnemonic:       {mnemonic}")
+    print("\n")
+
+    # 构建包含账户信息的字典
+    account_info = {
+        "address": address,
+        "private_key": private_key,
+        "mnemonic": mnemonic
+    }
+
+    # 将字典保存为 JSON 文件
+    json_file_path = 'account_info.json'  # 替换为你的实际 JSON 文件路径
+    with open(json_file_path, 'w') as json_file:
+        json.dump(account_info, json_file, indent=2)
 
 def loadAccount():
     # 读取JSON文件
@@ -68,6 +101,14 @@ def get_genesis(file_path):
 
     return str(new_json_data)
 
+def get_all_file_paths(folder):
+    file_paths = []
+    for root, _, filenames in os.walk(folder):
+        for filename in filenames:
+            # 使用 abspath 转换为绝对路径
+            file_paths.append(os.path.abspath(os.path.join(root, filename)))
+    return file_paths
+
 def get_erigon_genesis(file_path):
     with open(file_path, 'r') as file:
         data = json.load(file)
@@ -118,28 +159,50 @@ def zkevm_verifiedBatchNumber():
     result_decimal = int(result_hex, 16)
     return result_decimal
 
-def send_tx():
-    logging.info('Send tx...')
+def copy_all_files(src_folder, dest_folder):
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+    
+    for item in os.listdir(src_folder):
+        src_path = os.path.join(src_folder, item)
+        dest_path = os.path.join(dest_folder, item)
+        
+        if os.path.isfile(src_path):
+            shutil.copy(src_path, dest_path)
 
-    account = loadAccount()
-    command = "sleep 10; cast send --legacy --from {genAccount} --private-key {genPriveKey} --rpc-url http://127.0.0.1:8123 0xC949254d682D8c9ad5682521675b8F43b102aec4 --value 0.0001ether"
-
-    command = command.replace("{genAccount}", account["address"])
-    command = command.replace("{genPriveKey}", account["private_key"])
+def send_tx(form, fromkey, to, value, url):
+    logging.info('Send tx' + form + ' ' + fromkey + ' ' + to + ' ' + value + ' ' + url)
+    command = "cast send --legacy --from {form} --private-key {forKey} --rpc-url {url} {to} --value {value}"
+    command = command.replace("{form}", form)
+    command = command.replace("{forKey}", fromkey)
+    command = command.replace("{url}", url)
+    command = command.replace("{to}", to)
+    command = command.replace("{value}", value)
 
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
 
 def deploy_fork9():
+    create_account()
     logging.info('Deploying fork9...')
     account = loadAccount()
     genAccount = account["address"]
     genPriveKey = account["private_key"]
     genMnemonic = account["mnemonic"]
-
     command = "docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker ps -a;"
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
+
+    command = '''
+    docker-compose up -d xlayer-l1
+    sleep 10
+    '''
+
+    return
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+    logging.info("docker-compose logs --tail 10 -f")
+    send_tx(L1Account, L1AccountPrivate, genAccount, "10eth", L1URL)
 
     # 编译合约
     command = '''
@@ -147,23 +210,24 @@ def deploy_fork9():
     mkdir contracts;
     cd contracts; 
     git clone -b release/v0.3.1 https://github.com/okx/xlayer-contracts.git; 
-    cd ./xlayer-contracts; 
-    cp ../../config/deployment/.env .env;  
-    cp ../../config/deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
-    cp ../../config/deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
+    mv xlayer-contracts fork9;
+    cd ./fork9; 
+    cp ../deployment/.env .env;  
+    cp ../deployment/create_rollup_parameters.json deployment/v2/create_rollup_parameters.json;
+    cp ../deployment/deploy_parameters.json deployment/v2/deploy_parameters.json;  
     '''
     result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
     logging.info(result.stdout)
-    replace_variable('./fork9/xlayer-contracts/.env', '{MNEMONIC}', genMnemonic)
-    replace_variable('./fork9/xlayer-contracts/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
-    replace_variable('./fork9/xlayer-contracts/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./contracts/fork9/.env', '{MNEMONIC}', genMnemonic)
+    replace_variable('./contracts/fork9/deployment/v2/create_rollup_parameters.json', '{ADMIN}', genAccount)
+    replace_variable('./contracts/fork9/deployment/v2/deploy_parameters.json', '{ADMIN}', genAccount)
 
     # 部署合约
     command = '''
-    cd ./fork9/xlayer-contracts; 
+    cd ./contracts/fork9/; 
     npm i; 
-    npm run deploy:v2:sepolia; 
-    npm run  verify:v2:sepolia; 
+    npm run deploy:v2:localhost; 
+    npm run  verify:v2:localhost; 
     cat deployment/v2/create_rollup_output.json;
     cat deployment/v2/deploy_output.json;
     '''
@@ -172,39 +236,23 @@ def deploy_fork9():
 
     # 替换文件
     adminAddress = loadAccount()["address"]
-    deploymentBlockNumber = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'createRollupBlockNumber')
-    polygonZkEVMAddress = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'rollupAddress')
-    dynamicRoot = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'genesis')
-    dynamicTimestamp = get_value_second('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
-    polygonRollupManagerAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
-    polygonZkEVMGlobalExitRootAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
-    polygonZkEVMBridgeAddress = get_value('./fork13/xlayer-contracts/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
-    genesisStr = get_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
-    dynamicAlloc = get_erigon_genesis('./fork13/xlayer-contracts/deployment/v2/genesis.json')
+    dataCommitteeContract = get_value('./fork13/xlayer-contracts/deployment/v2/create_rollup_output.json', 'polygonDataCommitteeAddress')
+    deploymentBlockNumber = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'deploymentRollupManagerBlockNumber')
+    polygonZkEVMAddress = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'rollupAddress')
+    dynamicRoot = get_value('./contracts/fork9/deployment/v2/create_rollup_output.json', 'genesis')
+    dynamicTimestamp = get_value_second('./contracts/fork9/deployment/v2/create_rollup_output.json', 'firstBatchData', 'timestamp')
+    polygonRollupManagerAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonRollupManagerAddress')
+    polygonZkEVMGlobalExitRootAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonZkEVMGlobalExitRootAddress')
+    polygonZkEVMBridgeAddress = get_value('./contracts/fork9/deployment/v2/deploy_output.json', 'polygonZkEVMBridgeAddress')
+    genesisStr = get_genesis('./contracts/fork9/deployment/v2/genesis.json')
+    dynamicAlloc = get_erigon_genesis('./contracts/fork9/deployment/v2/genesis.json')
     logging.info(dynamicAlloc)
 
     # 拷贝模版
-    shutil.copy('./config/template/dynamic-mynetwork-allocs.json', './config/erigon')
-    shutil.copy('./config/template/dynamic-mynetwork-chainspec.json', './config/erigon')
-    shutil.copy('./config/template/dynamic-mynetwork-conf.json', './config/erigon')
-
-    shutil.copy('./config/template/aggregator.node.config.toml', './config/erigon')
-    shutil.copy('./config/template/seqsender.node.config.toml', './config/erigon')
-    shutil.copy('./config/template/test.erigon.seq.config.yaml', './config/erigon')
-    shutil.copy('./config/template/test.genesis.config.json', './config/erigon')
-    shutil.copy('./config/template/test.node.config.toml', './config/erigon')
-    shutil.copy('./config/template/test.prover.config.json', './config/erigon')
-    shutil.copy('./config/template/test.stateless_executor.config.json', './config/erigon')
-    
-    file_list = [
-        "./config/erigon/test.genesis.config.json", 
-        "./config/erigon/aggregator.node.config.toml", 
-        "./config/erigon/seqsender.node.config.toml", 
-        "./config/erigon/test.erigon.seq.config.yaml",
-        "./config/erigon/dynamic-mynetwork-conf.json",
-        "./config/erigon/dynamic-mynetwork-allocs.json"
-    ]
-
+    copy_all_files('./config-template/common', './config/common')
+    copy_all_files('./config-template/fork9', './config/fork9')
+    copy_all_files('./config-template/fork13', './config/fork13')
+    file_list = get_all_file_paths("./config")
     for file in file_list:
         replace_variable(file, '{polygonZkEVMAddress}', polygonZkEVMAddress)
         replace_variable(file, '{polygonRollupManagerAddress}', polygonRollupManagerAddress)
@@ -232,14 +280,49 @@ def deploy_fork9():
     logging.info("Deploy fork9 done.")
 
 
+def start_fork9():
+    logging.info('Deploying fork6...')
+
+    command = '''
+    docker-compose up -d xlayer-state-db
+    docker-compose up -d xlayer-pool-db
+    docker-compose up -d xlayer-event-db
+    docker-compose up -d xlayer-data-availability-db
+    docker-compose up -d xlayer-bridge-db
+    docker-compose up -d xlayer-bridge-redis
+
+    docker-compose up -d xlayer-data-availability-fork6
+    docker-compose up -d xlayer-executor-fork6
+    docker-compose up -d xlayer-prover-fork6
+    sleep 3
+    docker-compose up -d xlayer-sync-fork6
+    sleep 1
+    docker-compose up -d xlayer-sequencer-fork6
+    sleep 1
+    docker-compose up -d xlayer-eth-tx-manager-fork6
+    docker-compose up -d xlayer-sequence-sender-fork6
+    docker-compose up -d xlayer-l2gaspricer-fork6
+    docker-compose up -d xlayer-aggregator-fork6
+    docker-compose up -d xlayer-json-rpc-fork6
+    sleep 1
+    docker-compose up -d kafka-zookeeper
+    docker-compose up -d xlayer-bridge-coin-kafka
+    docker-compose up -d xlayer-bridge-service-fork6
+    docker-compose up -d xlayer-bridge-ui-fork6
+    '''
+    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, text=True)
+    logging.info(result.stdout)
+    logging.info("docker-compose logs --tail 10 -f")
+
 if __name__ == '__main__':
     # deploy fork9
     deploy_fork9()
+    exit(0)
     start_fork9()
     for i in range(0, 10):
         logging.info("Waiting for 2s...")
         time.sleep(1)
-        send_tx()
+        
 
     # upgrade fork8
     upgrade_fork13()
