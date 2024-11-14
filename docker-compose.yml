@@ -85,7 +85,6 @@ services:
     container_name: xlayer-prover
     image: okexchain/xlayer-prover:origin_release_v0.3.1_20240327061504_458b8d26
     volumes:
-      - /data/zkevm/v6.0.0-rc.1-fork.9/config:/app/config
       - ./config/fork9/test.prover.config.json:/usr/src/app/config.json
     command: >
       zkProver -c /usr/src/app/config.json
