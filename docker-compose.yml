@@ -263,7 +263,7 @@ services:
 
   xlayer-bridge-ui-fork9:
     container_name: xlayer-bridge-ui
-    image: hermeznetwork/zkevm-bridge-ui:etrog-v2
+    image: hermeznetwork/zkevm-bridge-ui:latest
     ports:
       - 8090:80
     environment:
